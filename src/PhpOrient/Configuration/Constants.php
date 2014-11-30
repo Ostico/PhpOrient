@@ -19,6 +19,6 @@ class Constants {
 
     const ID = "1";
     const NAME = "PhpOrient - PHP binary client";
-    const SUPPORTED_PROTOCOL = 25;
+    const SUPPORTED_PROTOCOL = 26;
 
 } 
