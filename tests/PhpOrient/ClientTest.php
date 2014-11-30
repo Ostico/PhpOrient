@@ -8,7 +8,9 @@ class ClientTest extends TestCase {
         $client = $this->createClient();
         $transport = $client->getTransport();
         $client->execute('connect');
-        var_export( $transport );
+        $this->assertNotEquals( -1, $client->getTransport()->getSessionId() );
+        $this->assertNotEquals( -1, $client->getTransport()->getProtocol() );
+
     }
 
 }

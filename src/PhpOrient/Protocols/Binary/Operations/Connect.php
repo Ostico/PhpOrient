@@ -2,9 +2,9 @@
 
 namespace PhpOrient\Protocols\Binary\Operations;
 
+use PhpOrient\Protocols\Common\Constants;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Configuration\Constants as ClientConstants;
-use PhpOrient\Protocols\Common\Constants;
 
 class Connect extends Operation {
 

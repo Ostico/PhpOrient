@@ -14,11 +14,6 @@ class Transport extends AbstractTransport {
     protected $socket;
 
     /**
-     * @var int The session id for the connection.
-     */
-    protected $sessionId;
-
-    /**
      * Gets the Socket, and establishes the connection if required.
      *
      * @return \PhpOrient\Protocols\Binary\Socket
@@ -45,6 +40,7 @@ class Transport extends AbstractTransport {
         $op = $this->createOperation( $operation, $params );
         $result = $op->execute();
         $this->sessionId = $op->sessionId;
+        $this->protocolVersion = $op->protocolVersion;
         return $result;
 
     }

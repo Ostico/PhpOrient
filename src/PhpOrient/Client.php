@@ -2,11 +2,10 @@
 
 namespace PhpOrient;
 
-use PhpOrient\Configuration\ConfigurableInterface;
-use PhpOrient\Configuration\ConfigurableTrait;
-use PhpOrient\Exceptions\SocketException;
+use PhpOrient\Protocols\Common\ConfigurableInterface;
+use PhpOrient\Protocols\Common\ConfigurableTrait;
+use PhpOrient\Protocols\Common\TransportInterface;
 use PhpOrient\Exceptions\TransportException;
-use PhpOrient\Protocols\Streams\TransportInterface;
 
 /**
  * Class Client
@@ -50,11 +49,11 @@ class Client implements ConfigurableInterface {
     /**
      * Sets the transport
      *
-     * @param \PhpOrient\Protocols\Streams\TransportInterface $transport
+     * @param \PhpOrient\Common\TransportInterface $transport
      *
      * @return $this the current object
      */
-    public function setTransport( $transport ) {
+    public function setTransport( TransportInterface $transport ) {
         $this->_transport = $this->createTransport( $transport );
 
         return $this;
@@ -63,7 +62,7 @@ class Client implements ConfigurableInterface {
     /**
      * Gets the transport
      *
-     * @return \PhpOrient\Protocols\Streams\TransportInterface
+     * @return \PhpOrient\Protocols\Common\AbstractTransport
      */
     public function getTransport() {
         if ( $this->_transport === null ) {

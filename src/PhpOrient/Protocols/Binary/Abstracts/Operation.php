@@ -4,8 +4,8 @@ namespace PhpOrient\Protocols\Binary\Abstracts;
 
 use PhpOrient\Protocols\Binary\Stream\Reader;
 use PhpOrient\Protocols\Binary\Stream\Writer;
-use PhpOrient\Configuration\ConfigurableInterface;
-use PhpOrient\Configuration\ConfigurableTrait;
+use PhpOrient\Protocols\Common\ConfigurableInterface;
+use PhpOrient\Protocols\Common\ConfigurableTrait;
 use PhpOrient\Exceptions\SocketException;
 use PhpOrient\Exceptions\PhpOrientException;
 use PhpOrient\Protocols\Binary\Socket;

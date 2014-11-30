@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpOrient\Configuration;
+namespace PhpOrient\Protocols\Common;
 
 interface TransportInterface extends ConfigurableInterface {
 

@@ -2,9 +2,6 @@
 
 namespace PhpOrient\Protocols\Common;
 
-use PhpOrient\Configuration\ConfigurableTrait;
-use PhpOrient\Configuration\TransportInterface;
-
 abstract class AbstractTransport implements TransportInterface {
     use ConfigurableTrait;
 
@@ -27,4 +24,33 @@ abstract class AbstractTransport implements TransportInterface {
      * @var string The password for the server.
      */
     public $password = 'root';
+
+    /**
+     * @var int The session id for the connection.
+     */
+    protected $sessionId;
+
+    /**
+     * @var int The Protocol id for the connection.
+     */
+    protected $protocolVersion;
+
+    /**
+     * Gets the version of negotiated protocol
+     *
+     * @return int Protocol Version
+     */
+    public function getProtocol(){
+        return $this->protocolVersion;
+    }
+
+    /**
+     * Gets the session ID for current connection
+     *
+     * @return int Session
+     */
+    public function getSessionId(){
+        return $this->sessionId;
+    }
+
 }
