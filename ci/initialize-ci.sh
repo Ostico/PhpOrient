@@ -16,7 +16,7 @@ cd "$PARENT_DIR"
 if [ ! -d "$ODB_DIR" ]; then
   # Download and extract OrientDB server
   echo "--- Downloading OrientDB v${ODB_VERSION} ---"
-  odb_download_server $ODB_VERSION $CI_DIR
+  odb_download_via_mvn $ODB_VERSION $CI_DIR
 
   # Ensure that launcher script is executable and copy configurations file
   echo "--- Setting up OrientDB ---"
