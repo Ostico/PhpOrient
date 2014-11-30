@@ -1,19 +1,5 @@
 #!/bin/bash
 
-odb_compare_version () {
-  # TODO: this function does not handle well versions with additional rank
-  # indicators such as "-rc1" but I guess it suffices for now.
-  GTVER=$(echo "$1\n$2" | sort -n --reverse | head -1)
-
-  if [ $1 = $2 ]; then
-    echo 0
-  elif [ $1 = $GTVER ]; then
-    echo 1
-  else
-    echo -1
-  fi
-}
-
 odb_command_exists () {
   type "$1" >/dev/null 2>&1 ;
 }
