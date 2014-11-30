@@ -2,9 +2,11 @@
 
 build(){
 
-    if command_exists "mvn"; then
+    if command_exists "wget" && [[ "$1" != *"-"* ]]; then
+        echo "Build started with MAVEN"
         build_via_mvn $1 $2
     else
+        echo "Build by download from github repository"
         build_via_github $1 $2
     fi;
 
