@@ -18,3 +18,4 @@ Apache License, Version 2.0, see [LICENSE.md](./LICENSE.md).
 
 ##### Copyright Note
 Some parts of this work are originally derived from [php-orientdb](https://github.com/codemix/php-orientdb)
+
