@@ -2,6 +2,7 @@
 
 namespace PhpOrient\Protocols\Binary;
 
+use PhpOrient\Exceptions\TransportException;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Protocols\Binary\Operations\Connect;
 use PhpOrient\Protocols\Binary\Operations\DbOpen;
@@ -50,6 +51,7 @@ class Transport extends AbstractTransport {
      * @param array                    $params    The parameters for the operation.
      *
      * @return Operation The operation instance.
+     * @throws TransportException
      */
     protected function createOperation( $operation, array $params ) {
 
@@ -60,6 +62,12 @@ class Transport extends AbstractTransport {
             $operation = new $operation();
 
             if( $operation instanceof DbOpen || $operation instanceof Connect ){
+
+                if( empty($this->username) && empty($this->password) ){
+                    throw new TransportException('Can not initialize a transport ' .
+                    'without connection parameters');
+                }
+
                 $operation->username = $this->username;
                 $operation->password = $this->password;
             }

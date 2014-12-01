@@ -5,6 +5,7 @@ namespace PhpOrient;
 use PhpOrient\Protocols\Common\ConfigurableInterface;
 use PhpOrient\Protocols\Common\ConfigurableTrait;
 use PhpOrient\Protocols\Common\TransportInterface;
+use PhpOrient\Protocols\Binary\Transport;
 use PhpOrient\Exceptions\TransportException;
 
 /**
@@ -17,7 +18,7 @@ class Client implements ConfigurableInterface {
     use ConfigurableTrait;
 
     /**
-     * @var string The server hostname.
+     * @var string The server host.
      */
     public $hostname = 'localhost';
 
@@ -29,12 +30,12 @@ class Client implements ConfigurableInterface {
     /**
      * @var string The username for the server.
      */
-    public $username = 'root';
+    public $username;
 
     /**
      * @var string The password for the server.
      */
-    public $password = 'root';
+    public $password;
 
     /**
      * @var DatabaseList The database objects.
@@ -49,7 +50,7 @@ class Client implements ConfigurableInterface {
     /**
      * Sets the transport
      *
-     * @param \PhpOrient\Common\TransportInterface $transport
+     * @param \PhpOrient\Protocols\Common\TransportInterface $transport
      *
      * @return $this the current object
      */
@@ -94,7 +95,7 @@ class Client implements ConfigurableInterface {
 
             } else {
                 //override with default
-                $_transport = new Protocols\Binary\Transport();
+                $_transport = new Transport();
             }
 
             $_transport->configure( array(

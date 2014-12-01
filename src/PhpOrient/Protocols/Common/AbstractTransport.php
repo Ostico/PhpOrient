@@ -6,7 +6,7 @@ abstract class AbstractTransport implements TransportInterface {
     use ConfigurableTrait;
 
     /**
-     * @var string The server hostname.
+     * @var string The server host.
      */
     public $hostname = 'localhost';
 
@@ -18,12 +18,12 @@ abstract class AbstractTransport implements TransportInterface {
     /**
      * @var string The username for the server.
      */
-    public $username = 'root';
+    public $username;
 
     /**
      * @var string The password for the server.
      */
-    public $password = 'root';
+    public $password;
 
     /**
      * @var int The session id for the connection.

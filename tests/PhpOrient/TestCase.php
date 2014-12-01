@@ -16,7 +16,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
         $client->configure( array(
                 'username' => $config[ 'username' ],
                 'password' => $config[ 'password' ],
-                'hostname' => $config[ 'host' ],
+                'hostname' => $config[ 'hostname' ],
                 'port'     => $config[ 'port' ],
         ) );
 

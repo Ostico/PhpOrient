@@ -27,7 +27,7 @@ class Socket {
     /**
      * Create and open the socket.
      *
-     * @param string $hostname   The hostname or IP address to connect to.
+     * @param string $hostname   The host or IP address to connect to.
      * @param int    $port       The remote port.
      * @param int    $timeout    The number of seconds before timeout, defaults to 5.
      * @param int    $bufferSize The number of bytes to buffer.

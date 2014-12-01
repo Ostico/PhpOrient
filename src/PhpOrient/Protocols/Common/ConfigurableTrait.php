@@ -16,8 +16,10 @@ trait ConfigurableTrait {
             $methodName = 'set' . ucfirst( $key );
             if ( method_exists( $this, $methodName ) ) {
                 $this->{$methodName}( $value );
-            } else {
+            } elseif( property_exists( $this, $key ) ) {
                 $this->{$key} = $value;
+            } else {
+                // skip not existent configuration params
             }
         }
 
