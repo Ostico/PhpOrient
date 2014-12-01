@@ -7,7 +7,7 @@
     ],
     "homepage": "https://github.com/Ostico/phpOrient",
     "type": "library",
-    "license": "LGPL",
+    "license": "Apache License v2.0",
     "authors": [
         {
             "name": "Domenico Lupinetti",
