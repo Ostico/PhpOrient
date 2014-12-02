@@ -88,6 +88,15 @@ build_via_github (){
     echo "mv ${CI_DIR}/releases/* ${CI_DIR}"
     mv ${CI_DIR}/releases/* ${CI_DIR}
 
+    echo "rm -rf ${CI_DIR}/releases"
+    rm -rf ${CI_DIR}/releases
+
+    echo "rm -rf ${CI_DIR}/${ODB_ARCHIVED_NAME}"
+    rm -rf ${CI_DIR}/${ODB_ARCHIVED_NAME}
+
+    echo "rm -rf ${CI_DIR}/${ODB_COMPRESSED}"
+    rm -rf ${CI_DIR}/${ODB_COMPRESSED}
+
 }
 
 build_via_mvn () {
