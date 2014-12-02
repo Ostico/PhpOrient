@@ -3,16 +3,28 @@ set -e
 
 PARENT_DIR=$(dirname $(cd "$(dirname "$0")"; pwd))
 CI_DIR="$PARENT_DIR/ci/environment"
-
-ODB_VERSION=${1:-"2.0-M3"}
+DEFAULT_ORIENT_VERSION="2.0-M3"
 
 # launch simple instance in debug mode with shell hang up
-HANG_UP=""
-case $2 in
-    -h) HANG_UP=1;;
-    *) # unknown option
-    ;;
-esac
+while [ $# -ne 0 ]; do
+  case $1 in
+    -h)  #set option "a"
+      HANG_UP=true
+      shift
+      ;;
+    *) ODB_VERSION=${1:-"${DEFAULT_ORIENT_VERSION}"} ; shift ;;
+    \?) #unrecognized option - show help
+      echo "Usage: ./start-ci.sh [-h] [orient-version]" \\n
+      exit 2
+      ;;
+  esac
+done
+
+if [[ -z "${ODB_VERSION}" ]]; then
+    ODB_VERSION=${DEFAULT_ORIENT_VERSION}
+fi
+
+# ---- Start
 
 ODB_DIR="${CI_DIR}/orientdb-community-${ODB_VERSION}"
 ODB_LAUNCHER="${ODB_DIR}/bin/server.sh"
@@ -34,7 +46,11 @@ if [ ! -d "$ODB_DIR" ]; then
   chmod -R +rw "${ODB_DIR}/config/"
   cp ${PARENT_DIR}/ci/orientdb-server-config.xml "${ODB_DIR}/config/"
   cp ${PARENT_DIR}/ci/orientdb-server-log.properties "${ODB_DIR}/config/"
-  mkdir ${ODB_DIR}/databases
+
+  if [ ! -d "${ODB_DIR}/databases" ]; then
+    mkdir ${ODB_DIR}/databases
+  fi
+
   cp -a ${PARENT_DIR}/ci/GratefulDeadConcerts "${ODB_DIR}/databases/"
 else
   echo "!!! Found OrientDB v${ODB_VERSION} in ${ODB_DIR} !!!"

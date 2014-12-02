@@ -6,7 +6,7 @@ php:
   - hhvm
 
 before_script:
-  - ./ci/initialize-ci.sh $ORIENTDB_VERSION
+  - ./ci/start-ci.sh $ORIENTDB_VERSION
   - composer install --prefer-source
 
 script: ./vendor/bin/phpunit
