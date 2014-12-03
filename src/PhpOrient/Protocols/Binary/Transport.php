@@ -22,6 +22,7 @@ class Transport extends AbstractTransport {
     public function getSocket() {
         if ( $this->socket === null ) {
             $this->socket = new Socket( $this->hostname, $this->port );
+            $this->protocolVersion = $this->socket->protocolVersion;
         }
 
         return $this->socket;
@@ -41,7 +42,6 @@ class Transport extends AbstractTransport {
         $op = $this->createOperation( $operation, $params );
         $result = $op->execute();
         $this->sessionId = $op->sessionId;
-        $this->protocolVersion = $op->protocolVersion;
         return $result;
 
     }
@@ -75,6 +75,7 @@ class Transport extends AbstractTransport {
         }
 
         $operation->socket = $this->getSocket();
+        $operation->protocolVersion = $this->protocolVersion;
         $operation->configure( $params );
 
         return $operation;

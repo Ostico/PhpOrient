@@ -7,6 +7,7 @@ use PhpOrient\Protocols\Common\ConfigurableTrait;
 use PhpOrient\Protocols\Common\TransportInterface;
 use PhpOrient\Protocols\Binary\Transport;
 use PhpOrient\Exceptions\TransportException;
+use PhpOrient\Commons\Log;
 
 /**
  * Class Client
@@ -15,7 +16,7 @@ use PhpOrient\Exceptions\TransportException;
  */
 class Client implements ConfigurableInterface {
 
-    use ConfigurableTrait;
+    use ConfigurableTrait, Log;
 
     /**
      * @var string The server host.

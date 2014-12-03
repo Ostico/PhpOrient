@@ -1,6 +1,7 @@
 /ci/environment
 coverage
 vendor
+log
 .idea
 *.phar
 *.zip

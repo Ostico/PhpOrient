@@ -78,17 +78,7 @@ abstract class Operation implements ConfigurableInterface {
      * @throws PhpOrientException
      */
     public function execute() {
-        if ( !$this->socket->connected ) {
-            $protocol = $this->readShort();
 
-            if( $protocol > $this->protocolVersion ){
-                throw new PhpOrientException('Protocol version ' . $protocol . 'is not supported.');
-            }
-
-            //protocol handshake
-            $this->protocolVersion = $protocol;
-            $this->socket->connected = true;
-        }
         $this->writeHeader();
         $this->write();
         $this->readHeader();
@@ -264,7 +254,7 @@ abstract class Operation implements ConfigurableInterface {
     /**
      * Read an error from the remote server and turn it into an exception.
      *
-     * @return SocketException the wrapped exception object.
+     * @return PhpOrientException the wrapped exception object.
      */
     protected function readError() {
         $type    = $this->readString();
@@ -276,7 +266,7 @@ abstract class Operation implements ConfigurableInterface {
             $javaStackTrace = $this->readBytes();
         }
 
-        return new SocketException( $type . ': ' . $message );
+        return new PhpOrientException( $type . ': ' . $message );
     }
 
     /**
