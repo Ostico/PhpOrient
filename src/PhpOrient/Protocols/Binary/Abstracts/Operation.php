@@ -8,7 +8,7 @@ use PhpOrient\Protocols\Common\ConfigurableInterface;
 use PhpOrient\Protocols\Common\ConfigurableTrait;
 use PhpOrient\Exceptions\SocketException;
 use PhpOrient\Exceptions\PhpOrientException;
-use PhpOrient\Protocols\Binary\Socket;
+use PhpOrient\Protocols\Binary\OrientSocket;
 
 use PhpOrient\Configuration\Constants as ClientConstants;
 
@@ -32,58 +32,107 @@ abstract class Operation implements ConfigurableInterface {
 
 
     /**
-     * @var Socket The socket to write to.
+     * @var OrientSocket The socket to write to.
      */
     public $socket;
 
     /**
+     * Stack of elements to compile
+     *
+     * @var array
+     */
+    protected $_writeStack = array();
+
+    /**
+     * If transaction started
+     *
+     * @var bool
+     */
+    public $inTransaction = false;
+
+    /**
      * Write the data to the socket.
      */
-    abstract protected function write();
+    abstract protected function _write();
 
     /**
      * Read the response from the socket.
      *
      * @return mixed the response.
      */
-    abstract protected function read();
+    abstract protected function _read();
+
+    /**
+     * Class constructor
+     *
+     * @param OrientSocket $socket
+     */
+    public function __construct( OrientSocket $socket ) {
+
+        $socket->connect();
+
+        $this->socket            = $socket;
+        $this->protocolVersion   = $socket->protocolVersion;
+        $this->sessionId         = $socket->sessionID;
+
+    }
 
     /**
      * Write the request header.
      */
-    protected function writeHeader() {
-        $this->writeByte( $this->opCode );
-        $this->writeInt( $this->sessionId );
+    protected function _writeHeader() {
+        $this->_writeByte( $this->opCode );
+        $this->_writeInt( $this->sessionId );
     }
 
     /**
      * Read the response header.
      *
-     * @throws \PhpOrient\Exceptions\Exception if the response indicates an error.
+     * @throws \PhpOrient\Exceptions\SocketException if the response indicates an error.
      */
-    protected function readHeader() {
-        $status          = $this->readByte();
-        $this->sessionId = $this->readInt();
+    protected function _readHeader() {
+        $status          = $this->_readByte();
+        $this->sessionId = $this->_readInt();
         if ( $status === 1 ) {
-            $this->readByte(); // discard the first byte of the error
-            $error = $this->readError();
+            $this->_readByte(); // discard the first byte of the error
+            $error = $this->_readError();
             throw $error;
         }
     }
 
     /**
-     * Execute the operation.
+     * Build the operation payload
      *
-     * @return mixed The response from the server.
+     * @return $this
      * @throws PhpOrientException
      */
-    public function execute() {
+    public function prepare() {
+        $this->_writeHeader();
+        $this->_write();
+        return $this;
+    }
 
-        $this->writeHeader();
-        $this->write();
-        $this->readHeader();
+    /**
+     * Send message to orient server
+     *
+     * @return $this
+     *
+     * @throws SocketException
+     */
+    public function send(){
+        $this->socket->write( implode( "", $this->_writeStack ) );
+        return $this;
+    }
 
-        return $this->read();
+    /**
+     * Get Response from Server
+     *
+     * @return mixed
+     * @throws PhpOrientException
+     */
+    public function getResponse(){
+        $this->_readHeader();
+        return $this->_read();
     }
 
     /**
@@ -91,8 +140,8 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @param int $value
      */
-    protected function writeByte( $value ) {
-        $this->socket->write( Writer::packByte( $value ) );
+    protected function _writeByte( $value ) {
+        $this->_writeStack[] = Writer::packByte( $value );
     }
 
     /**
@@ -100,7 +149,7 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @return int the byte read
      */
-    protected function readByte() {
+    protected function _readByte() {
         return Reader::unpackByte( $this->socket->read( 1 ) );
     }
 
@@ -109,8 +158,8 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @param string $value
      */
-    protected function writeChar( $value ) {
-        $this->socket->write( Writer::packByte( ord( $value ) ) );
+    protected function _writeChar( $value ) {
+        $this->_writeStack[] =  Writer::packByte( ord( $value ) ) ;
     }
 
     /**
@@ -118,7 +167,7 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @return int the character read
      */
-    protected function readChar() {
+    protected function _readChar() {
         return chr( Reader::unpackByte( $this->socket->read( 1 ) ) );
     }
 
@@ -127,8 +176,8 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @param bool $value
      */
-    protected function writeBoolean( $value ) {
-        $this->socket->write( Writer::packByte( (bool)$value ) );
+    protected function _writeBoolean( $value ) {
+        $this->_writeStack[] =  Writer::packByte( (bool)$value ) ;
     }
 
     /**
@@ -136,9 +185,8 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @return bool the boolean read
      */
-    protected function readBoolean() {
+    protected function _readBoolean() {
         $value = $this->socket->read( 1 );
-
         return (bool)Reader::unpackByte( $value );
     }
 
@@ -147,8 +195,8 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @param int $value
      */
-    protected function writeShort( $value ) {
-        $this->socket->write( Writer::packShort( $value ) );
+    protected function _writeShort( $value ) {
+        $this->_writeStack[] =  Writer::packShort( $value ) ;
     }
 
     /**
@@ -156,7 +204,7 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @return int the short read
      */
-    protected function readShort() {
+    protected function _readShort() {
         return Reader::unpackShort( $this->socket->read( 2 ) );
     }
 
@@ -165,8 +213,8 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @param int $value
      */
-    protected function writeInt( $value ) {
-        $this->socket->write( Writer::packInt( $value ) );
+    protected function _writeInt( $value ) {
+        $this->_writeStack[] =  Writer::packInt( $value ) ;
     }
 
     /**
@@ -174,7 +222,7 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @return int the integer read
      */
-    protected function readInt() {
+    protected function _readInt() {
         return Reader::unpackInt( $this->socket->read( 4 ) );
     }
 
@@ -184,8 +232,8 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @param int $value
      */
-    protected function writeLong( $value ) {
-        $this->socket->write( Writer::packLong( $value ) );
+    protected function _writeLong( $value ) {
+        $this->_writeStack[] =  Writer::packLong( $value ) ;
     }
 
     /**
@@ -193,7 +241,7 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @return int the integer read
      */
-    protected function readLong() {
+    protected function _readLong() {
         return Reader::unpackLong( $this->socket->read( 8 ) );
     }
 
@@ -202,8 +250,8 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @param string $value
      */
-    protected function writeString( $value ) {
-        $this->socket->write( Writer::packString( $value ) );
+    protected function _writeString( $value ) {
+        $this->_writeStack[] =  Writer::packString( $value ) ;
     }
 
     /**
@@ -211,8 +259,8 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @return string|null the string read, or null if it's empty.
      */
-    protected function readString() {
-        $length = $this->readInt();
+    protected function _readString() {
+        $length = $this->_readInt();
         if ( $length === -1 ) {
             return null;
         } else {
@@ -229,8 +277,8 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @param string $value
      */
-    protected function writeBytes( $value ) {
-        $this->socket->write( Writer::packBytes( $value ) );
+    protected function _writeBytes( $value ) {
+        $this->_writeStack[] =  Writer::packBytes( $value ) ;
     }
 
     /**
@@ -238,8 +286,8 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @return string|null the bytes read, or null if it's empty.
      */
-    protected function readBytes() {
-        $length = $this->readInt();
+    protected function _readBytes() {
+        $length = $this->_readInt();
         if ( $length === -1 ) {
             return null;
         } else {
@@ -256,14 +304,14 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @return PhpOrientException the wrapped exception object.
      */
-    protected function readError() {
-        $type    = $this->readString();
-        $message = $this->readString();
-        $hasMore = $this->readByte();
+    protected function _readError() {
+        $type    = $this->_readString();
+        $message = $this->_readString();
+        $hasMore = $this->_readByte();
         if ( $hasMore === 1 ) {
-            $next = $this->readError();
+            $next = $this->_readError();
         } else {
-            $javaStackTrace = $this->readBytes();
+            $javaStackTrace = $this->_readBytes();
         }
 
         return new PhpOrientException( $type . ': ' . $message );
@@ -274,8 +322,8 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @return mixed
      */
-    protected function readSerialized() {
-        $serialized = $this->readString();
+    protected function _readSerialized() {
+        $serialized = $this->_readString();
 
         return Deserializer::deserialize( $serialized );
     }
@@ -286,8 +334,8 @@ abstract class Operation implements ConfigurableInterface {
      * @return array
      * @throws SocketException
      */
-    protected function readRecord() {
-        $classId = $this->readShort();
+    protected function _readRecord() {
+        $classId = $this->_readShort();
         $record  = [ 'classId' => $classId ];
 
         if ( $classId === -1 ) {
@@ -300,14 +348,14 @@ abstract class Operation implements ConfigurableInterface {
                 if ( $classId === -3 ) {
                     // reference
                     $record[ 'type' ]     = 'd';
-                    $record[ 'cluster' ]  = $this->readShort();
-                    $record[ 'position' ] = $this->readLong();
+                    $record[ 'cluster' ]  = $this->_readShort();
+                    $record[ 'position' ] = $this->_readLong();
                 } else {
-                    $record[ 'type' ]     = $this->readChar();
-                    $record[ 'cluster' ]  = $this->readShort();
-                    $record[ 'position' ] = $this->readLong();
-                    $record[ 'version' ]  = $this->readInt();
-                    $record[ 'bytes' ]    = $this->readBytes();
+                    $record[ 'type' ]     = $this->_readChar();
+                    $record[ 'cluster' ]  = $this->_readShort();
+                    $record[ 'position' ] = $this->_readLong();
+                    $record[ 'version' ]  = $this->_readInt();
+                    $record[ 'bytes' ]    = $this->_readBytes();
                 }
             }
         }
@@ -320,11 +368,11 @@ abstract class Operation implements ConfigurableInterface {
      *
      * @return array
      */
-    protected function readCollection() {
+    protected function _readCollection() {
         $records = [ ];
-        $total   = $this->readInt();
+        $total   = $this->_readInt();
         for ( $i = 0; $i < $total; $i++ ) {
-            $records[ ] = $this->readRecord();
+            $records[ ] = $this->_readRecord();
         }
 
         return $records;

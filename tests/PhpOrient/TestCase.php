@@ -10,6 +10,9 @@ class TestCase extends \PHPUnit_Framework_TestCase {
         return json_decode( file_get_contents( __DIR__ . '/../test-server.json' ), true );
     }
 
+    /**
+     * @return Client
+     */
     protected static function createClient() {
         $config = static::getConfig();
         $client = new Client();

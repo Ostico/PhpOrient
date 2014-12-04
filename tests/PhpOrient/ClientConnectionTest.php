@@ -25,7 +25,7 @@ class ClientConnectionTest extends TestCase {
         $client->username = $config[ 'username' ];
         $client->password = $config[ 'password' ];
 
-        $transport = new \PhpOrient\Protocols\Binary\Transport();
+        $transport = new \PhpOrient\Protocols\Binary\SocketTransport();
         $this->assertInstanceOf( '\PhpOrient\Protocols\Common\AbstractTransport', $transport );
         $this->assertInstanceOf( '\PhpOrient\Protocols\Common\TransportInterface', $transport );
 
@@ -45,7 +45,7 @@ class ClientConnectionTest extends TestCase {
 
         $client = new Client();
 
-        $transport = new \PhpOrient\Protocols\Binary\Transport();
+        $transport = new \PhpOrient\Protocols\Binary\SocketTransport();
         $this->assertInstanceOf( '\PhpOrient\Protocols\Common\AbstractTransport', $transport );
         $this->assertInstanceOf( '\PhpOrient\Protocols\Common\TransportInterface', $transport );
 
@@ -81,8 +81,8 @@ class ClientConnectionTest extends TestCase {
 
         $client = new Client();
         $client->getTransport();
-        $this->setExpectedException( '\PhpOrient\Exceptions\TransportException',
-                'Can not initialize a transport ' .
+        $this->setExpectedException( '\PhpOrient\Exceptions\SocketException',
+                'Can not initialize a connection ' .
                 'without connection parameters');
         $client->execute('connect');
 

@@ -33,6 +33,12 @@ class DbOpen extends Operation {
     public $protocolVersion = ClientConstants::SUPPORTED_PROTOCOL;
 
     /**
+     * Type of serialization
+     * @var string
+     */
+    public $serializationType = Constants::SERIALIZATION_DOCUMENT2CSV;
+
+    /**
      * @var string the name of the database to open.
      */
     public $database;
@@ -52,18 +58,44 @@ class DbOpen extends Operation {
      */
     public $password;
 
+    public function send(){
+
+        if( $this->sessionId < 0 ){
+            $connection = new Connect( $this->socket );
+            $connection->configure( array(
+                'username' => $this->username,
+                'password' => $this->password
+            ) );
+            $connection->prepare()->send()->getResponse();
+        }
+
+        return parent::send();
+    }
+
     /**
      * Write the data to the socket.
      */
-    protected function write() {
-        $this->writeString( $this->clientName );
-        $this->writeString( $this->clientVersion );
-        $this->writeShort( $this->protocolVersion );
-        $this->writeString( $this->_clientID ); // client id, unused.
-        $this->writeString( $this->database );
-        $this->writeString( $this->type );
-        $this->writeString( $this->username );
-        $this->writeString( $this->password );
+    protected function _write() {
+
+        $this->_writeString( $this->clientName );
+        $this->_writeString( $this->clientVersion );
+        $this->_writeShort( $this->protocolVersion );
+
+        if( $this->protocolVersion > 21 ){
+            $this->_writeString( $this->_clientID ); // client id, unused.
+            $this->_writeString( $this->serializationType ); // serialization type
+            $this->_writeString( $this->database );
+            $this->_writeString( $this->type );
+            $this->_writeString( $this->username );
+            $this->_writeString( $this->password );
+        } else {
+            $this->_writeString( $this->_clientID ); // client id, unused.
+            $this->_writeString( $this->database );
+            $this->_writeString( $this->type );
+            $this->_writeString( $this->username );
+            $this->_writeString( $this->password );
+        }
+
     }
 
     /**
@@ -71,26 +103,40 @@ class DbOpen extends Operation {
      *
      * @return int The session id.
      */
-    protected function read() {
-        $sessionId     = $this->readInt();
-        $totalClusters = $this->readShort();
-        $clusters      = [ ];
+    protected function _read() {
+        $sessionId     = $this->_readInt();
+        $totalClusters = $this->_readShort();
+
+        $dataClusters      = [ ];
         for ( $i = 0; $i < $totalClusters; $i++ ) {
-            $clusters[ ] = [
-                    'name'        => $this->readString(),
-                    'id'          => $this->readShort(),
-                    'type'        => $this->readString(),
-                    'dataSegment' => $this->readShort()
-            ];
+
+            if( $this->protocolVersion < 24 ){
+
+                $dataClusters[ ] = [
+                        'name'        => $this->_readString(),
+                        'id'          => $this->_readShort(),
+                        'type'        => $this->_readString(),
+                        'dataSegment' => $this->_readShort()
+                ];
+
+            } else {
+                $dataClusters[ ] = [
+                        'name'        => $this->_readString(),
+                        'id'          => $this->_readShort(),
+                ];
+            }
+
         }
 
+        # cluster config string ( -1 )
+        # cluster release
         return [
-                'sessionId' => $sessionId,
-                'clusters'  => $clusters,
-                'servers'   => $this->readSerialized(),
-                'release'   => $this->readString()
-
+                'sessionId'    => $sessionId,
+                'dataClusters' => $dataClusters,
+                'servers'      => $this->_readInt(),
+                'release'      => $this->_readString()
         ];
+
     }
 
 }

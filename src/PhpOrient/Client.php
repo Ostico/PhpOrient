@@ -5,9 +5,9 @@ namespace PhpOrient;
 use PhpOrient\Protocols\Common\ConfigurableInterface;
 use PhpOrient\Protocols\Common\ConfigurableTrait;
 use PhpOrient\Protocols\Common\TransportInterface;
-use PhpOrient\Protocols\Binary\Transport;
+use PhpOrient\Protocols\Binary\SocketTransport;
 use PhpOrient\Exceptions\TransportException;
-use PhpOrient\Commons\Log;
+use PhpOrient\Commons\LogTrait;
 
 /**
  * Class Client
@@ -16,12 +16,12 @@ use PhpOrient\Commons\Log;
  */
 class Client implements ConfigurableInterface {
 
-    use ConfigurableTrait, Log;
+    use ConfigurableTrait, LogTrait;
 
     /**
      * @var string The server host.
      */
-    public $hostname = 'localhost';
+    public $hostname;
 
     /**
      * @var string The port for the server.
@@ -37,11 +37,6 @@ class Client implements ConfigurableInterface {
      * @var string The password for the server.
      */
     public $password;
-
-    /**
-     * @var DatabaseList The database objects.
-     */
-    protected $databases;
 
     /**
      * @var TransportInterface The transport to use for the connection to the server.
@@ -79,7 +74,7 @@ class Client implements ConfigurableInterface {
      *
      * @param TransportInterface|null $transport
      *
-     * @return Protocols\Binary\Transport the transport interface
+     * @return Protocols\Binary\SocketTransport the transport interface
      * @throws Exceptions\TransportException
      */
     protected function createTransport( $transport = null ) {
@@ -96,7 +91,7 @@ class Client implements ConfigurableInterface {
 
             } else {
                 //override with default
-                $_transport = new Transport();
+                $_transport = new SocketTransport();
             }
 
             $_transport->configure( array(
@@ -116,7 +111,7 @@ class Client implements ConfigurableInterface {
     /**
      * Execute the given operation.
      *
-     * @param string $operation The name of the operation to execute.
+     * @param string $operation The name of the operation to prepare.
      * @param array  $params    The parameters for the operation.
      *
      * @return mixed The result of the operation.
@@ -124,41 +119,5 @@ class Client implements ConfigurableInterface {
     public function execute( $operation, array $params = array() ) {
         return $this->getTransport()->execute( $operation, $params );
     }
-
-    /**
-     * Gets the Databases
-     *
-     * @param bool $reload Whether the list of databases should be reloaded from the server.
-     *
-     * @return \PhpOrient\Databases\DatabaseList
-     */
-    public function getDatabases( $reload = false ) {
-        if ( $this->databases === null ) {
-            $this->databases = new DatabaseList( $this );
-        }
-        if ( $reload ) {
-            $this->databases->reload();
-        }
-
-        return $this->databases;
-    }
-
-    /**
-     * Get a database with the given name.
-     *
-     * @param string $name   The name of the database to get.
-     * @param bool   $reload Whether to reload the database list.
-     *
-     * @return null|Database The database instance, or null if it doesn't exist.
-     */
-    public function getDatabase( $name, $reload = false ) {
-        $databases = $this->getDatabases( $reload );
-        if ( isset( $databases[ $name ] ) ) {
-            return $databases[ $name ];
-        } else {
-            return null;
-        }
-    }
-
 
 }

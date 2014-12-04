@@ -8,22 +8,22 @@ abstract class AbstractTransport implements TransportInterface {
     /**
      * @var string The server host.
      */
-    public $hostname = 'localhost';
+    protected $hostname;
 
     /**
      * @var string The port for the server.
      */
-    public $port;
+    protected $port;
 
     /**
      * @var string The username for the server.
      */
-    public $username;
+    protected $username;
 
     /**
      * @var string The password for the server.
      */
-    public $password;
+    protected $password;
 
     /**
      * @var int The session id for the connection.

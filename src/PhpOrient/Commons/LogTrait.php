@@ -12,18 +12,18 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use PhpOrient\Configuration\Constants;
 
-trait Log {
+trait LogTrait {
 
     /**
      * @var \Monolog\Logger
      */
-    protected $logger;
+    protected $_logger;
 
     public function getLogger() {
 
-        if ( $this->logger === null && Constants::LOGGING ) {
-            $this->logger = new Logger( get_class( $this ) );
-            $this->logger->pushHandler( new StreamHandler( STDOUT, Logger::DEBUG ) );
+        if ( $this->_logger === null && Constants::LOGGING ) {
+            $this->_logger = new Logger( get_class( $this ) );
+            $this->_logger->pushHandler( new StreamHandler( STDOUT, Logger::DEBUG ) );
         }
 
         return $this;
@@ -106,7 +106,7 @@ trait Log {
     public function hexDump( $message ){
         if( Constants::LOGGING ){
             $_msg = self::_hexDump( $message );
-            $this->logger->debug( $_msg );
+            $this->_logger->debug( $_msg );
         }
     }
 
@@ -116,7 +116,7 @@ trait Log {
      */
     public function debug( $message ) {
         if( Constants::LOGGING ){
-            $this->logger->debug( $message );
+            $this->_logger->debug( $message );
         }
     }
 
@@ -126,7 +126,7 @@ trait Log {
      */
     public function info( $message ) {
         if( Constants::LOGGING ){
-            $this->logger->info( $message );
+            $this->_logger->info( $message );
         }
     }
 
@@ -136,7 +136,7 @@ trait Log {
      */
     public function notice( $message ) {
         if( Constants::LOGGING ){
-            $this->logger->notice( $message );
+            $this->_logger->notice( $message );
         }
     }
 
@@ -146,7 +146,7 @@ trait Log {
      */
     public function warn( $message ) {
         if( Constants::LOGGING ){
-            $this->logger->warn( $message );
+            $this->_logger->warn( $message );
         }
     }
 
@@ -156,7 +156,7 @@ trait Log {
      */
     public function warning( $message ) {
         if( Constants::LOGGING ){
-            $this->logger->warn( $message );
+            $this->_logger->warn( $message );
         }
     }
 
@@ -166,7 +166,7 @@ trait Log {
      */
     public function err( $message ) {
         if( Constants::LOGGING ){
-            $this->logger->err( $message );
+            $this->_logger->err( $message );
         }
     }
 
@@ -176,7 +176,7 @@ trait Log {
      */
     public function error( $message ) {
         if( Constants::LOGGING ){
-            $this->logger->err( $message );
+            $this->_logger->err( $message );
         }
     }
 
@@ -186,7 +186,7 @@ trait Log {
      */
     public function crit( $message ) {
         if( Constants::LOGGING ){
-            $this->logger->crit( $message );
+            $this->_logger->crit( $message );
         }
     }
 
@@ -196,7 +196,7 @@ trait Log {
      */
     public function critical( $message ) {
         if( Constants::LOGGING ){
-            $this->logger->crit( $message );
+            $this->_logger->crit( $message );
         }
     }
 
@@ -206,7 +206,7 @@ trait Log {
      */
     public function alert( $message ) {
         if( Constants::LOGGING ){
-            $this->logger->alert( $message );
+            $this->_logger->alert( $message );
         }
     }
 
@@ -216,7 +216,7 @@ trait Log {
      */
     public function emerg( $message ) {
         if( Constants::LOGGING ){
-            $this->logger->emerg( $message );
+            $this->_logger->emerg( $message );
         }
     }
 
@@ -226,7 +226,7 @@ trait Log {
      */
     public function emergency( $message ) {
         if( Constants::LOGGING ){
-            $this->logger->emerg( $message );
+            $this->_logger->emerg( $message );
         }
     }
 

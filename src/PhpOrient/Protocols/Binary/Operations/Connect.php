@@ -46,24 +46,24 @@ class Connect extends Operation {
     /**
      * Write the data to the socket.
      */
-    protected function write() {
+    protected function _write() {
 
-        $this->writeString( $this->clientName );
-        $this->writeString( $this->clientVersion );
-        $this->writeShort( $this->protocolVersion );
+        $this->_writeString( $this->clientName );
+        $this->_writeString( $this->clientVersion );
+        $this->_writeShort( $this->protocolVersion );
 
         if( $this->protocolVersion > 21 ) {
 
-            $this->writeString( $this->_clientID );
-            $this->writeString( $this->serializationType );
-            $this->writeString( $this->username );
-            $this->writeString( $this->password );
+            $this->_writeString( $this->_clientID );
+            $this->_writeString( $this->serializationType );
+            $this->_writeString( $this->username );
+            $this->_writeString( $this->password );
 
         } else {
 
-            $this->writeString( $this->_clientID );
-            $this->writeString( $this->username );
-            $this->writeString( $this->password );
+            $this->_writeString( $this->_clientID );
+            $this->_writeString( $this->username );
+            $this->_writeString( $this->password );
 
         }
 
@@ -74,9 +74,10 @@ class Connect extends Operation {
      *
      * @return int The session id.
      */
-    protected function read() {
+    protected function _read() {
 
-        $this->sessionId = $this->readInt();
+        $this->sessionId = $this->_readInt();
+        $this->socket->sessionID = $this->sessionId;
         return $this->sessionId;
 
     }

@@ -7,40 +7,54 @@ use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Protocols\Binary\Operations\Connect;
 use PhpOrient\Protocols\Binary\Operations\DbOpen;
 use PhpOrient\Protocols\Common\AbstractTransport;
+use PhpOrient\Protocols\Common\Constants;
 
-class Transport extends AbstractTransport {
+class SocketTransport extends AbstractTransport {
+
     /**
-     * @var Socket the connected socket.
+     * @var OrientSocket the connected socket.
      */
-    protected $socket;
+    protected $_socket;
+
+
+    /**
+     * Actual database handled
+     *
+     * @var string
+     */
+    public $databaseOpened;
+
+    /**
+     * Type of serialization
+     *
+     * @var string Serialization
+     */
+    public $serializationType = Constants::SERIALIZATION_DOCUMENT2CSV;
 
     /**
      * Gets the Socket, and establishes the connection if required.
      *
-     * @return \PhpOrient\Protocols\Binary\Socket
+     * @return \PhpOrient\Protocols\Binary\OrientSocket
      */
-    public function getSocket() {
-        if ( $this->socket === null ) {
-            $this->socket = new Socket( $this->hostname, $this->port );
-            $this->protocolVersion = $this->socket->protocolVersion;
+    protected function _getSocket() {
+        if ( $this->_socket === null ) {
+            $this->_socket = new OrientSocket( $this->hostname, $this->port );
         }
-
-        return $this->socket;
+        return $this->_socket;
     }
-
 
     /**
      * Execute the operation with the given name.
      *
-     * @param string $operation The operation to execute.
+     * @param string $operation The operation to prepare.
      * @param array  $params    The parameters for the operation.
      *
      * @return mixed The result of the operation.
      */
     public function execute( $operation, array $params = array() ) {
 
-        $op = $this->createOperation( $operation, $params );
-        $result = $op->execute();
+        $op = $this->operationFactory( $operation, $params );
+        $result = $op->prepare()->send()->getResponse();
         $this->sessionId = $op->sessionId;
         return $result;
 
@@ -48,19 +62,26 @@ class Transport extends AbstractTransport {
 
     /**
      * @param Operation|string $operation The operation name or instance.
-     * @param array                    $params    The parameters for the operation.
+     * @param array            $params    The parameters for the operation.
      *
      * @return Operation The operation instance.
      * @throws TransportException
      */
-    protected function createOperation( $operation, array $params ) {
+    protected function operationFactory( $operation, array $params ) {
 
         if ( !( $operation instanceof Operation ) ) {
+
             if ( !strstr( $operation, '\\' ) ) {
                 $operation = 'PhpOrient\Protocols\Binary\Operations\\' . ucfirst( $operation );
             }
-            $operation = new $operation();
 
+            $operation = new $operation( $this->_getSocket() );
+
+            /**
+             * Used when we want initialize the transport
+             * from client configuration params
+             *
+             */
             if( $operation instanceof DbOpen || $operation instanceof Connect ){
 
                 if( empty($this->username) && empty($this->password) ){
@@ -68,14 +89,13 @@ class Transport extends AbstractTransport {
                     'without connection parameters');
                 }
 
-                $operation->username = $this->username;
-                $operation->password = $this->password;
+                $params[ 'username' ] = $this->username;
+                $params[ 'password' ] = $this->password;
+
             }
 
         }
 
-        $operation->socket = $this->getSocket();
-        $operation->protocolVersion = $this->protocolVersion;
         $operation->configure( $params );
 
         return $operation;
