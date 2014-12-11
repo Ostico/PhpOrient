@@ -2,43 +2,92 @@
 
 namespace PhpOrient\Protocols\Binary;
 
+use PhpOrient\Configuration\Constants;
 use PhpOrient\Exceptions\TransportException;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Protocols\Binary\Operations\Connect;
 use PhpOrient\Protocols\Binary\Operations\DbOpen;
 use PhpOrient\Protocols\Common\AbstractTransport;
-use PhpOrient\Protocols\Common\Constants;
 
 class SocketTransport extends AbstractTransport {
+
+    /**
+     * If a transaction started
+     *
+     * @var bool
+     */
+    public $inTransaction = false;
+
+    /**
+     * Flag needed to know if a database is opened or not
+     *
+     * @var boolean
+     */
+    public $databaseOpened = false;
+
+    /**
+     * Flag needed to know if connected to the server
+     *
+     * @var boolean
+     */
+    public $connected = false;
 
     /**
      * @var OrientSocket the connected socket.
      */
     protected $_socket;
 
+    /**
+     * @var int The session id for the connection.
+     */
+    protected $sessionId = -1;
 
     /**
-     * Actual database handled
-     *
-     * @var string
+     * @var int The Protocol id for the connection.
      */
-    public $databaseOpened;
+    protected $_protocolVersion;
 
     /**
-     * Type of serialization
+     * Gets the version of negotiated protocol
      *
-     * @var string Serialization
+     * @return int Protocol Version
      */
-    public $serializationType = Constants::SERIALIZATION_DOCUMENT2CSV;
+    public function getProtocolVersion(){
+        return $this->_protocolVersion;
+    }
+
+    /**
+     * @param int $protocolVersion
+     */
+    public function setProtocolVersion( $protocolVersion ) {
+        $this->_protocolVersion = $protocolVersion;
+    }
+
+    /**
+     * Gets the session ID for current connection
+     *
+     * @return int Session
+     */
+    public function getSessionId(){
+        return $this->sessionId;
+    }
+
+    /**
+     * @param $sessionId
+     */
+    public function setSessionId( $sessionId ){
+        $this->sessionId = $sessionId;
+    }
 
     /**
      * Gets the Socket, and establishes the connection if required.
      *
      * @return \PhpOrient\Protocols\Binary\OrientSocket
      */
-    protected function _getSocket() {
+    public function getSocket() {
         if ( $this->_socket === null ) {
-            $this->_socket = new OrientSocket( $this->hostname, $this->port );
+            $this->_socket          = new OrientSocket( $this->hostname, $this->port );
+            $this->_protocolVersion = $this->_socket->connect()->protocolVersion;
         }
         return $this->_socket;
     }
@@ -55,7 +104,6 @@ class SocketTransport extends AbstractTransport {
 
         $op = $this->operationFactory( $operation, $params );
         $result = $op->prepare()->send()->getResponse();
-        $this->sessionId = $op->sessionId;
         return $result;
 
     }
@@ -75,7 +123,7 @@ class SocketTransport extends AbstractTransport {
                 $operation = 'PhpOrient\Protocols\Binary\Operations\\' . ucfirst( $operation );
             }
 
-            $operation = new $operation( $this->_getSocket() );
+            $operation = new $operation( $this );
 
             /**
              * Used when we want initialize the transport
@@ -99,6 +147,95 @@ class SocketTransport extends AbstractTransport {
         $operation->configure( $params );
 
         return $operation;
+    }
+
+    /**
+     * View any string as a hexDump.
+     *
+     * This is most commonly used to view binary data from streams
+     * or sockets while debugging, but can be used to view any string
+     * with non-viewable characters.
+     *
+     * @version     1.3.2
+     * @author      Aidan Lister <aidan@php.net>
+     * @author      Peter Waller <iridum@php.net>
+     * @link        http://aidanlister.com/2004/04/viewing-binary-data-as-a-hexDump-in-php/
+     *
+     * @param       string  $data        The string to be dumped
+     * @param       bool $htmlOutput  Set to false for non-HTML output
+     * @param       bool    $uppercase   Set to true for uppercase hex
+     *
+     * @return string|null
+     */
+    public static function _hexDump( $data, $htmlOutput = false, $uppercase = true ) {
+        // Init
+        $hexi = '';
+        $ascii = '';
+        $dump = ( $htmlOutput === true) ? '<pre>' : '';
+        $offset = 0;
+        $len = strlen ( $data );
+
+        // Upper or lower case hexadecimal
+        $x = ($uppercase === false) ? 'x' : 'X';
+
+        // Iterate string
+        for($i = $j = 0; $i < $len; $i ++) {
+            // Convert to hexadecimal
+            $hexi .= sprintf ( "%02$x ", ord ( $data [$i] ) );
+
+            // Replace non-viewable bytes with '.'
+            if (ord ( $data [$i] ) >= 32) {
+                $ascii .= ( $htmlOutput === true) ? htmlentities ( $data [$i] ) : $data [$i];
+            } else {
+                $ascii .= '.';
+            }
+
+            // Add extra column spacing
+            if ($j === 7) {
+                $hexi .= ' ';
+                $ascii .= ' ';
+            }
+
+            // Add row
+            if (++ $j === 16 || $i === $len - 1) {
+                // Join the hexi / ascii output
+                $dump .= sprintf ( "%04$x  %-49s  %s", $offset, $hexi, $ascii );
+
+                // Reset vars
+                $hexi = $ascii = '';
+                $offset += 16;
+                $j = 0;
+
+                // Add newline
+                if ($i !== $len - 1) {
+                    $dump .= "\n";
+                }
+            }
+        }
+
+        // Finish dump
+        $dump .= $htmlOutput === true ? '</pre>' : '';
+        $dump .= "\n";
+
+        // Output method
+        return $dump;
+
+    }
+
+    /**
+     * Dump data stream to HexDec format
+     *
+     * @param $message
+     */
+    public function hexDump( $message ){
+        if( Constants::$LOGGING ){
+            $_msg = self::_hexDump( $message );
+            $rows = explode( "\n", $_msg );
+            self::$_logger->debug( "\n" );
+            foreach( $rows as $row ){
+                self::$_logger->debug( $row );
+            }
+        }
     }
 
 }

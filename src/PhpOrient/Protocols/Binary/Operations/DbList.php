@@ -1,28 +1,32 @@
 <?php
 
-namespace PhpOrient\Protocols\Binary\Streams;
+namespace PhpOrient\Protocols\Binary\Operations;
 
-class DbList extends AbstractOperation {
+use PhpOrient\Protocols\Binary\Abstracts\Operation;
+use PhpOrient\Protocols\Common\Constants;
+use PhpOrient\Protocols\Common\NeedConnectedTrait;
+
+class DbList extends Operation {
+    use NeedConnectedTrait;
+
     /**
      * @var int The op code.
      */
-    public $opCode = 74;
+    public $opCode = Constants::DB_LIST_OP;
 
 
     /**
      * Write the data to the socket.
      */
-    protected function write() {
-
-    }
+    protected function _write() {}
 
     /**
      * Read the response from the socket.
      *
      * @return int The session id.
      */
-    protected function read() {
-        return $this->readSerialized();
+    protected function _read() {
+        return $this->_readSerialized();
     }
 
 }

@@ -1,12 +1,18 @@
 <?php
 
-namespace PhpOrient\Protocols\Binary\Streams;
+namespace PhpOrient\Protocols\Binary\Operations;
 
-class DbRelease extends AbstractOperation {
+use PhpOrient\Protocols\Binary\Abstracts\Operation;
+use PhpOrient\Protocols\Common\Constants;
+use PhpOrient\Protocols\Common\NeedConnectedTrait;
+
+class DbRelease extends Operation {
+    use NeedConnectedTrait;
+
     /**
      * @var int The op code.
      */
-    public $opCode = 95;
+    public $opCode = Constants::DB_RELEASE_OP;
 
     /**
      * @var string The name of the database to check.
@@ -14,16 +20,16 @@ class DbRelease extends AbstractOperation {
     public $database;
 
     /**
-     * @var string The database storage type.
+     * @var string The database storage_type database_type.
      */
-    public $storage = 'plocal';
+    public $storage_type = Constants::STORAGE_TYPE_PLOCAL;
 
     /**
      * Write the data to the socket.
      */
-    protected function write() {
-        $this->writeString( $this->database );
-        $this->writeString( $this->storage );
+    protected function _write() {
+        $this->_writeString( $this->database );
+        $this->_writeString( $this->storage_type );
     }
 
     /**
@@ -31,7 +37,7 @@ class DbRelease extends AbstractOperation {
      *
      * @return true.
      */
-    protected function read() {
+    protected function _read() {
         return true;
     }
 

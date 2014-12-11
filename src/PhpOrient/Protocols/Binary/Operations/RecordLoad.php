@@ -1,19 +1,27 @@
 <?php
 
-namespace PhpOrient\Protocols\Binary\Streams;
+namespace PhpOrient\Protocols\Binary\Operations;
 
-use PhpOrient\Exceptions\Exception;
-use PhpOrient\Records\Deserializer;
-use PhpOrient\Records\Document;
-use PhpOrient\Records\DocumentInterface;
-use PhpOrient\Records\ID;
-use PhpOrient\Records\Record;
+use PhpOrient\Protocols\Binary\Abstracts\Operation;
+use PhpOrient\Protocols\Binary\Data\RecordPayloadTrait;
+use PhpOrient\Protocols\Binary\Serialization\CSV;
+use PhpOrient\Protocols\Common\Constants;
+use PhpOrient\Protocols\Binary\Data\ID;
+use PhpOrient\Protocols\Common\NeedDBOpenedTrait;
+use Closure;
 
-class RecordLoad extends AbstractDbOperation {
+class RecordLoad extends Operation {
+    use NeedDBOpenedTrait;
+
+    /**
+     * @var Closure|string
+     */
+    public $_callback;
+
     /**
      * @var int The op code.
      */
-    public $opCode = 30;
+    public $opCode = Constants::RECORD_LOAD_OP;
 
     /**
      * @var int The id of the cluster for the record.
@@ -26,9 +34,16 @@ class RecordLoad extends AbstractDbOperation {
     public $position;
 
     /**
+     * Rid representation
+     *
+     * @var ID
+     */
+    public $rid;
+
+    /**
      * @var string The fetch plan for the record.
      */
-    public $fetchPlan = '';
+    public $fetchPlan = '*:0';
 
     /**
      * @var bool Whether to ignore the cache, defaults to false.
@@ -43,12 +58,19 @@ class RecordLoad extends AbstractDbOperation {
     /**
      * Write the data to the socket.
      */
-    protected function write() {
-        $this->writeShort( $this->cluster );
-        $this->writeLong( $this->position );
-        $this->writeString( $this->fetchPlan );
-        $this->writeBoolean( $this->ignoreCache );
-        $this->writeBoolean( $this->tombstones );
+    protected function _write() {
+
+        if ( !empty( $this->rid ) ) {
+            $this->cluster  = $this->rid->cluster;
+            $this->position = $this->rid->position;
+        }
+
+        $this->_writeShort( $this->cluster );
+        $this->_writeLong( $this->position );
+        $this->_writeString( $this->fetchPlan );
+        $this->_writeBoolean( $this->ignoreCache );
+        $this->_writeBoolean( $this->tombstones );
+
     }
 
     /**
@@ -56,63 +78,26 @@ class RecordLoad extends AbstractDbOperation {
      *
      * @return int The session id.
      */
-    protected function read() {
-        $payloads = [ ];
-        while ( ( $payload = $this->readPayload() ) !== null ) {
-            $payloads[ ] = $payload;
+    protected function _read() {
+
+//        $payloads = [ ];
+        $payload  = [ ];
+
+        $status = $this->_readByte();
+        if( $status != 0 ){
+            // a normal record
+            $payload[ 'cluster' ]  = $this->cluster;
+            $payload[ 'position' ] = $this->position;
+            $payload[ 'oData' ]    = CSV::unserialize( $this->_readString() );
+            $payload[ 'version' ]  = $this->_readInt();
+            $payload[ 'type' ]     = $this->_readChar();
+
+            $this->_read_prefetch_record();  # read cache and prefetch with callback
+
         }
 
-        $first      = null;
-        $references = [ ];
+        return $payload;
 
-        foreach ( $payloads as $i => $payload ) {
-            if ( $i ) {
-                $references[ ] = $this->normalizeRecord( $payload );
-            } else {
-                $first = $this->normalizeRecord( $payload );
-            }
-        }
-        if ( $first instanceof DocumentInterface && count( $references ) ) {
-            $first->resolveReferences( $references );
-        }
-
-        return $first;
     }
-
-
-    protected function readPayload() {
-        $status  = $this->readByte();
-        $payload = [ ];
-        switch ( $status ) {
-            case 0:
-                // no more content
-                return null;
-            case 1:
-                // a normal record
-                $payload[ 'cluster' ]  = $this->cluster;
-                $payload[ 'position' ] = $this->position;
-                $payload[ 'bytes' ]    = $this->readString();
-                $payload[ 'version' ]  = $this->readInt();
-                $payload[ 'type' ]     = $this->readChar();
-
-                return $payload;
-            case 2:
-                // prefetched record
-                $payload[ 'classId' ] = $this->readShort();
-                if ( $payload[ 'classId' ] == -2 || $payload[ 'classId' ] == -3 ) {
-                    return $payload;
-                }
-                $payload[ 'type' ]     = $this->readChar();
-                $payload[ 'cluster' ]  = $this->readShort();
-                $payload[ 'position' ] = $this->readLong();
-                $payload[ 'version' ]  = $this->readInt();
-                $payload[ 'bytes' ]    = $this->readString();
-
-                return $payload;
-            default:
-                throw new Exception( 'Unknown payload status: "' . $status . '"' );
-        }
-    }
-
 
 }

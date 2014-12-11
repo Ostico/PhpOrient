@@ -2,6 +2,13 @@
 
 namespace PhpOrient\Protocols\Common;
 
+use PhpOrient\Configuration\Constants as ClientConstants;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Monolog\Formatter\LineFormatter;
+
 abstract class AbstractTransport implements TransportInterface {
     use ConfigurableTrait;
 
@@ -26,31 +33,33 @@ abstract class AbstractTransport implements TransportInterface {
     protected $password;
 
     /**
-     * @var int The session id for the connection.
+     * @var LoggerInterface
      */
-    protected $sessionId;
+    protected static $_logger;
 
-    /**
-     * @var int The Protocol id for the connection.
-     */
-    protected $protocolVersion;
+    public function __construct() {
 
-    /**
-     * Gets the version of negotiated protocol
-     *
-     * @return int Protocol Version
-     */
-    public function getProtocol(){
-        return $this->protocolVersion;
+        if ( ClientConstants::$LOGGING ) {
+
+            if ( self::$_logger === null ) {
+                self::$_logger = new Logger( get_class( $this ) );
+                $file_path = "php://stdout";
+                if ( ClientConstants::$LOG_FILE_PATH ) {
+                    $file_path = ClientConstants::$LOG_FILE_PATH;
+                }
+                $handler = new StreamHandler( $file_path, Logger::DEBUG );
+                $handler->setFormatter( new LineFormatter( null, null, false, true ) );
+                self::$_logger->pushHandler( $handler );
+            }
+
+        } else {
+            self::$_logger = new NullLogger();
+        }
+
     }
 
-    /**
-     * Gets the session ID for current connection
-     *
-     * @return int Session
-     */
-    public function getSessionId(){
-        return $this->sessionId;
+    public function debug( $message ){
+        self::$_logger->debug( $message );
     }
 
 }

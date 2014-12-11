@@ -2,6 +2,6 @@
 
 namespace PhpOrient\Exceptions;
 
-class SocketException extends \Exception {
+class SocketException extends PhpOrientException {
 
 }

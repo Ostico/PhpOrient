@@ -1,12 +1,18 @@
 <?php
 
-namespace PhpOrient\Protocols\Binary\Streams;
+namespace PhpOrient\Protocols\Binary\Operations;
 
-class DbExists extends AbstractOperation {
+use PhpOrient\Protocols\Binary\Abstracts\Operation;
+use PhpOrient\Protocols\Common\Constants;
+use PhpOrient\Protocols\Common\NeedConnectedTrait;
+
+class DbExists extends Operation {
+    use NeedConnectedTrait;
+
     /**
      * @var int The op code.
      */
-    public $opCode = 6;
+    public $opCode = Constants::DB_EXIST_OP;
 
     /**
      * @var string The name of the database to check.
@@ -14,16 +20,16 @@ class DbExists extends AbstractOperation {
     public $database;
 
     /**
-     * @var string The database storage type.
+     * @var string The database storage_type database_type.
      */
-    public $storage = 'plocal';
+    public $storage = Constants::STORAGE_TYPE_PLOCAL;
 
     /**
      * Write the data to the socket.
      */
-    protected function write() {
-        $this->writeString( $this->database );
-        $this->writeString( $this->storage );
+    protected function _write() {
+        $this->_writeString( $this->database );
+        $this->_writeString( $this->storage );
     }
 
     /**
@@ -31,8 +37,8 @@ class DbExists extends AbstractOperation {
      *
      * @return int The session id.
      */
-    protected function read() {
-        return $this->readBoolean();
+    protected function _read() {
+        return $this->_readBoolean();
     }
 
 }

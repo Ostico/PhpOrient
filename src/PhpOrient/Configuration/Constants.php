@@ -18,6 +18,7 @@ class Constants {
     const ID = "1";
     const NAME = "PhpOrient - PHP binary client for OrientDB";
     const SUPPORTED_PROTOCOL = 26;
-    const LOGGING = true;
+    public static $LOGGING = false;
+    public static $LOG_FILE_PATH = false;
 
 } 

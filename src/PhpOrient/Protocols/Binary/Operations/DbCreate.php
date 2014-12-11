@@ -1,12 +1,18 @@
 <?php
 
-namespace PhpOrient\Protocols\Binary\Streams;
+namespace PhpOrient\Protocols\Binary\Operations;
 
-class DbCreate extends AbstractOperation {
+use PhpOrient\Protocols\Binary\Abstracts\Operation;
+use PhpOrient\Protocols\Common\Constants;
+use PhpOrient\Protocols\Common\NeedConnectedTrait;
+
+class DbCreate extends Operation {
+    use NeedConnectedTrait;
+
     /**
      * @var int The op code.
      */
-    public $opCode = 4;
+    public $opCode = Constants::DB_CREATE_OP;
 
     /**
      * @var string The name of the database to create.
@@ -14,22 +20,22 @@ class DbCreate extends AbstractOperation {
     public $database;
 
     /**
-     * @var string The database type.
+     * @var string The database database_type.
      */
-    public $type = 'graph';
+    public $database_type = Constants::DATABASE_TYPE_GRAPH;
 
     /**
-     * @var string The database storage type.
+     * @var string The database storage_type database_type.
      */
-    public $storage = 'plocal';
+    public $storage_type = Constants::STORAGE_TYPE_PLOCAL;
 
     /**
      * Write the data to the socket.
      */
-    protected function write() {
-        $this->writeString( $this->database );
-        $this->writeString( $this->type );
-        $this->writeString( $this->storage );
+    protected function _write() {
+        $this->_writeString( $this->database );
+        $this->_writeString( $this->database_type );
+        $this->_writeString( $this->storage_type );
     }
 
     /**
@@ -37,7 +43,7 @@ class DbCreate extends AbstractOperation {
      *
      * @return bool true if the database was created.
      */
-    protected function read() {
+    protected function _read() {
         return true;
     }
 

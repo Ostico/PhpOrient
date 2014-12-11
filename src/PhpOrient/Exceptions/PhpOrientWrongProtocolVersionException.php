@@ -2,6 +2,6 @@
 
 namespace PhpOrient\Exceptions;
 
-class PhpOrientWrongProtocolVersionException extends \Exception {
+class PhpOrientWrongProtocolVersionException extends PhpOrientException {
 
 }

@@ -7,18 +7,13 @@ use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Protocols\Common\Constants;
 use PhpOrient\Protocols\Common\NeedDBOpenedTrait;
 
-class DbCountRecords extends Operation {
+class DbSize extends Operation {
     use NeedDBOpenedTrait;
 
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DB_COUNT_RECORDS_OP;
-
-    /**
-     * @var string The database storage type.
-     */
-    public $storage_type = Constants::STORAGE_TYPE_PLOCAL;
+    public $opCode = Constants::DB_SIZE_OP;
 
     /**
      * Write the data to the socket.
@@ -28,7 +23,7 @@ class DbCountRecords extends Operation {
     /**
      * Read the response from the socket.
      *
-     * @return int The record count
+     * @return true
      */
     protected function _read() {
         return $this->_readLong();

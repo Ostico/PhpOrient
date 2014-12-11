@@ -1,12 +1,18 @@
 <?php
 
-namespace PhpOrient\Protocols\Binary\Streams;
+namespace PhpOrient\Protocols\Binary\Operations;
 
-class DbFreeze extends AbstractOperation {
+use PhpOrient\Protocols\Binary\Abstracts\Operation;
+use PhpOrient\Protocols\Common\Constants;
+use PhpOrient\Protocols\Common\NeedConnectedTrait;
+
+class DbFreeze extends Operation {
+    use NeedConnectedTrait;
+
     /**
      * @var int The op code.
      */
-    public $opCode = 94;
+    public $opCode = Constants::DB_FREEZE_OP;
 
     /**
      * @var string The name of the database to freeze.
@@ -14,16 +20,16 @@ class DbFreeze extends AbstractOperation {
     public $database;
 
     /**
-     * @var string The database storage type.
+     * @var string The database storage_type database_type.
      */
-    public $storage = 'plocal';
+    public $storage_type = Constants::STORAGE_TYPE_PLOCAL;
 
     /**
      * Write the data to the socket.
      */
-    protected function write() {
-        $this->writeString( $this->database );
-        $this->writeString( $this->storage );
+    protected function _write() {
+        $this->_writeString( $this->database );
+        $this->_writeString( $this->storage_type );
     }
 
     /**
@@ -31,7 +37,7 @@ class DbFreeze extends AbstractOperation {
      *
      * @return true
      */
-    protected function read() {
+    protected function _read() {
         return true;
     }
 

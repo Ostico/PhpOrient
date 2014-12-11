@@ -2,12 +2,12 @@
 
 namespace PhpOrient;
 
+use PhpOrient\Commons\PhpOrientLogger;
 use PhpOrient\Protocols\Common\ConfigurableInterface;
 use PhpOrient\Protocols\Common\ConfigurableTrait;
 use PhpOrient\Protocols\Common\TransportInterface;
 use PhpOrient\Protocols\Binary\SocketTransport;
 use PhpOrient\Exceptions\TransportException;
-use PhpOrient\Commons\LogTrait;
 
 /**
  * Class Client
@@ -15,8 +15,7 @@ use PhpOrient\Commons\LogTrait;
  * @package PhpOrient
  */
 class Client implements ConfigurableInterface {
-
-    use ConfigurableTrait, LogTrait;
+    use ConfigurableTrait;
 
     /**
      * @var string The server host.

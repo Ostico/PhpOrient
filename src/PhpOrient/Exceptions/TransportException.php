@@ -2,6 +2,6 @@
 
 namespace PhpOrient\Exceptions;
 
-class TransportException extends \Exception {
+class TransportException extends PhpOrientException {
 
 }

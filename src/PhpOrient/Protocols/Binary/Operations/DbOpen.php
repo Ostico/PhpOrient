@@ -5,8 +5,10 @@ namespace PhpOrient\Protocols\Binary\Operations;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Configuration\Constants as ClientConstants;
 use PhpOrient\Protocols\Common\Constants;
+use PhpOrient\Protocols\Common\NeedConnectedTrait;
 
 class DbOpen extends Operation {
+
     /**
      * @var int The op code.
      */
@@ -28,11 +30,6 @@ class DbOpen extends Operation {
     protected $_clientID = ClientConstants::ID; //not used
 
     /**
-     * @var int the maximum known protocol version
-     */
-    public $protocolVersion = ClientConstants::SUPPORTED_PROTOCOL;
-
-    /**
      * Type of serialization
      * @var string
      */
@@ -44,7 +41,7 @@ class DbOpen extends Operation {
     public $database;
 
     /**
-     * @var string The type of database to open.
+     * @var string The database_type of database to open.
      */
     public $type = Constants::DATABASE_TYPE_GRAPH;
 
@@ -60,8 +57,8 @@ class DbOpen extends Operation {
 
     public function send(){
 
-        if( $this->sessionId < 0 ){
-            $connection = new Connect( $this->socket );
+        if( $this->_transport->getSessionId() < 0 ){
+            $connection = new Connect( $this->_transport );
             $connection->configure( array(
                 'username' => $this->username,
                 'password' => $this->password
@@ -79,11 +76,11 @@ class DbOpen extends Operation {
 
         $this->_writeString( $this->clientName );
         $this->_writeString( $this->clientVersion );
-        $this->_writeShort( $this->protocolVersion );
+        $this->_writeShort( $this->_transport->getProtocolVersion() );
 
-        if( $this->protocolVersion > 21 ){
+        if( $this->_transport->getProtocolVersion() > 21 ){
             $this->_writeString( $this->_clientID ); // client id, unused.
-            $this->_writeString( $this->serializationType ); // serialization type
+            $this->_writeString( $this->serializationType ); // serialization database_type
             $this->_writeString( $this->database );
             $this->_writeString( $this->type );
             $this->_writeString( $this->username );
@@ -110,7 +107,7 @@ class DbOpen extends Operation {
         $dataClusters      = [ ];
         for ( $i = 0; $i < $totalClusters; $i++ ) {
 
-            if( $this->protocolVersion < 24 ){
+            if( $this->_transport->getProtocolVersion() < 24 ){
 
                 $dataClusters[ ] = [
                         'name'        => $this->_readString(),
@@ -128,6 +125,9 @@ class DbOpen extends Operation {
 
         }
 
+        $this->_transport->databaseOpened = true;
+
+        //TODO: Try with a cluster instance
         # cluster config string ( -1 )
         # cluster release
         return [

@@ -2,36 +2,37 @@
 
 namespace PhpOrient\Protocols\Binary\Operations;
 
-use PhpOrient\Exceptions\PhpOrientException;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Protocols\Common\Constants;
 use PhpOrient\Protocols\Common\NeedDBOpenedTrait;
 
-class DbCountRecords extends Operation {
+class DataClusterDrop extends Operation {
     use NeedDBOpenedTrait;
 
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DB_COUNT_RECORDS_OP;
+    public $opCode = Constants::DATA_CLUSTER_DROP_OP;
 
     /**
-     * @var string The database storage type.
+     * @var int The id for the cluster.
      */
-    public $storage_type = Constants::STORAGE_TYPE_PLOCAL;
+    public $id;
 
     /**
      * Write the data to the socket.
      */
-    protected function _write() {}
+    protected function _write() {
+        $this->_writeShort( $this->id );
+    }
 
     /**
      * Read the response from the socket.
      *
-     * @return int The record count
+     * @return boolean True if the DataCluster was immediately deleted.
      */
     protected function _read() {
-        return $this->_readLong();
+        return $this->_readBoolean();
     }
 
 }

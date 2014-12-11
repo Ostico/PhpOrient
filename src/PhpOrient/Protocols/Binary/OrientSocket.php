@@ -2,7 +2,7 @@
 
 namespace PhpOrient\Protocols\Binary;
 
-use PhpOrient\Commons\LogTrait;
+use PhpOrient\Commons\Log;
 use PhpOrient\Configuration\Constants as ClientConstants;
 use \PhpOrient\Exceptions\SocketException;
 use PhpOrient\Exceptions\PhpOrientWrongProtocolVersionException;
@@ -20,11 +20,6 @@ class OrientSocket {
      * @var int the maximum known protocol version
      */
     public $protocolVersion = ClientConstants::SUPPORTED_PROTOCOL;
-
-    /**
-     * @var int
-     */
-    public $sessionID = -1;
 
     /**
      * The socket resource
@@ -120,7 +115,6 @@ class OrientSocket {
      */
     public function __destruct() {
         $this->protocolVersion = -1;
-        $this->sessionID = -1;
         $this->connected = false;
         @socket_close( $this->_socket );
         $this->_socket = null;

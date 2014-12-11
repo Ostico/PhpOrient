@@ -2,6 +2,7 @@
 
 namespace PhpOrient;
 
+
 class ClientConnectionTest extends TestCase {
 
     public function testSelfCreation() {
@@ -11,7 +12,7 @@ class ClientConnectionTest extends TestCase {
         $this->assertInstanceOf( '\PhpOrient\Protocols\Common\TransportInterface', $transport );
         $client->execute('connect');
         $this->assertNotEquals( -1, $client->getTransport()->getSessionId() );
-        $this->assertNotEquals( -1, $client->getTransport()->getProtocol() );
+        $this->assertNotEquals( -1, $client->getTransport()->getProtocolVersion() );
 
     }
 
@@ -35,7 +36,7 @@ class ClientConnectionTest extends TestCase {
 
         $client->execute('connect');
         $this->assertNotEquals( -1, $client->getTransport()->getSessionId() );
-        $this->assertNotEquals( -1, $client->getTransport()->getProtocol() );
+        $this->assertNotEquals( -1, $client->getTransport()->getProtocolVersion() );
 
     }
 
@@ -55,7 +56,7 @@ class ClientConnectionTest extends TestCase {
 
         $client->execute('connect',$config);
         $this->assertNotEquals( -1, $client->getTransport()->getSessionId() );
-        $this->assertNotEquals( -1, $client->getTransport()->getProtocol() );
+        $this->assertNotEquals( -1, $client->getTransport()->getProtocolVersion() );
 
     }
 
@@ -73,7 +74,7 @@ class ClientConnectionTest extends TestCase {
 
         $client->execute('connect');
         $this->assertNotEquals( -1, $client->getTransport()->getSessionId() );
-        $this->assertNotEquals( -1, $client->getTransport()->getProtocol() );
+        $this->assertNotEquals( -1, $client->getTransport()->getProtocolVersion() );
 
     }
 

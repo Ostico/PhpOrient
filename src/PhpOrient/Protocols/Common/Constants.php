@@ -34,6 +34,10 @@ class Constants {
     const COMMAND_OP = 41;
     const TX_COMMIT_OP = 60;
     const DB_RELOAD_OP = 73;
+    const DB_LIST_OP = 74;
+
+    const DB_FREEZE_OP = 94;
+    const DB_RELEASE_OP = 95;
 
     const STORAGE_TYPE_LOCAL = 'local';
     const STORAGE_TYPE_PLOCAL = 'plocal';

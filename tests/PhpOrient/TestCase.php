@@ -1,13 +1,17 @@
 <?php
 
 namespace PhpOrient;
+use PhpOrient\Configuration\Constants;
 
 class TestCase extends \PHPUnit_Framework_TestCase {
     /**
      * @return array the test server config
      */
     protected static function getConfig() {
-        return json_decode( file_get_contents( __DIR__ . '/../test-server.json' ), true );
+        $config                   = json_decode( file_get_contents( __DIR__ . '/../test-server.json' ), true );
+        Constants::$LOGGING       = $config[ 'logging' ];
+        Constants::$LOG_FILE_PATH = $config[ 'log_file_path' ];
+        return $config;
     }
 
     /**

@@ -29,7 +29,7 @@ class Connect extends Operation {
     public $clientVersion = ClientConstants::VERSION;
 
     /**
-     * @var string the serialization type
+     * @var string the serialization database_type
      */
     public $serializationType = Constants::SERIALIZATION_DOCUMENT2CSV;
 
@@ -50,9 +50,9 @@ class Connect extends Operation {
 
         $this->_writeString( $this->clientName );
         $this->_writeString( $this->clientVersion );
-        $this->_writeShort( $this->protocolVersion );
+        $this->_writeShort( $this->_transport->getProtocolVersion() );
 
-        if( $this->protocolVersion > 21 ) {
+        if( $this->_transport->getProtocolVersion() > 21 ) {
 
             $this->_writeString( $this->_clientID );
             $this->_writeString( $this->serializationType );
@@ -76,9 +76,10 @@ class Connect extends Operation {
      */
     protected function _read() {
 
-        $this->sessionId = $this->_readInt();
-        $this->socket->sessionID = $this->sessionId;
-        return $this->sessionId;
+        $_sessionId = $this->_readInt();
+        $this->_transport->setSessionId( $_sessionId );
+        $this->_transport->connected = true;
+        return $_sessionId;
 
     }
 
