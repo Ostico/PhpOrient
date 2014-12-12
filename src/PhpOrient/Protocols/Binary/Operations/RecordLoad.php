@@ -80,11 +80,13 @@ class RecordLoad extends Operation {
      */
     protected function _read() {
 
-//        $payloads = [ ];
-        $payload  = [ ];
+        $payloads = [ ];
 
         $status = $this->_readByte();
         if( $status != 0 ){
+
+            $payload  = [ ];
+
             // a normal record
             $payload[ 'cluster' ]  = $this->cluster;
             $payload[ 'position' ] = $this->position;
@@ -92,11 +94,15 @@ class RecordLoad extends Operation {
             $payload[ 'version' ]  = $this->_readInt();
             $payload[ 'type' ]     = $this->_readChar();
 
-            $this->_read_prefetch_record();  # read cache and prefetch with callback
+            $payloads[ ] = $payload;
+
+            $prefetched = $this->_read_prefetch_record();  # read cache and prefetch with callback
+
+            $payloads = array_merge( $payloads, $prefetched );
 
         }
 
-        return $payload;
+        return $payloads;
 
     }
 

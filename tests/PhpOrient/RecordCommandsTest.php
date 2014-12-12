@@ -44,23 +44,18 @@ class RecordCommandsTest extends TestCase {
 
     public function testRecordLoad() {
 
-        function _print( $arg ){
-        }
-
         $res = $this->client->execute( 'recordLoad', [
             'rid' => new ID( "#9:5" ),
-            'fetchPlan' => '*:0',
-            '_callback' => '_print'
+            'fetchPlan' => '*:1'
+
+            , '_callback' => function ( $arg ){
+               $this->assertNotEmpty( $arg['oData'] );
+
+            }
+
         ] );
 
-        foreach( $res['oData']['in_followed_by'] as $k => $v ){
-            echo $k . " => " . var_export( $v, true ) ."\n";
-        }
-
-//        $res = $this->client->execute( 'recordLoad', [
-//            'rid' => new ID( "#11:5" )
-//        ] );
-//        var_export( $res );
+        $this->assertNotEmpty( $res );
 
     }
 

@@ -145,7 +145,7 @@ class Bag implements \Countable, \ArrayAccess, \Iterator {
      * Parse the header for an embedded bag.
      */
     protected function parseEmbedded() {
-        $this->size = Reader::unpackInt( substr( $this->deserialized, $this->offset, 4 ) );
+        $this->size = Reader::unpackInt( substr( $this->deserialized, $this->ReaderOffset, 4 ) );
         $this->ReaderOffset += 4;
         $this->baseOffset = $this->ReaderOffset;
     }
@@ -154,19 +154,19 @@ class Bag implements \Countable, \ArrayAccess, \Iterator {
      * Parse the header for a tree bag.
      */
     protected function parseTree() {
-        $this->fileId = Reader::unpackLong( substr( $this->deserialized, $this->offset, 8 ) );
+        $this->fileId = Reader::unpackLong( substr( $this->deserialized, $this->ReaderOffset, 8 ) );
         $this->ReaderOffset += 8;
 
-        $this->pageIndex = Reader::unpackLong( substr( $this->deserialized, $this->offset, 8 ) );
+        $this->pageIndex = Reader::unpackLong( substr( $this->deserialized, $this->ReaderOffset, 8 ) );
         $this->ReaderOffset += 8;
 
-        $this->pageOffset = Reader::unpackInt( substr( $this->deserialized, $this->offset, 4 ) );
+        $this->pageOffset = Reader::unpackInt( substr( $this->deserialized, $this->ReaderOffset, 4 ) );
         $this->ReaderOffset += 4;
 
-        $this->size = Reader::unpackInt( substr( $this->deserialized, $this->offset, 4 ) );
+        $this->size = Reader::unpackInt( substr( $this->deserialized, $this->ReaderOffset, 4 ) );
         $this->ReaderOffset += 4;
 
-        $this->changeSize = Reader::unpackInt( substr( $this->deserialized, $this->offset, 4 ) );
+        $this->changeSize = Reader::unpackInt( substr( $this->deserialized, $this->ReaderOffset, 4 ) );
         $this->ReaderOffset += 4;
     }
 
@@ -258,6 +258,13 @@ class Bag implements \Countable, \ArrayAccess, \Iterator {
         }
         if ( $this->type === self::EMBEDDED ) {
             $start = $this->baseOffset + ( $offset * 10 );
+
+            $chunk = substr( $this->deserialized, $start, 2 );
+            if( $chunk === false ){
+                $this->items[ $offset ] = false;
+                return $this->items[ $offset ];
+            }
+
             $cluster                = Reader::unpackShort( substr( $this->deserialized, $start, 2 ) );
             $position               = Reader::unpackLong( substr( $this->deserialized, $start, 8 ) );
             $this->items[ $offset ] = new ID( $cluster, $position );

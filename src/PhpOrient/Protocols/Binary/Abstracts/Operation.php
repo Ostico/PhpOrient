@@ -436,6 +436,7 @@ abstract class Operation implements ConfigurableInterface {
      */
     protected function _read_prefetch_record(){
 
+        $resultSet = [];
         $status = $this->_readByte();
         while ( $status != 0 ){
 
@@ -460,7 +461,7 @@ abstract class Operation implements ConfigurableInterface {
             */
             if( $status == 1 ){
                 #  a record is returned as a result set
-                call_user_func( $this->_callback, $payload );
+                $resultSet[] = $payload;
             } elseif( $status == 2 ){
 
                 #  save in cache
@@ -469,6 +470,8 @@ abstract class Operation implements ConfigurableInterface {
 
             $status = $this->_readByte();
         }
+
+        return $resultSet;
 
     }
 
