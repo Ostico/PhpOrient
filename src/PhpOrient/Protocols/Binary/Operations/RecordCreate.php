@@ -2,16 +2,11 @@
 
 namespace PhpOrient\Protocols\Binary\Streams;
 
-use PhpOrient\Exceptions\Exception;
-use PhpOrient\Records\Deserializer;
-use PhpOrient\Records\Document;
-use PhpOrient\Records\DocumentInterface;
-use PhpOrient\Records\ID;
-use PhpOrient\Records\Record;
-use PhpOrient\Records\RecordInterface;
-use PhpOrient\Records\Serializer;
 
-class RecordCreate extends AbstractDbOperation {
+use PhpOrient\Protocols\Binary\Abstracts\Operation;
+use PhpOrient\Protocols\Binary\Data\Record;
+
+class RecordCreate extends Operation {
     /**
      * @var int The op code.
      */
@@ -28,7 +23,7 @@ class RecordCreate extends AbstractDbOperation {
     public $segment = -1;
 
     /**
-     * @var RecordInterface The record to add.
+     * @var Record The record to add.
      */
     public $record;
 
@@ -40,19 +35,19 @@ class RecordCreate extends AbstractDbOperation {
     /**
      * Write the data to the socket.
      */
-    protected function write() {
-        $this->writeInt( $this->segment );
-        $this->writeShort( $this->cluster );
-        $this->writeBytes( Serializer::serialize( $this->record ) );
+    protected function _write() {
+        $this->_writeInt( $this->segment );
+        $this->_writeShort( $this->cluster );
+        $this->_writeBytes( Serializer::serialize( $this->record ) );
 
         // record type
         if ( $this->record instanceof DocumentInterface ) {
-            $this->writeChar( 'd' );
+            $this->_writeChar( 'd' );
         } else {
-            $this->writeChar( 'b' ); // @todo determine from record
+            $this->_writeChar( 'b' ); // @todo determine from record
         }
 
-        $this->writeByte( $this->mode );
+        $this->_writeByte( $this->mode );
     }
 
     /**

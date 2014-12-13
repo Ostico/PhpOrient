@@ -9,6 +9,7 @@
 namespace PhpOrient;
 
 use PhpOrient\Protocols\Binary\Data\ID;
+use PhpOrient\Protocols\Binary\Data\Record;
 use PhpOrient\Protocols\Common\Constants;
 
 class RecordCommandsTest extends TestCase {
@@ -46,10 +47,10 @@ class RecordCommandsTest extends TestCase {
 
         $res = $this->client->execute( 'recordLoad', [
             'rid' => new ID( "#9:5" ),
-            'fetchPlan' => '*:1'
+            'fetchPlan' => '*:2'
 
-            , '_callback' => function ( $arg ){
-               $this->assertNotEmpty( $arg['oData'] );
+            , '_callback' => function ( Record $arg ){
+               $this->assertNotEmpty( $arg->getOData() );
 
             }
 

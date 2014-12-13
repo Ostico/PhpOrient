@@ -2,7 +2,6 @@
 
 namespace PhpOrient;
 
-use PhpOrient\Commons\PhpOrientLogger;
 use PhpOrient\Protocols\Common\ConfigurableInterface;
 use PhpOrient\Protocols\Common\ConfigurableTrait;
 use PhpOrient\Protocols\Common\TransportInterface;

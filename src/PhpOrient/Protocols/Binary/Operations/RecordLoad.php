@@ -3,11 +3,11 @@
 namespace PhpOrient\Protocols\Binary\Operations;
 
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
-use PhpOrient\Protocols\Binary\Data\RecordPayloadTrait;
+use PhpOrient\Protocols\Binary\Data\Record;
 use PhpOrient\Protocols\Binary\Serialization\CSV;
 use PhpOrient\Protocols\Common\Constants;
 use PhpOrient\Protocols\Binary\Data\ID;
-use PhpOrient\Protocols\Common\NeedDBOpenedTrait;
+use PhpOrient\Protocols\Binary\Abstracts\NeedDBOpenedTrait;
 use Closure;
 
 class RecordLoad extends Operation {
@@ -88,13 +88,18 @@ class RecordLoad extends Operation {
             $payload  = [ ];
 
             // a normal record
-            $payload[ 'cluster' ]  = $this->cluster;
-            $payload[ 'position' ] = $this->position;
-            $payload[ 'oData' ]    = CSV::unserialize( $this->_readString() );
+            $data = CSV::unserialize( $this->_readString() );
+            $payload[ 'oClass' ]   = $data[ 'oClass' ];
+            unset( $data[ 'oClass' ] );
+
+            $payload[ 'oData' ]    = $data;
+            $payload[ 'rid' ]      = new ID( $this->cluster, $this->position );
             $payload[ 'version' ]  = $this->_readInt();
             $payload[ 'type' ]     = $this->_readChar();
 
-            $payloads[ ] = $payload;
+            $record = Record::fromConfig( $payload );
+
+            $payloads[ ] = $record;
 
             $prefetched = $this->_read_prefetch_record();  # read cache and prefetch with callback
 

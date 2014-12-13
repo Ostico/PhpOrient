@@ -5,7 +5,7 @@ namespace PhpOrient\Protocols\Binary\Operations;
 use PhpOrient\Exceptions\PhpOrientException;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Protocols\Common\Constants;
-use PhpOrient\Protocols\Common\NeedDBOpenedTrait;
+use PhpOrient\Protocols\Binary\Abstracts\NeedDBOpenedTrait;
 
 class DbSize extends Operation {
     use NeedDBOpenedTrait;

@@ -5,7 +5,7 @@ namespace PhpOrient\Protocols\Binary\Operations;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Configuration\Constants as ClientConstants;
 use PhpOrient\Protocols\Common\Constants;
-use PhpOrient\Protocols\Common\NeedConnectedTrait;
+use PhpOrient\Protocols\Binary\Abstracts\NeedConnectedTrait;
 
 class DbOpen extends Operation {
 

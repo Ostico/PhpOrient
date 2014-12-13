@@ -2,6 +2,7 @@
 
 namespace PhpOrient\Protocols\Binary\Serialization;
 
+use PhpOrient\Protocols\Binary\Abstracts\SerializableInterface;
 use PhpOrient\Protocols\Binary\Data\Bag;
 use PhpOrient\Protocols\Binary\Data\ID;
 
@@ -24,7 +25,7 @@ class CSV {
         $chunk = self::eatFirstKey( $input );
         if ( $chunk[ 2 ] ) {
             // this is actually a class name.
-            $record[ '@class' ] = $chunk[ 0 ];
+            $record[ 'oClass' ] = $chunk[ 0 ];
             $input              = $chunk[ 1 ];
             $chunk              = self::eatKey( $input );
             $key                = $chunk[ 0 ];
@@ -88,8 +89,6 @@ class CSV {
                 break;
             } elseif ( $c === ':' ) {
                 break;
-//            } elseif ( $c == '{' || $c == '"' ) {
-//                continue;
             } else {
                 $collected .= $c;
             }
@@ -385,7 +384,7 @@ class CSV {
         $chunk = self::eatFirstKey( $input );
         if ( $chunk[ 2 ] ) {
             // this is actually a class name.
-            $record[ '@class' ] = $chunk[ 0 ];
+            $record[ 'oClass' ] = $chunk[ 0 ];
             $input              = ltrim( $chunk[ 1 ], ' ' );
             if ( $input[ 0 ] === ')' ) {
                 return [ $record, substr( $input, 1 ) ];
@@ -449,7 +448,6 @@ class CSV {
         }
 
         return [ new Bag( $collected ), substr( $input, $i + 1 ) ];
-//        return [ $collected, substr( $input, $i + 1 ) ];
     }
 
     /**
@@ -473,4 +471,91 @@ class CSV {
 
         return [ $collected, substr( $input, $i + 1 ) ];
     }
+
+    /**
+     * Serialize a value.
+     *
+     * @param mixed $value    The value to serialize.
+     *
+     * @param bool  $embedded Whether this is a value embedded in another.
+     *
+     * @return string The serialized value.
+     */
+    public static function serialize( $value, $embedded = false ) {
+        if ( $value === null ) {
+            return 'null';
+        }
+        if ( is_string( $value ) ) {
+            return '"' . str_replace( '"', '\\"', str_replace( '\\', '\\\\', $value ) ) . '"';
+        } elseif ( is_float( $value ) ) {
+            return $value . 'f';
+        } elseif ( is_int( $value ) ) {
+            return $value;
+        } elseif ( is_bool( $value ) ) {
+            return $value ? 'true' : 'false';
+        } elseif ( is_array( $value ) ) {
+            return self::serializeArray( $value );
+        } elseif ( $value instanceof SerializableInterface ) {
+            return self::serializeDocument( $value, $embedded );
+        } elseif ( $value instanceof \DateTime ) {
+            return $value->getTimestamp() . 't';
+        } else {
+            return '';
+        }
+    }
+
+    protected static function serializeDocument( SerializableInterface $document, $embedded = false ) {
+        $array    = $document->recordSerialize();
+        $segments = [ ];
+        foreach ( $array['oData'] as $key => $value ) {
+            $segments[ ] = $key . ':' . self::serialize( $value, true );
+        }
+
+        $assembled = implode( ',', $segments );
+        if ( isset( $array[ 'oClass' ] ) ) {
+            $assembled = $array[ 'oClass' ] . '@' . $assembled;
+        }
+        if ( $embedded ) {
+            return '(' . $assembled . ')';
+        } else {
+            return $assembled;
+        }
+    }
+
+    /**
+     * Serialize an array of values.
+     * If the array is associative a `map` will be returned, otherwise a plain array.
+     *
+     * @param array $array the array to serialize
+     *
+     * @return string the serialized array or map.
+     */
+    protected static function serializeArray( array $array ) {
+        $isMap  = false;
+        $keys   = [ ];
+        $values = [ ];
+
+        foreach ( $array as $key => $value ) {
+            if ( !$isMap && is_string( $key ) && strlen( $key ) ) {
+                $isMap = true;
+            }
+            if ( $isMap ) {
+                $keys[ ] = '"' . str_replace( '"', '\\"', str_replace( '\\', '\\\\', $key ) ) . '"';
+            } else {
+                $keys[ ] = '"' . $key . '"';
+            }
+            $values[ ] = self::serialize( $value, true );
+        }
+        if ( $isMap ) {
+            $parts = [ ];
+            foreach ( $keys as $i => $key ) {
+                $parts[ ] = $key . ':' . $values[ $i ];
+            }
+
+            return '{' . implode( ',', $parts ) . '}';
+        } else {
+            return '[' . implode( ',', $values ) . ']';
+        }
+    }
+
 }

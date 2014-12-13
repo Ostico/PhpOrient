@@ -6,7 +6,7 @@
  * 
  */
 
-namespace PhpOrient\Protocols\Common;
+namespace PhpOrient\Protocols\Binary\Abstracts;
 
 
 use PhpOrient\Exceptions\PhpOrientException;

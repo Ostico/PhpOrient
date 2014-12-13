@@ -2,6 +2,8 @@
 
 namespace PhpOrient\Protocols\Binary\Abstracts;
 
+use PhpOrient\Protocols\Binary\Data\ID;
+use PhpOrient\Protocols\Binary\Data\Record;
 use PhpOrient\Protocols\Binary\Serialization\CSV;
 use PhpOrient\Protocols\Binary\SocketTransport;
 use PhpOrient\Protocols\Binary\Stream\Reader;
@@ -415,12 +417,18 @@ abstract class Operation implements ConfigurableInterface {
                     $record[ 'type' ]     = 'd';
                     $record[ 'cluster' ]  = $this->_readShort();
                     $record[ 'position' ] = $this->_readLong();
+                    $record[ 'rid' ]      = new ID( $record[ 'cluster' ], $record[ 'position' ] );
                 } else {
                     $record[ 'type' ]     = $this->_readChar();
                     $record[ 'cluster' ]  = $this->_readShort();
                     $record[ 'position' ] = $this->_readLong();
                     $record[ 'version' ]  = $this->_readInt();
-                    $record[ 'oData' ]    = CSV::unserialize( $this->_readBytes() );
+
+                    $data                 = CSV::unserialize( $this->_readBytes() );
+                    $record[ 'oClass' ]   = $data[ 'oClass' ];
+                    $record[ 'rid' ]      = new ID( $record[ 'cluster' ], $record[ 'position' ] );
+                    unset( $record[ 'oData' ][ 'oClass' ] );
+                    $record[ 'oData' ]    = $data;
                 }
             }
         }
@@ -442,6 +450,8 @@ abstract class Operation implements ConfigurableInterface {
 
             $payload = $this->_readRecord();
 
+            $record = Record::fromConfig( $payload );
+
             /**
              * @var Closure|string $_callback
              */
@@ -461,11 +471,11 @@ abstract class Operation implements ConfigurableInterface {
             */
             if( $status == 1 ){
                 #  a record is returned as a result set
-                $resultSet[] = $payload;
+                $resultSet[] = $record;
             } elseif( $status == 2 ){
 
                 #  save in cache
-                call_user_func( $this->_callback, $payload );
+                call_user_func( $this->_callback, $record );
             }
 
             $status = $this->_readByte();
