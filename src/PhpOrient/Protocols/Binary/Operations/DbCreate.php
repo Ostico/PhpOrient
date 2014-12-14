@@ -12,7 +12,7 @@ class DbCreate extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DB_CREATE_OP;
+    protected $opCode = Constants::DB_CREATE_OP;
 
     /**
      * @var string The name of the database to create.

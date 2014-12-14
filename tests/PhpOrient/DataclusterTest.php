@@ -17,7 +17,7 @@ class DataClusterTest extends TestCase {
      */
     protected $client;
 
-    protected $db_name = 'test_create';
+    protected $db_name = 'test_cluster';
 
     protected $cluster_struct;
 
@@ -51,7 +51,7 @@ class DataClusterTest extends TestCase {
 
         try {
             $this->client->execute( 'dbDrop', [
-                    'database'     => 'test_cluster',
+                    'database'     => $this->db_name,
                     'storage_type' => Constants::STORAGE_TYPE_MEMORY
             ] );
         } catch ( \Exception $e ) {

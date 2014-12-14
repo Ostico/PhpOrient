@@ -12,7 +12,7 @@ class DbRelease extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DB_RELEASE_OP;
+    protected $opCode = Constants::DB_RELEASE_OP;
 
     /**
      * @var string The name of the database to check.

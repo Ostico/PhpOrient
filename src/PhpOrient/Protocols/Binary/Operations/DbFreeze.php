@@ -12,7 +12,7 @@ class DbFreeze extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DB_FREEZE_OP;
+    protected $opCode = Constants::DB_FREEZE_OP;
 
     /**
      * @var string The name of the database to freeze.

@@ -12,7 +12,7 @@ class DbExists extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DB_EXIST_OP;
+    protected $opCode = Constants::DB_EXIST_OP;
 
     /**
      * @var string The name of the database to check.

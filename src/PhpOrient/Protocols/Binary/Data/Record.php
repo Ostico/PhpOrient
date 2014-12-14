@@ -10,6 +10,7 @@ namespace PhpOrient\Protocols\Binary\Data;
 
 
 use PhpOrient\Protocols\Binary\Abstracts\SerializableInterface;
+use PhpOrient\Protocols\Binary\Serialization\CSV;
 use PhpOrient\Protocols\Common\ConfigurableTrait;
 
 class Record implements \JsonSerializable, SerializableInterface {
@@ -103,13 +104,12 @@ class Record implements \JsonSerializable, SerializableInterface {
     /**
      * Sets the Bytes
      *
-     * @param string $oData
+     * @param array $oData
      *
      * @return $this the current object
      */
     public function setOData( $oData ) {
         $this->oData = $oData;
-
         return $this;
     }
 
@@ -147,6 +147,15 @@ class Record implements \JsonSerializable, SerializableInterface {
         ];
 
         return $meta;
+    }
+
+    /**
+     * To String ( as alias of json_encode )
+     *
+     * @return string
+     */
+    public function __toString(){
+        return json_encode( $this );
     }
 
 }

@@ -12,7 +12,7 @@ class DataClusterAdd extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DATA_CLUSTER_ADD_OP;
+    protected $opCode = Constants::DATA_CLUSTER_ADD_OP;
 
     /**
      * @var int The id for the cluster.

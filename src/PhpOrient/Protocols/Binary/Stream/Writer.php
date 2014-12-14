@@ -12,7 +12,7 @@ class Writer {
      * @return string the packed byte.
      */
     public static function packByte( $value ) {
-        return chr( $value );
+        return pack( 'C', $value );
     }
 
     /**

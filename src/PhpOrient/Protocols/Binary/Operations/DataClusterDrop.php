@@ -12,7 +12,7 @@ class DataClusterDrop extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DATA_CLUSTER_DROP_OP;
+    protected $opCode = Constants::DATA_CLUSTER_DROP_OP;
 
     /**
      * @var int The id for the cluster.

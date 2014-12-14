@@ -13,7 +13,7 @@ class DataClusterCount extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DATA_CLUSTER_COUNT_OP;
+    protected $opCode = Constants::DATA_CLUSTER_COUNT_OP;
 
     /**
      * @var int[] The ids of the clusters to count records for.

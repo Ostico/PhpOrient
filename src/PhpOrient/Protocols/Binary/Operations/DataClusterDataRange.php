@@ -12,7 +12,7 @@ class DataClusterDataRange extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DATA_CLUSTER_DATA_RANGE_OP;
+    protected $opCode = Constants::DATA_CLUSTER_DATA_RANGE_OP;
 
     /**
      * @var int The ids of the clusters to count records for.

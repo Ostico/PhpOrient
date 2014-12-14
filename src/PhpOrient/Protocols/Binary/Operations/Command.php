@@ -9,7 +9,7 @@ class Command extends AbstractDbOperation {
     /**
      * @var int The op code.
      */
-    public $opCode = 41;
+    protected $opCode = 41;
 
     /**
      * @var string The query mode.

@@ -13,7 +13,7 @@ class DbSize extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DB_SIZE_OP;
+    protected $opCode = Constants::DB_SIZE_OP;
 
     /**
      * Write the data to the socket.

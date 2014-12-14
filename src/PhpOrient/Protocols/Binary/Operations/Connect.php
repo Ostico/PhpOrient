@@ -16,7 +16,7 @@ class Connect extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::CONNECT_OP;
+    protected $opCode = Constants::CONNECT_OP;
 
     /**
      * @var string the name of the client library.

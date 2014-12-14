@@ -13,7 +13,7 @@ class DbCountRecords extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DB_COUNT_RECORDS_OP;
+    protected $opCode = Constants::DB_COUNT_RECORDS_OP;
 
     /**
      * @var string The database storage type.

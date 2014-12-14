@@ -12,7 +12,7 @@ class DbClose extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DB_CLOSE_OP;
+    protected $opCode = Constants::DB_CLOSE_OP;
 
     /**
      * Write the data to the socket.

@@ -12,7 +12,7 @@ class DbOpen extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DB_OPEN_OP;
+    protected $opCode = Constants::DB_OPEN_OP;
 
     /**
      * @var string the name of the client library.

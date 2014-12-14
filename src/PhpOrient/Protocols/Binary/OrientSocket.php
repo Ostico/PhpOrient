@@ -2,7 +2,6 @@
 
 namespace PhpOrient\Protocols\Binary;
 
-use PhpOrient\Commons\Log;
 use PhpOrient\Configuration\Constants as ClientConstants;
 use \PhpOrient\Exceptions\SocketException;
 use PhpOrient\Exceptions\PhpOrientWrongProtocolVersionException;
@@ -157,4 +156,23 @@ class OrientSocket {
         }
 
     }
+
+    /**
+     * Change the Timeout for socket input operations
+     *
+     * @param int $sec
+     * @param int $usec
+     */
+    public function setRecvTimeout( $sec = self::READ_TIMEOUT, $usec = 0 ){
+        socket_set_option(
+            $this->_socket,
+            SOCK_STREAM,
+            SO_RCVTIMEO,
+            array(
+                'sec' => $sec,
+                'usec' => $usec
+            )
+        );
+    }
+
 }

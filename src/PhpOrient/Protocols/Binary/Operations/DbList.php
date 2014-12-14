@@ -12,7 +12,7 @@ class DbList extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DB_LIST_OP;
+    protected $opCode = Constants::DB_LIST_OP;
 
 
     /**

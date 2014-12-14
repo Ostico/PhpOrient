@@ -21,17 +21,17 @@ class RecordLoad extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::RECORD_LOAD_OP;
+    protected $opCode = Constants::RECORD_LOAD_OP;
 
     /**
      * @var int The id of the cluster for the record.
      */
-    public $cluster;
+    public $cluster_id;
 
     /**
      * @var int The position of the record in the cluster.
      */
-    public $position;
+    public $cluster_position;
 
     /**
      * Rid representation
@@ -43,12 +43,12 @@ class RecordLoad extends Operation {
     /**
      * @var string The fetch plan for the record.
      */
-    public $fetchPlan = '*:0';
+    public $fetch_plan = '*:0';
 
     /**
      * @var bool Whether to ignore the cache, defaults to false.
      */
-    public $ignoreCache = false;
+    public $ignore_cache = false;
 
     /**
      * @var bool Whether to load tombstones, defaults to false.
@@ -60,15 +60,15 @@ class RecordLoad extends Operation {
      */
     protected function _write() {
 
-        if ( !empty( $this->rid ) ) {
-            $this->cluster  = $this->rid->cluster;
-            $this->position = $this->rid->position;
+        if ( !empty( $this->rid ) && $this->rid instanceof ID ) {
+            $this->cluster_id  = $this->rid->cluster;
+            $this->cluster_position = $this->rid->position;
         }
 
-        $this->_writeShort( $this->cluster );
-        $this->_writeLong( $this->position );
-        $this->_writeString( $this->fetchPlan );
-        $this->_writeBoolean( $this->ignoreCache );
+        $this->_writeShort( $this->cluster_id );
+        $this->_writeLong( $this->cluster_position );
+        $this->_writeString( $this->fetch_plan );
+        $this->_writeBoolean( $this->ignore_cache );
         $this->_writeBoolean( $this->tombstones );
 
     }
@@ -93,7 +93,7 @@ class RecordLoad extends Operation {
             unset( $data[ 'oClass' ] );
 
             $payload[ 'oData' ]    = $data;
-            $payload[ 'rid' ]      = new ID( $this->cluster, $this->position );
+            $payload[ 'rid' ]      = new ID( $this->cluster_id, $this->cluster_position );
             $payload[ 'version' ]  = $this->_readInt();
             $payload[ 'type' ]     = $this->_readChar();
 

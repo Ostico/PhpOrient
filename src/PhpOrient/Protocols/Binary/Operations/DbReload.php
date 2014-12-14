@@ -13,7 +13,7 @@ class DbReload extends Operation {
     /**
      * @var int The op code.
      */
-    public $opCode = Constants::DB_RELOAD_OP;
+    protected $opCode = Constants::DB_RELOAD_OP;
 
     /**
      * Write the data to the socket.
