@@ -2,16 +2,7 @@
 
 namespace PhpOrient;
 
-class DBOpenCloseTest extends TestCase {
-
-    /**
-     * @var Client
-     */
-    protected $client;
-
-    public function setUp(){
-        $this->client = $this->createClient();
-    }
+class DBOpenCloseTest extends EmptyTestCase {
 
     public function testDBOpenAutoConnect(){
 

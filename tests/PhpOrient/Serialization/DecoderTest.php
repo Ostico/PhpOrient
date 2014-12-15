@@ -2,11 +2,11 @@
 
 namespace PhpOrient\Serialization;
 
+use PhpOrient\EmptyTestCase;
 use PhpOrient\Protocols\Binary\Data\ID;
 use PhpOrient\Protocols\Binary\Serialization\CSV;
-use PhpOrient\TestCase;
 
-class DecoderTest extends TestCase {
+class DecoderTest extends EmptyTestCase {
 
     public function testDeserializeNoClass() {
         $result = CSV::unserialize( 'foo:"bar"' );
@@ -15,7 +15,7 @@ class DecoderTest extends TestCase {
 
     public function testDeserializeWithClass() {
         $result = CSV::unserialize( 'MyClass@foo:"bar"' );
-        $this->assertEquals( [ '@class' => 'MyClass', 'foo' => 'bar' ], $result );
+        $this->assertEquals( [ 'oClass' => 'MyClass', 'foo' => 'bar' ], $result );
     }
 
     public function testDeserializeMultipleFields() {
@@ -64,7 +64,7 @@ class DecoderTest extends TestCase {
         $result = CSV::unserialize( 'foo:(bar@a: 1, b:2, c: #12:10)' );
         $this->assertEquals( [
                 'foo' => [
-                        '@class' => 'bar',
+                        'oClass' => 'bar',
                         'a'      => 1,
                         'b'      => 2,
                         'c'      => new ID( 12, 10 )
@@ -77,27 +77,25 @@ class DecoderTest extends TestCase {
      */
     public function testDeserializeEmbeddedMaps(){
 
-        $this->markTestSkipped();
+//        $this->markTestSkipped();
 
-        $x = 'V@{"b":[{"xx":{"xxx":[1,2,"abc"]}}],"c":[{"yy":{"yyy":[3,4,"cde"]}}]}';
+        $x = 'V@"b":[{"xx":{"xxx":[1,2,"abc"]}}],"c":[{"yy":{"yyy":[3,4,"cde"]}}]';
         $result = CSV::unserialize( $x );
 
         $this->assertEquals(
             [
-                "@class" => null,
-                "V"      => [
-                    'b' => [
-                        [
-                            'xx' => [
-                                'xxx' => [ 1, 2, 'abc' ]
-                            ]
+                "oClass" => 'V',
+                'b'      => [
+                    [
+                        'xx' => [
+                            'xxx' => [ 1, 2, 'abc' ]
                         ]
-                    ],
-                    'c' => [
-                        [
-                            'yy' => [
-                                'yyy' => [ 3, 4, 'cde' ]
-                            ]
+                    ]
+                ],
+                'c'      => [
+                    [
+                        'yy' => [
+                            'yyy' => [ 3, 4, 'cde' ]
                         ]
                     ]
                 ]

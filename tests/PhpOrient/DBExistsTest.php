@@ -8,16 +8,7 @@
 
 namespace PhpOrient;
 
-class DBExistsTest extends TestCase {
-
-    /**
-     * @var Client
-     */
-    protected $client;
-
-    public function setUp(){
-        $this->client = $this->createClient();
-    }
+class DBExistsTest extends EmptyTestCase {
 
     public function testDBExists(){
         $connection = $this->client->execute( 'connect' );

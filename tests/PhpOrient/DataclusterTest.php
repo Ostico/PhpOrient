@@ -8,56 +8,9 @@
 
 namespace PhpOrient;
 
-use PhpOrient\Protocols\Common\Constants;
-
 class DataClusterTest extends TestCase {
 
-    /**
-     * @var Client
-     */
-    protected $client;
-
     protected $db_name = 'test_cluster';
-
-    protected $cluster_struct;
-
-    public function setUp() {
-        $this->client = $this->createClient();
-
-        $this->client->execute( 'connect' );
-
-        try {
-            $this->client->execute( 'dbDrop', [
-                    'database'     => $this->db_name,
-                    'storage_type' => Constants::STORAGE_TYPE_MEMORY
-            ] );
-        } catch ( \Exception $e ) {
-            $this->client->getTransport()->debug( $e->getMessage() );
-        }
-
-        $this->client->execute( 'dbCreate', [
-                'database'      => $this->db_name,
-                'database_type' => Constants::DATABASE_TYPE_GRAPH,
-                'storage_type'  => Constants::STORAGE_TYPE_MEMORY,
-        ] );
-
-        $this->cluster_struct = $this->client->execute( 'dbOpen', [
-                'database' => $this->db_name
-        ] );
-
-    }
-
-    public function tearDown() {
-
-        try {
-            $this->client->execute( 'dbDrop', [
-                    'database'     => $this->db_name,
-                    'storage_type' => Constants::STORAGE_TYPE_MEMORY
-            ] );
-        } catch ( \Exception $e ) {
-        }
-
-    }
 
     public function testClusterCount() {
 

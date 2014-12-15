@@ -4,52 +4,47 @@ namespace PhpOrient;
 
 use PhpOrient\Protocols\Common\Constants;
 
-class DBFreezeTest extends TestCase {
+class DBFreezeTest extends EmptyTestCase {
 
-    /**
-     * @var Client
-     */
-    protected $client;
-
-    public function setUp(){
-        $this->client = $this->createClient();
-    }
+    protected $db_name = 'test_freeze';
 
     public function testFreezeRelease() {
 
-        $connection = $this->client->execute( 'connect' );
+        $this->client->execute( 'connect' );
 
-        if( $this->client->execute( 'dbExists', [ 'database' => 'test_freeze' ] ) ){
+        try {
             $this->client->execute( 'dbDrop', [
-                    'database' => 'test_freeze',
-                    'storage_type' => Constants::STORAGE_TYPE_MEMORY
+                'database'     => $this->db_name,
+                'storage_type' => Constants::STORAGE_TYPE_MEMORY
             ] );
+        } catch ( \Exception $e ) {
+            $this->client->getTransport()->debug( $e->getMessage() );
         }
 
-        $result     = $this->client->execute( 'dbCreate', [
-                'database' => 'test_freeze',
-                'database_type' => Constants::DATABASE_TYPE_GRAPH,
-                'storage_type' => Constants::STORAGE_TYPE_MEMORY,
+        $this->client->execute( 'dbCreate', [
+            'database'      => $this->db_name,
+            'database_type' => Constants::DATABASE_TYPE_GRAPH,
+            'storage_type'  => Constants::STORAGE_TYPE_MEMORY,
         ] );
 
-        $result     = $this->client->execute( 'dbExists', [ 'database' => 'test_freeze' ] );
+        $result     = $this->client->execute( 'dbExists', [ 'database' => $this->db_name ] );
         $this->assertTrue( $result );
 
-        $result     = $this->client->execute( 'dbOpen', [ 'database' => 'test_freeze' ] );
+        $result     = $this->client->execute( 'dbOpen', [ 'database' => $this->db_name ] );
         $this->assertNotEmpty( $result[ 'dataClusters' ] );
 
-        $result     = $this->client->execute( 'dbFreeze', [ 'database' => 'test_freeze' ] );
+        $result     = $this->client->execute( 'dbFreeze', [ 'database' => $this->db_name ] );
         $this->assertNotEquals( -1, $result[ 'sessionId' ] );
 
-        $result     = $this->client->execute( 'dbRelease', [ 'database' => 'test_freeze' ] );
+        $result     = $this->client->execute( 'dbRelease', [ 'database' => $this->db_name ] );
         $this->assertNotEquals( -1, $result[ 'sessionId' ] );
 
         $result     = $this->client->execute( 'dbDrop', [
-                'database' => 'test_freeze',
+                'database' => $this->db_name,
                 'storage_type' => Constants::STORAGE_TYPE_MEMORY
         ] );
 
-        $result = $this->client->execute( 'dbExists', [ 'database' => 'test_freeze' ] );
+        $result = $this->client->execute( 'dbExists', [ 'database' => $this->db_name ] );
         $this->assertFalse( $result );
 
     }

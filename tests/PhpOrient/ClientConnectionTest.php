@@ -3,7 +3,7 @@
 namespace PhpOrient;
 
 
-class ClientConnectionTest extends TestCase {
+class ClientConnectionTest extends EmptyTestCase {
 
     public function testSelfCreation() {
         $client = $this->createClient();

@@ -157,22 +157,4 @@ class OrientSocket {
 
     }
 
-    /**
-     * Change the Timeout for socket input operations
-     *
-     * @param int $sec
-     * @param int $usec
-     */
-    public function setRecvTimeout( $sec = self::READ_TIMEOUT, $usec = 0 ){
-        socket_set_option(
-            $this->_socket,
-            SOCK_STREAM,
-            SO_RCVTIMEO,
-            array(
-                'sec' => $sec,
-                'usec' => $usec
-            )
-        );
-    }
-
 }
