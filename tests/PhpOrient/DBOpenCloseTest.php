@@ -1,6 +1,7 @@
 <?php
 
 namespace PhpOrient;
+use PhpOrient\Abstracts\EmptyTestCase;
 
 class DBOpenCloseTest extends EmptyTestCase {
 

@@ -1,7 +1,7 @@
 <?php
 
 namespace PhpOrient;
-
+use PhpOrient\Abstracts\EmptyTestCase;
 
 class ClientConnectionTest extends EmptyTestCase {
 

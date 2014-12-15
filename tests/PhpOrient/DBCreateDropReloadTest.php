@@ -1,7 +1,7 @@
 <?php
 
 namespace PhpOrient;
-
+use PhpOrient\Abstracts\TestCase;
 use PhpOrient\Protocols\Common\Constants;
 
 class DBCreateDropTest extends TestCase {

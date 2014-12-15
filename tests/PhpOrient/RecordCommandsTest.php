@@ -7,6 +7,7 @@
  */
 
 namespace PhpOrient;
+use PhpOrient\Abstracts\TestCase;
 
 use PhpOrient\Protocols\Binary\Data\ID;
 use PhpOrient\Protocols\Binary\Data\Record;

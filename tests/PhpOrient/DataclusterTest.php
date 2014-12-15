@@ -7,7 +7,7 @@
  */
 
 namespace PhpOrient;
-
+use PhpOrient\Abstracts\TestCase;
 class DataClusterTest extends TestCase {
 
     protected $db_name = 'test_cluster';

@@ -2,7 +2,7 @@
 
 namespace PhpOrient\Serialization;
 
-use PhpOrient\EmptyTestCase;
+use PhpOrient\Abstracts\EmptyTestCase;
 use PhpOrient\Protocols\Binary\Data\ID;
 use PhpOrient\Protocols\Binary\Serialization\CSV;
 

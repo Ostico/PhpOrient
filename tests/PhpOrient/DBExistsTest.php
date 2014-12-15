@@ -7,7 +7,7 @@
  */
 
 namespace PhpOrient;
-
+use PhpOrient\Abstracts\EmptyTestCase;
 class DBExistsTest extends EmptyTestCase {
 
     public function testDBExists(){

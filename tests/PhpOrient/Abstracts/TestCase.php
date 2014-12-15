@@ -1,6 +1,7 @@
 <?php
 
-namespace PhpOrient;
+namespace PhpOrient\Abstracts;
+use PhpOrient\Client;
 use PhpOrient\Protocols\Common\Constants;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase {
@@ -48,7 +49,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
     public function tearDown() {
         $resultTime = microtime(true) - $this->thisTest;
-        echo " " . str_pad( $this->getName(false) , 35, " ", STR_PAD_RIGHT ). " - Did in " . $resultTime . " seconds.\n";
+        echo " " . str_pad( $this->getName(false) , 41, " ", STR_PAD_RIGHT ). " - Did in " . $resultTime . " seconds.\n";
     }
 
 }

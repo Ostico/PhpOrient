@@ -3,6 +3,7 @@
 namespace PhpOrient;
 
 use PhpOrient\Protocols\Common\Constants;
+use PhpOrient\Abstracts\EmptyTestCase;
 
 class DBFreezeTest extends EmptyTestCase {
 

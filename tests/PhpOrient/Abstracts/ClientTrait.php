@@ -6,7 +6,9 @@
  * 
  */
 
-namespace PhpOrient;
+namespace PhpOrient\Abstracts;
+
+use PhpOrient\Client;
 use PhpOrient\Configuration\Constants as ClientConstants;
 
 trait ClientTrait {
@@ -15,7 +17,7 @@ trait ClientTrait {
      * @return array the test server config
      */
     protected static function getConfig() {
-        $config                   = json_decode( file_get_contents( __DIR__ . '/../test-server.json' ), true );
+        $config                   = json_decode( file_get_contents( __DIR__ . '/../../test-server.json' ), true );
         ClientConstants::$LOGGING       = $config[ 'logging' ];
         ClientConstants::$LOG_FILE_PATH = $config[ 'log_file_path' ];
         return $config;
