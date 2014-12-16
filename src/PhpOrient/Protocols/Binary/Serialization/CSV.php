@@ -20,6 +20,7 @@ class CSV {
             return null;
         }
 
+        $input = trim( $input );
         $record = [ ];
 
         $chunk = self::eatFirstKey( $input );
@@ -34,6 +35,8 @@ class CSV {
             $key   = $chunk[ 0 ];
             $input = $chunk[ 1 ];
         }
+
+        if ( empty( $key ) && empty( $input ) ) return $record;
 
         $chunk = self::eatValue( $input );
         $value = $chunk[ 0 ];
@@ -136,7 +139,7 @@ class CSV {
      */
     protected static function eatValue( $input ) {
         $input = ltrim( $input, ' ' );
-        $c     = $input[ 0 ];
+        $c     = @$input[ 0 ];  # avoid Notice: Uninitialized string offset: 0
         if ( !strlen( $input ) || $c === ',' ) {
             return [ null, $input ];
         } elseif ( $c === '"' ) {

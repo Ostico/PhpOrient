@@ -3,8 +3,10 @@
 namespace PhpOrient\Protocols\Binary\Operations;
 
 use PhpOrient\Exceptions\PhpOrientException;
+use PhpOrient\Protocols\Binary\Abstracts\NeedDBOpenedTrait;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Protocols\Binary\Data\Record;
+use PhpOrient\Protocols\Binary\Stream\Writer;
 use PhpOrient\Protocols\Common\Constants;
 
 /**
@@ -65,9 +67,12 @@ use PhpOrient\Protocols\Common\Constants;
  * <ul>
  * <li>'n', means null result</li>
  * <li>'r', means single record returned</li>
- * <li>'l', collection of records. The format is:</li>
- * <li>an integer to indicate the collection size</li>
- * <li>all the records one by one</li>
+ * <li>'l', collection of records. The format is:
+ *   <ul>
+ *   <li>an integer to indicate the collection size</li>
+ *   <li>all the records one by one</li>
+ *   </ul>
+ * </li>
  * <li>'a', serialized result, a byte[] is sent</li>
  * </ul>
  * </li>
@@ -101,20 +106,22 @@ use PhpOrient\Protocols\Common\Constants;
  * </ul>
  */
 class Command extends Operation {
+    use NeedDBOpenedTrait;
+
     /**
      * @var int The op code.
      */
     protected $opCode = Constants::COMMAND_OP;
 
     /**
-     * @var string The query mode.
-     */
-    public $command_type = Constants::QUERY_SYNC;
-
-    /**
      * @var string
      */
-    public $mod_byte = 's';
+    protected $_mod_byte = 's';
+
+    /**
+     * @var string The query mode.
+     */
+    public $command = Constants::QUERY_SYNC;
 
     /**
      * @var string The query object.
@@ -136,50 +143,57 @@ class Command extends Operation {
      */
     protected function _write() {
 
-        if( array_search( $this->command_type, [
+        if( array_search( $this->command, [
             Constants::QUERY_CMD,
             Constants::QUERY_SYNC,
             Constants::QUERY_GREMLIN,
             Constants::QUERY_SCRIPT
         ] ) !== false ){
-            $this->mod_byte = 's';  # synchronous
+            $this->_mod_byte = 's';  # synchronous
         } else {
-            $this->mod_byte = 'a';  # asynchronous
+            $this->_mod_byte = 'a';  # asynchronous
         }
 
-        $this->_writeChar( $this->mod_byte );
-        $this->_writeString( $this->command_type );
+        $this->_writeChar( $this->_mod_byte );
 
-        if( $this->command_type == Constants::QUERY_SCRIPT ){
-            $this->_writeString( 'sql' );
+        $_payload   = [];
+        $_payload[] = Writer::packString( $this->command );
+
+        if( $this->command == Constants::QUERY_SCRIPT ){
+            $_payload[] = Writer::packString( 'sql' );
         }
 
-        $this->_writeString( $this->query );
+        $_payload[] = Writer::packString( $this->query );
 
-        if( array_search( $this->command_type, [
+        if( array_search( $this->command, [
                 Constants::QUERY_ASYNC,
                 Constants::QUERY_SYNC,
                 Constants::QUERY_GREMLIN,
             ] ) !== false ){
-            $this->_writeInt( $this->limit );
-            $this->_writeString( $this->fetch_plan );
+            $_payload[] = Writer::packInt( $this->limit );
+            $_payload[] = Writer::packString( $this->fetch_plan );
         }
 
-        $this->_writeInt( 0 );
+        $_payload[] = Writer::packInt( 0 );
+        $this->_writeString( implode( "", $_payload ) );
 
     }
 
     /**
      * Read the response from the socket.
      *
-     * @return Record|Record[]
+     * @return Record|Record[]|string
      */
     protected function _read() {
 
-        if( $this->command_type == Constants::QUERY_ASYNC ){
+        if( $this->command == Constants::QUERY_ASYNC ){
             return $this->_read_prefetch_record();
         } else {
-            return $this->_readRecord();
+            $res = $this->_read_sync();
+            if( $this->command == Constants::QUERY_CMD ){
+                return $res[0];
+            }
+            return $res;
         }
 
     }

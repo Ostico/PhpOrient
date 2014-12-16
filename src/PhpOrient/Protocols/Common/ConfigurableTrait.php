@@ -37,8 +37,9 @@ trait ConfigurableTrait {
         $className = get_called_class();
         $object    = new $className();
 
-        /* @var ConfigurableInterface $object */
-
+        /**
+         * @var ConfigurableInterface $object
+         */
         return $object->configure( $options );
     }
 }

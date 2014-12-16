@@ -12,7 +12,7 @@ class Reader {
      * @return int the byte unpacked
      */
     public static function unpackByte( $value ) {
-        return ord( $value );
+        return current( unpack( 'C', $value ) );
     }
 
     /**

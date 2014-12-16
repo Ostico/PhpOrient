@@ -4,8 +4,8 @@ namespace PhpOrient\Protocols\Binary\Operations;
 
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Configuration\Constants as ClientConstants;
+use PhpOrient\Protocols\Common\ClusterList;
 use PhpOrient\Protocols\Common\Constants;
-use PhpOrient\Protocols\Binary\Abstracts\NeedConnectedTrait;
 
 class DbOpen extends Operation {
 
@@ -130,12 +130,16 @@ class DbOpen extends Operation {
         //TODO: Try with a cluster instance
         # cluster config string ( -1 )
         # cluster release
-        return [
-                'sessionId'    => $sessionId,
-                'dataClusters' => $dataClusters,
-                'servers'      => $this->_readInt(),
-                'release'      => $this->_readString()
+        $cluster_list = [
+            'sessionId'    => $sessionId,
+            'dataClusters' => $dataClusters,
+            'servers'      => $this->_readInt(),
+            'release'      => $this->_readString()
         ];
+
+        $this->_transport->setClusterList( ClusterList::fromConfig( $cluster_list ) );
+
+        return $cluster_list;
 
     }
 

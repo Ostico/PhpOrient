@@ -13,7 +13,7 @@ use PhpOrient\Protocols\Binary\Abstracts\SerializableInterface;
 use PhpOrient\Protocols\Binary\Serialization\CSV;
 use PhpOrient\Protocols\Common\ConfigurableTrait;
 
-class Record implements \JsonSerializable, SerializableInterface {
+class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
     use ConfigurableTrait;
 
     /**
@@ -32,9 +32,9 @@ class Record implements \JsonSerializable, SerializableInterface {
     protected $version = 0;
 
     /**
-     * @var string The raw bytes that make up the record.
+     * @var array The raw bytes that make up the record.
      */
-    protected $oData;
+    protected $oData = [];
 
 
     /**
@@ -108,7 +108,7 @@ class Record implements \JsonSerializable, SerializableInterface {
      *
      * @return $this the current object
      */
-    public function setOData( $oData ) {
+    public function setOData( Array $oData ) {
         $this->oData = $oData;
         return $this;
     }
@@ -157,5 +157,100 @@ class Record implements \JsonSerializable, SerializableInterface {
     public function __toString(){
         return json_encode( $this );
     }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Whether a offset exists
+     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
+     *
+     * @param mixed $offset <p>
+     *                      An offset to check for.
+     *                      </p>
+     *
+     * @return boolean true on success or false on failure.
+     * </p>
+     * <p>
+     * The return value will be casted to boolean if non-boolean was returned.
+     */
+    public function offsetExists( $offset ) {
+        return array_key_exists( $offset, $this->oData );
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Offset to retrieve
+     * @link http://php.net/manual/en/arrayaccess.offsetget.php
+     *
+     * @param mixed $offset <p>
+     *                      The offset to retrieve.
+     *                      </p>
+     *
+     * @return mixed Can return all value types.
+     */
+    public function offsetGet( $offset ) {
+        if( array_key_exists( $offset, $this->oData ) ){
+            return $this->oData[ $offset ];
+        } else {
+            throw new \OutOfBoundsException( $offset . ' key does not exists.' );
+        }
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Offset to set
+     * @link http://php.net/manual/en/arrayaccess.offsetset.php
+     *
+     * @param mixed $offset <p>
+     *                      The offset to assign the value to.
+     *                      </p>
+     * @param mixed $value  <p>
+     *                      The value to set.
+     *                      </p>
+     *
+     * @return void
+     */
+    public function offsetSet( $offset, $value ) {
+        if( !array_key_exists( $offset, $this->oData ) ){
+            trigger_error( 'Offset ' . $offset . ' does not exists in oData structure. Added as a new key.', E_USER_NOTICE );
+        }
+        $this->oData[ $offset ] = $value;
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Offset to unset
+     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
+     *
+     * @param mixed $offset <p>
+     *                      The offset to unset.
+     *                      </p>
+     *
+     * @return void
+     */
+    public function offsetUnset( $offset ) {
+        if( !array_key_exists( $offset, $this->oData ) ){
+            trigger_error( 'Offset ' . $offset . ' does not exists in oData structure.', E_USER_NOTICE );
+            return;
+        }
+        unset( $this->oData[ $offset ] );
+    }
+
+    /**
+     * @param $name
+     *
+     * @return mixed
+     */
+    public function __get( $name ) {
+        return $this->offsetGet( $name );
+    }
+
+    /**
+     * @param $name
+     * @param $value
+     */
+    public function __set( $name, $value ) {
+        $this->offsetSet( $name, $value );
+    }
+
 
 }

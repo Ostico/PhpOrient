@@ -2,6 +2,7 @@
 
 namespace PhpOrient\Protocols\Binary\Abstracts;
 
+use PhpOrient\Configuration\Constants;
 use PhpOrient\Protocols\Binary\Data\ID;
 use PhpOrient\Protocols\Binary\Data\Record;
 use PhpOrient\Protocols\Binary\Serialization\CSV;
@@ -12,7 +13,7 @@ use PhpOrient\Protocols\Common\ConfigurableInterface;
 use PhpOrient\Protocols\Common\ConfigurableTrait;
 use PhpOrient\Exceptions\SocketException;
 use PhpOrient\Exceptions\PhpOrientException;
-use PhpOrient\Exceptions\PyOrientBadMethodCallException;
+use PhpOrient\Exceptions\PhpOrientBadMethodCallException;
 use PhpOrient\Protocols\Binary\OrientSocket;
 use Closure;
 
@@ -220,7 +221,7 @@ abstract class Operation implements ConfigurableInterface {
      */
     protected function _readChar() {
         $this->_input_buffer .= $_read = $this->_socket->read( 1 );
-        return chr( $_read );
+        return chr( Reader::unpackByte( $_read ) );
     }
 
     /**
@@ -415,19 +416,19 @@ abstract class Operation implements ConfigurableInterface {
                 if ( $classId === -3 ) {
                     // reference
                     $record[ 'type' ]     = 'd';
-                    $record[ 'cluster' ]  = $this->_readShort();
-                    $record[ 'position' ] = $this->_readLong();
-                    $record[ 'rid' ]      = new ID( $record[ 'cluster' ], $record[ 'position' ] );
+                    $cluster             = $this->_readShort();
+                    $position            = $this->_readLong();
+                    $record[ 'rid' ]      = new ID( $cluster, $position );
                 } else {
-                    $record[ 'type' ]     = $this->_readChar();
-                    $record[ 'cluster' ]  = $this->_readShort();
-                    $record[ 'position' ] = $this->_readLong();
-                    $record[ 'version' ]  = $this->_readInt();
+                    $record[ 'type' ]    = $this->_readChar();
+                    $cluster             = $this->_readShort();
+                    $position            = $this->_readLong();
+                    $record[ 'version' ] = $this->_readInt();
 
                     $data                 = CSV::unserialize( $this->_readBytes() );
                     $record[ 'oClass' ]   = $data[ 'oClass' ];
-                    $record[ 'rid' ]      = new ID( $record[ 'cluster' ], $record[ 'position' ] );
-                    unset( $record[ 'oData' ][ 'oClass' ] );
+                    $record[ 'rid' ]      = new ID( $cluster, $position );
+                    unset( $data[ 'oClass' ] );
                     $record[ 'oData' ]    = $data;
                 }
             }
@@ -437,9 +438,10 @@ abstract class Operation implements ConfigurableInterface {
     }
 
     /**
-     * Read pre-fetched Records
+     * Read pre-fetched and async Records
      *
-     * @throws PyOrientBadMethodCallException
+     * @return Record[]
+     * @throws PhpOrientBadMethodCallException
      * @throws SocketException
      */
     protected function _read_prefetch_record(){
@@ -456,7 +458,7 @@ abstract class Operation implements ConfigurableInterface {
              * @var Closure|string $_callback
              */
             if( !is_callable( $this->_callback, true ) ){
-                throw new PyOrientBadMethodCallException(
+                throw new PhpOrientBadMethodCallException(
                     "'$this->_callback' is not a callable function"
                 );
             }
@@ -486,18 +488,71 @@ abstract class Operation implements ConfigurableInterface {
     }
 
     /**
-     * Read a collection of records from the remote server.
+     * Read sync command payloads
      *
-     * @return array
+     * @return array|null
+     * @throws PhpOrientBadMethodCallException
+     * @throws PhpOrientException
+     * @throws SocketException
      */
-    protected function _readCollection() {
-        $records = [ ];
-        $total   = $this->_readInt();
-        for ( $i = 0; $i < $total; $i++ ) {
-            $records[ ] = $this->_readRecord();
+    public function _read_sync(){
+
+        # type of response
+        # decode body char with flag continue ( Header already read )
+        $response_type = $this->_readChar();
+        $res = [];
+
+        switch( $response_type ){
+            case 'n':
+                $res = null;
+                break;
+            case 'r':
+                $res = [ Record::fromConfig( $this->_readRecord() ) ];
+                # get end Line \x00
+                $this->_readChar();
+                break;
+            case 'a':
+                $res = [ $this->_readString() ];
+                # get end Line \x00
+                $this->_readChar();
+                break;
+            case 'l':
+                $list_len = $this->_readInt();
+
+                for( $n = 0; $n < $list_len; $n++ ){
+                    $res[] = Record::fromConfig( $this->_readRecord() );
+                    # async-result-type can be:
+                    # 0: no records remain to be fetched
+                    # 1: a record is returned as a result set
+                    # 2: a record is returned as pre-fetched to be loaded in client's
+                    #       cache only. It's not part of the result set but the client
+                    #       knows that it's available for later access
+                    $cached_results = $this->_read_prefetch_record();
+                    $res = array_merge( $res, $cached_results );
+                    # cache = cached_results['cached']
+                }
+
+                break;
+            default:
+                # debug errors
+
+                if( !Constants::$LOGGING ){
+                    throw new PhpOrientException( 'Unknown payload type ' . $response_type );
+                }
+
+                $msg = '';
+                $m = $this->_transport->getSocket()->read(1);
+                while( $m != '' ){
+                    $msg .= $m;
+                    $this->_transport->hexDump( $msg );
+                    $m = $this->_transport->getSocket()->read(1);
+                }
+
+                break;
         }
 
-        return $records;
+        return $res;
+
     }
 
 }
