@@ -16,7 +16,7 @@ class DBCreateDropTest extends TestCase {
         $result     = $this->client->execute( 'dbOpen', [ 'database' => $this->db_name ] );
 
         $this->assertNotEquals( -1, $result[ 'sessionId' ] );
-        $this->assertNotEmpty( $result[ 'dataClusters' ] );
+        $this->assertNotEmpty( $result );
 
 
         $result     = $this->client->execute( 'dbDrop', [

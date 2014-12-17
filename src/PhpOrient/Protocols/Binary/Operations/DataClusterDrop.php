@@ -32,7 +32,12 @@ class DataClusterDrop extends Operation {
      * @return boolean True if the DataCluster was immediately deleted.
      */
     protected function _read() {
-        return $this->_readBoolean();
+        $res = $this->_readBoolean();
+        if( $res ){
+            $clusters = $this->_transport->getClusterMap();
+            $clusters->dropClusterID( $res );
+        }
+        return $res;
     }
 
 }

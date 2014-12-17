@@ -2,8 +2,8 @@
 
 namespace PhpOrient\Protocols\Binary\Operations;
 
-use PhpOrient\Exceptions\PhpOrientException;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
+use PhpOrient\Protocols\Common\ClusterMap;
 use PhpOrient\Protocols\Common\Constants;
 use PhpOrient\Protocols\Binary\Abstracts\NeedDBOpenedTrait;
 
@@ -23,7 +23,7 @@ class DbReload extends Operation {
     /**
      * Read the response from the socket.
      *
-     * @return true.
+     * @return ClusterMap
      */
     protected function _read() {
 
@@ -50,7 +50,10 @@ class DbReload extends Operation {
 
         }
 
-        return $dataClusters;
+        $clusterList = $this->_transport->getClusterMap();
+        $clusterList->configure( array( 'dataClusters' => $dataClusters ) );
+
+        return $clusterList;
     }
 
 }

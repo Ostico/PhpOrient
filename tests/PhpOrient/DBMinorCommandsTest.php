@@ -32,7 +32,7 @@ class DBFreezeTest extends EmptyTestCase {
         $this->assertTrue( $result );
 
         $result     = $this->client->execute( 'dbOpen', [ 'database' => $this->db_name ] );
-        $this->assertNotEmpty( $result[ 'dataClusters' ] );
+        $this->assertNotEmpty( $this->client->getTransport()->getClusterMap() );
 
         $result     = $this->client->execute( 'dbFreeze', [ 'database' => $this->db_name ] );
         $this->assertNotEquals( -1, $result[ 'sessionId' ] );
@@ -53,7 +53,7 @@ class DBFreezeTest extends EmptyTestCase {
     public function testDBSize(){
         $connection = $this->client->execute( 'connect' );
         $result     = $this->client->execute( 'dbOpen', [ 'database' => 'GratefulDeadConcerts' ] );
-        $this->assertNotEmpty( $result[ 'dataClusters' ] );
+        $this->assertNotEmpty( count($result) );
         $result = $this->client->execute( 'dbSize' );
         $this->assertNotEmpty( $result );
 
@@ -70,7 +70,7 @@ class DBFreezeTest extends EmptyTestCase {
     public function testRecordCount(){
         $connection = $this->client->execute( 'connect' );
         $result     = $this->client->execute( 'dbOpen', [ 'database' => 'GratefulDeadConcerts' ] );
-        $this->assertNotEmpty( $result[ 'dataClusters' ] );
+        $this->assertNotEmpty( count($result) );
         $result = $this->client->execute( 'dbCountRecords' );
         $this->assertNotEmpty( $result );
 

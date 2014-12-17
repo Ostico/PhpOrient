@@ -15,7 +15,7 @@ class DataClusterTest extends TestCase {
     public function testClusterCount() {
 
         $ids = [ ];
-        foreach ( $this->cluster_struct[ 'dataClusters' ] as $cluster ) {
+        foreach ( $this->cluster_struct as $cluster ) {
             $ids[ ] = $cluster[ 'id' ];
         }
 
@@ -29,15 +29,13 @@ class DataClusterTest extends TestCase {
 
         $cluster_name = 'cluster_123';
 
-        foreach ( $this->cluster_struct[ 'dataClusters' ] as $cluster ) {
-            $this->assertNotEquals( $cluster_name, $cluster[ 'name' ] );
-        }
+        $this->assertEmpty( $this->cluster_struct[ $cluster_name ] );
 
         $id = $this->client->execute( 'dataClusterAdd', [ 'cluster_name' => $cluster_name ] );
 
         $reloaded_list = $this->client->execute( 'dbReload' );
 
-        $this->assertNotEquals( $this->cluster_struct[ 'dataClusters' ], $reloaded_list );
+        $this->assertEquals( $this->cluster_struct, $reloaded_list );
 
         $found = false;
         foreach ( $reloaded_list as $cluster ) {
@@ -69,7 +67,7 @@ class DataClusterTest extends TestCase {
 
         $id           = $this->client->execute( 'dataClusterDrop', [ 'id' => $id ] );
         $dropped_list = $this->client->execute( 'dbReload' );
-        $this->assertNotEquals( $reloaded_list, $dropped_list );
+        $this->assertEquals( $reloaded_list, $dropped_list );
 
         foreach ( $dropped_list as $cluster ) {
             if ( $cluster_name == $cluster[ 'name' ] ) {
@@ -86,7 +84,7 @@ class DataClusterTest extends TestCase {
         ] );
 
         $data = [ ];
-        foreach ( $_cluster[ 'dataClusters' ] as $cluster ) {
+        foreach ( $_cluster as $cluster ) {
             if ( 'followed_by' == $cluster[ 'name' ] ) {
                 $data = $this->client->execute( 'dataClusterDataRange', [ 'id' => $cluster[ 'id' ] ] );
             }

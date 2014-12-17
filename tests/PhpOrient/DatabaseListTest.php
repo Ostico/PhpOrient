@@ -9,7 +9,7 @@
 namespace PhpOrient;
 
 use PhpOrient\Abstracts\TestCase;
-use PhpOrient\Protocols\Common\ClusterList;
+use PhpOrient\Protocols\Common\ClusterMap;
 use PhpOrient\Protocols\Common\Constants;
 
 class DatabaseListTest extends TestCase {
@@ -20,36 +20,45 @@ class DatabaseListTest extends TestCase {
 
         $class_name = 'my_class';
 
-        $clusters = new ClusterList();
-        $clusters->configure( $this->cluster_struct );
-
         $result = $this->client->execute( 'command', [
             'command' => Constants::QUERY_CMD,
             'query'   => "create class $class_name extends V"
         ] );
         $this->assertNotEmpty( $result );
 
-        $clusters[ $class_name ] = $result;
-        $this->assertTrue( $clusters->offsetExists( $class_name ) );
-        $this->assertTrue( isset( $clusters[ $class_name ] ) );
-        $this->assertArrayHasKey( $class_name, $clusters );
+        $this->cluster_struct[ $class_name ] = $result;
+        $this->assertTrue( $this->cluster_struct->offsetExists( $class_name ) );
+        $this->assertTrue( isset( $this->cluster_struct[ $class_name ] ) );
+        $this->assertArrayHasKey( $class_name, $this->cluster_struct );
 
-        $this->assertEquals( $result, $clusters->getClusterID( $class_name ) );
-        $this->assertEquals( $result, $clusters[ $class_name ] );
+        $this->assertEquals( $result, $this->cluster_struct->getClusterID( $class_name ) );
+        $this->assertEquals( $result, $this->cluster_struct[ $class_name ] );
 
         $drop_table = $this->client->execute( 'command', [
             'command' => Constants::QUERY_CMD,
             'query'   => "drop class $class_name"
         ] );
 
-        unset( $clusters[ $class_name ] );
+        unset( $this->cluster_struct[ $class_name ] );
 
-        $this->assertEquals( 11, count( $clusters ) );
-        $this->assertEquals( 11, count( $this->client->getTransport()->getClusterList() ) );
-        $this->assertEquals( $clusters, $this->client->getTransport()->getClusterList() );
+        $this->assertEquals( 11, count( $this->cluster_struct ) );
+        $this->assertEquals( 11, count( $this->client->getTransport()->getClusterMap() ) );
+        $this->assertEquals( $this->cluster_struct, $this->client->getTransport()->getClusterMap() );
 
-//        $this->client->execute('db')
-//        $list = $this->client->execute( 'dbList' );
+        $list = $this->client->execute( 'dbList' );
+        $this->assertTrue( count( $list['databases'] ) > 1 );
+
+    }
+
+    public function testClusterMap(){
+
+        $id = $this->client->execute( 'dataClusterAdd', [ 'cluster_name' => 'test_cluster' ] );
+        $this->assertEquals( 12, count( $this->client->getTransport()->getClusterMap() ) );
+        $this->assertEquals( 11, $this->client->getTransport()->getClusterMap()[ 'test_cluster' ] );
+
+        $reloaded_list = $this->client->execute( 'dbReload' );
+        $this->assertEquals( $reloaded_list, $this->client->getTransport()->getClusterMap() );
+        $this->assertEquals( $this->cluster_struct, $this->client->getTransport()->getClusterMap() );
 
     }
 

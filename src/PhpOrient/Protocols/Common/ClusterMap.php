@@ -9,7 +9,7 @@
 namespace PhpOrient\Protocols\Common;
 
 /**
- * Class ClusterList
+ * Class ClusterMap
  * @package PhpOrient\Protocols\Common
  *
  * When you create a new record specifying its Class,
@@ -28,16 +28,11 @@ namespace PhpOrient\Protocols\Common;
  * //TODO only default strategy is supported
  *
  */
-class ClusterList implements ConfigurableInterface, \ArrayAccess, \Countable {
+class ClusterMap implements ConfigurableInterface, \ArrayAccess, \Countable, \Iterator {
     use ConfigurableTrait {
         configure as config;
         fromConfig as fromConf;
     }
-
-    /**
-     * @var int
-     */
-    protected $sessionId;
 
     /**
      * @var array
@@ -50,6 +45,11 @@ class ClusterList implements ConfigurableInterface, \ArrayAccess, \Countable {
     protected $reverseMap;
 
     /**
+     * @var array
+     */
+    protected $reverseIDMap;
+
+    /**
      * @var int
      */
     protected $servers;
@@ -60,7 +60,23 @@ class ClusterList implements ConfigurableInterface, \ArrayAccess, \Countable {
     protected $release;
 
     /**
-     * Expected ClusterList
+     * @return int
+     */
+    public function getServers() {
+        return $this->servers;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRelease() {
+        return $this->release;
+    }
+
+
+
+    /**
+     * Expected ClusterMap
      * <pre>
      * array (
      *      0 =>
@@ -84,8 +100,10 @@ class ClusterList implements ConfigurableInterface, \ArrayAccess, \Countable {
 
         $this->config( $options );
         if ( !empty( $this->dataClusters ) ) {
+            $this->reverseMap = array();
             foreach ( $this->dataClusters as $pos => $value ) {
                 $this->reverseMap[ $value[ 'name' ] ] = [ $pos, $value[ 'id' ] ];
+                $this->reverseIDMap[ $value[ 'id' ] ] = [ $pos, $value[ 'name' ] ];
             }
         }
 
@@ -95,12 +113,24 @@ class ClusterList implements ConfigurableInterface, \ArrayAccess, \Countable {
 
     /**
      * Alias for @see ClusterList::offsetGet
-     * @param $offset
+     * @param $name
      *
      * @return int|null
      */
-    public function getClusterID( $offset ){
-        return $this->offsetGet( $offset );
+    public function getClusterID( $name ){
+        return $this->offsetGet( $name );
+    }
+
+    /**
+     * Remove a cluster by ID
+     *
+     * @param $ID
+     */
+    public function dropClusterID( $ID ){
+        list( $pos, $name ) = $this->reverseIDMap[ $ID ];
+        unset( $this->reverseIDMap[ $ID ] );
+        unset( $this->reverseMap[ $name ] );
+        unset( $this->dataClusters[ $pos ] );
     }
 
     /**
@@ -108,7 +138,7 @@ class ClusterList implements ConfigurableInterface, \ArrayAccess, \Countable {
      * Whether a offset exists
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
      *
-     * @param mixed $offset <p>
+     * @param mixed $name <p>
      *                      An offset to check for.
      *                      </p>
      *
@@ -117,8 +147,8 @@ class ClusterList implements ConfigurableInterface, \ArrayAccess, \Countable {
      * <p>
      * The return value will be casted to boolean if non-boolean was returned.
      */
-    public function offsetExists( $offset ) {
-        return array_key_exists( $offset, $this->reverseMap );
+    public function offsetExists( $name ) {
+        return array_key_exists( $name, $this->reverseMap );
     }
 
     /**
@@ -126,15 +156,15 @@ class ClusterList implements ConfigurableInterface, \ArrayAccess, \Countable {
      * Offset to retrieve
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
      *
-     * @param mixed $offset <p>
+     * @param mixed $name <p>
      *                      The offset to retrieve.
      *                      </p>
      *
      * @return int|null Can return all value types.
      */
-    public function offsetGet( $offset ) {
-        if( array_key_exists( $offset, $this->reverseMap ) ){
-            return $this->reverseMap[ $offset ][ 1 ];
+    public function offsetGet( $name ) {
+        if( array_key_exists( $name, $this->reverseMap ) ){
+            return $this->reverseMap[ $name ][ 1 ];
         }
         return null;
     }
@@ -144,7 +174,7 @@ class ClusterList implements ConfigurableInterface, \ArrayAccess, \Countable {
      * Offset to set
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
      *
-     * @param mixed $offset <p>
+     * @param mixed $name <p>
      *                      The offset to assign the value to.
      *                      </p>
      * @param mixed $value  <p>
@@ -153,10 +183,11 @@ class ClusterList implements ConfigurableInterface, \ArrayAccess, \Countable {
      *
      * @return void
      */
-    public function offsetSet( $offset, $value ) {
+    public function offsetSet( $name, $value ) {
         $maxID = max( array_keys( $this->dataClusters ) );
-        $this->reverseMap[ $offset ] = [ $maxID + 1, $value ];
-        $this->dataClusters[ $maxID + 1 ] = [ 'name' => $offset, 'id' => $value ];
+        $this->reverseMap[ $name ] = [ $maxID + 1, $value ];
+        $this->reverseIDMap[ $value ] = [ $maxID + 1, $name ];
+        $this->dataClusters[ $maxID + 1 ] = [ 'name' => $name, 'id' => $value ];
     }
 
     /**
@@ -164,18 +195,20 @@ class ClusterList implements ConfigurableInterface, \ArrayAccess, \Countable {
      * Offset to unset
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
      *
-     * @param mixed $offset <p>
+     * @param mixed $name <p>
      *                      The offset to unset.
      *                      </p>
      *
      * @return void
      */
-    public function offsetUnset( $offset ) {
-        if( !array_key_exists( $offset, $this->reverseMap ) ){
-            trigger_error( 'Offset ' . $offset . ' does not exists in oData structure. Added as a new key.', E_USER_NOTICE );
+    public function offsetUnset( $name ) {
+        if( !array_key_exists( $name, $this->reverseMap ) ){
+            trigger_error( 'Offset ' . $name . ' does not exists in oData structure. Added as a new key.', E_USER_NOTICE );
         } else {
-            $position = $this->reverseMap[ $offset ][0];
-            unset( $this->reverseMap[ $offset ] );
+            $position = $this->reverseMap[ $name ][0];
+            $value    = $this->reverseMap[ $name ][1];
+            unset( $this->reverseMap[ $name ] );
+            unset( $this->reverseIDMap[ $value ] );
             unset( $this->dataClusters[ $position ] );
         }
     }
@@ -192,5 +225,60 @@ class ClusterList implements ConfigurableInterface, \ArrayAccess, \Countable {
     public function count() {
         return count( $this->dataClusters );
     }
+
+    protected $internal_position;
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Move forward to next element
+     * @link http://php.net/manual/en/iterator.next.php
+     * @return void Any returned value is ignored.
+     */
+    public function next() {
+        next( $this->dataClusters );
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Return the key of the current element
+     * @link http://php.net/manual/en/iterator.key.php
+     * @return mixed scalar on success, or null on failure.
+     */
+    public function key() {
+        return key( $this->dataClusters );
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Checks if current position is valid
+     * @link http://php.net/manual/en/iterator.valid.php
+     * @return boolean The return value will be casted to boolean and then evaluated.
+     * Returns true on success or false on failure.
+     */
+    public function valid() {
+        $key = key( $this->dataClusters );
+        return !is_null( $key );
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Rewind the Iterator to the first element
+     * @link http://php.net/manual/en/iterator.rewind.php
+     * @return void Any returned value is ignored.
+     */
+    public function rewind() {
+        reset( $this->dataClusters );
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Return the current element
+     * @link http://php.net/manual/en/iterator.current.php
+     * @return mixed Can return any type.
+     */
+    public function current() {
+        return current( $this->dataClusters );
+    }
+
 
 }

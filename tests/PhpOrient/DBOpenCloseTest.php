@@ -10,10 +10,10 @@ class DBOpenCloseTest extends EmptyTestCase {
         $result = $this->client->execute( 'dbOpen', array( 'database' => 'GratefulDeadConcerts' ) );
 
         $this->assertNotEquals( -1, $result['sessionId'] );
-        $this->assertNotEmpty( $result['dataClusters'] );
+        $this->assertNotEmpty( count( $result ) );
 
         $key_exists = false;
-        foreach ( $result['dataClusters'] as $cluster ){
+        foreach ( $result as $cluster ){
             $key_exists = $key_exists || ( $cluster['name'] == "followed_by" );
             if( $key_exists ) { $id = $cluster['id']; break; }
         }
@@ -29,10 +29,10 @@ class DBOpenCloseTest extends EmptyTestCase {
         $result = $this->client->execute( 'dbOpen', [ 'database' => 'GratefulDeadConcerts' ] );
 
         $this->assertNotEquals( -1, $result['sessionId'] );
-        $this->assertNotEmpty( $result['dataClusters'] );
+        $this->assertNotEmpty( count( $result ) );
 
         $key_exists = false;
-        foreach ( $result['dataClusters'] as $cluster ){
+        foreach ( $result as $cluster ){
             $key_exists = $key_exists || ( $cluster['name'] == "followed_by" );
             if( $key_exists ) { $id = $cluster['id']; break; }
         }
@@ -49,7 +49,7 @@ class DBOpenCloseTest extends EmptyTestCase {
         $result     = $this->client->execute( 'dbOpen', [ 'database' => 'GratefulDeadConcerts' ] );
 
         $this->assertNotEquals( -1, $result[ 'sessionId' ] );
-        $this->assertNotEmpty( $result[ 'dataClusters' ] );
+        $this->assertNotEmpty( count( $result ) );
 
         $this->assertEquals( 0, $this->client->execute( 'dbClose' ) );
 

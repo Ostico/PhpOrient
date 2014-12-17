@@ -4,7 +4,7 @@ namespace PhpOrient\Protocols\Binary\Operations;
 
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Configuration\Constants as ClientConstants;
-use PhpOrient\Protocols\Common\ClusterList;
+use PhpOrient\Protocols\Common\ClusterMap;
 use PhpOrient\Protocols\Common\Constants;
 
 class DbOpen extends Operation {
@@ -137,9 +137,9 @@ class DbOpen extends Operation {
             'release'      => $this->_readString()
         ];
 
-        $this->_transport->setClusterList( ClusterList::fromConfig( $cluster_list ) );
+        $this->_transport->setClusterMap( ClusterMap::fromConfig( $cluster_list ) );
 
-        return $cluster_list;
+        return $this->_transport->getClusterMap();
 
     }
 

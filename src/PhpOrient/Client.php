@@ -4,7 +4,7 @@ namespace PhpOrient;
 
 use PhpOrient\Protocols\Common\ConfigurableInterface;
 use PhpOrient\Protocols\Common\ConfigurableTrait;
-use PhpOrient\Protocols\Common\ClusterList;
+use PhpOrient\Protocols\Common\ClusterMap;
 use PhpOrient\Protocols\Common\TransportInterface;
 use PhpOrient\Protocols\Binary\SocketTransport;
 use PhpOrient\Exceptions\TransportException;
@@ -41,16 +41,6 @@ class Client implements ConfigurableInterface {
      * @var TransportInterface The transport to use for the connection to the server.
      */
     protected $_transport;
-
-    /**
-     * @var ClusterList This Handle the actual Cluster List of Current Database
-     */
-    protected $clusterList;
-
-    /**
-     * @var array DatabaseList
-     */
-    protected $databaseList;
 
     /**
      * Sets the transport

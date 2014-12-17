@@ -33,20 +33,18 @@ abstract class AbstractTransport implements TransportInterface {
     protected $password;
 
     /**
-     * @var ClusterList This Handle the actual Cluster List of Current Database
+     * @var ClusterMap This Handle the actual Cluster List of Current Database
      */
     protected $clusterList;
-
-    /**
-     * @var array DatabaseList
-     */
-    protected $databaseList;
 
     /**
      * @var LoggerInterface
      */
     protected static $_logger;
 
+    /**
+     * Class Constructor
+     */
     public function __construct() {
 
         if ( ClientConstants::$LOGGING ) {
@@ -73,33 +71,17 @@ abstract class AbstractTransport implements TransportInterface {
     }
 
     /**
-     * @return ClusterList
+     * @return ClusterMap
      */
-    public function getClusterList() {
+    public function getClusterMap() {
         return $this->clusterList;
     }
 
     /**
-     * @param ClusterList $clusterList
+     * @param ClusterMap $clusterList
      */
-    public function setClusterList( ClusterList $clusterList ) {
+    public function setClusterMap( ClusterMap $clusterList ) {
         $this->clusterList = $clusterList;
     }
-
-    /**
-     * @return array
-     */
-    public function getDatabaseList() {
-        return $this->databaseList;
-    }
-
-    /**
-     * @param array $databaseList
-     */
-    public function setDatabaseList( $databaseList ) {
-        $this->databaseList = $databaseList;
-    }
-
-
 
 }

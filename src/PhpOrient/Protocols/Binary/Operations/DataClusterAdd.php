@@ -65,7 +65,12 @@ class DataClusterAdd extends Operation {
      * @return int The cluster id.
      */
     protected function _read() {
-        return $this->_readShort();
+        $res = $this->_readShort();
+        if( $res !== false ){
+            $clusters = $this->_transport->getClusterMap();
+            $clusters[ $this->cluster_name ] = $res;
+        }
+        return $res;
     }
 
 }

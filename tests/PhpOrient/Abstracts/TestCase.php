@@ -2,6 +2,7 @@
 
 namespace PhpOrient\Abstracts;
 use PhpOrient\Client;
+use PhpOrient\Protocols\Common\ClusterMap;
 use PhpOrient\Protocols\Common\Constants;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase {
@@ -14,6 +15,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
      */
     protected $client;
     protected $db_name;
+
+    /**
+     * @var ClusterMap
+     */
     protected $cluster_struct;
 
     protected $reflectedClass;
