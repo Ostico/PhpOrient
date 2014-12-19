@@ -36,6 +36,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
                 'storage_type' => Constants::STORAGE_TYPE_MEMORY
             ] );
         } catch ( \Exception $e ) {
+//            echo $e->getMessage();
             $this->client->getTransport()->debug( $e->getMessage() );
         }
 

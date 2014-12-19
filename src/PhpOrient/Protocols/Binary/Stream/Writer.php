@@ -50,7 +50,26 @@ class Writer {
                     chr( $value & 0xFF );
 
         } else {
-            $binaryString = str_repeat( chr( 0 ), 4 ) . pack( 'N', $value );
+
+            $bitString  = '';
+            if ( function_exists( "gmp_mod" ) ) {
+                while ( $value !== '0' ) {
+                    $bitString = gmp_mod( $value,'2') . $bitString;
+                    $value = gmp_div_q( $value, '2' );
+                };
+            } elseif ( function_exists( "bcmod" ) ) {
+                while ($value !== '0') {
+                    $bitString = bcmod($value, '2') . $bitString;
+                    $value = bcdiv($value, '2');
+                };
+            }
+            $bitString = str_pad( $bitString, 64, '0', STR_PAD_LEFT );
+            $hi = substr( $bitString, 0, 32 );
+            $lo = substr( $bitString, 32, 32 );
+            $hiBin = pack( 'H*', str_pad( base_convert( $hi, 2, 16 ), 8, 0, STR_PAD_LEFT ) );
+            $loBin = pack( 'H*', str_pad( base_convert( $lo, 2, 16 ), 8, 0, STR_PAD_LEFT ) );
+            $binaryString = $hiBin . $loBin;
+
         }
 
         return $binaryString;
