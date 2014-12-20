@@ -12,7 +12,6 @@ before_script:
 script: ./vendor/bin/phpunit
 
 env:
-  - ORIENTDB_VERSION=2.0-rc1
   - ORIENTDB_VERSION=2.0-M2
 #  - ORIENTDB_VERSION=1.7.10
   - ORIENTDB_VERSION=1.7.8
@@ -21,4 +20,4 @@ env:
 
 matrix:
   allow_failures:
-    - env: ORIENTDB_VERSION=1.7.4
+#    - ORIENTDB_VERSION=2.0-rc1
