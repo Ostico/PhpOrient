@@ -54,14 +54,19 @@ class Writer {
             $bitString  = '';
             if ( function_exists( "gmp_mod" ) ) {
                 while ( $value !== '0' ) {
-                    $bitString = gmp_mod( $value,'2') . $bitString;
-                    $value = gmp_div_q( $value, '2' );
+                    $bitString = gmp_strval( gmp_mod( $value,'2') ) . $bitString;
+                    $value = gmp_strval( gmp_div_q( $value, '2' ) );
                 };
             } elseif ( function_exists( "bcmod" ) ) {
                 while ($value !== '0') {
                     $bitString = bcmod($value, '2') . $bitString;
                     $value = bcdiv($value, '2');
                 };
+            } else {
+                while ( $value != 0 ) {
+                    list( $value, $remainder ) = self::halve( $value );
+                    $bitString = $remainder . $bitString;
+                } ;
             }
             $bitString = str_pad( $bitString, 64, '0', STR_PAD_LEFT );
             $hi = substr( $bitString, 0, 32 );
@@ -74,6 +79,49 @@ class Writer {
 
         return $binaryString;
 
+    }
+
+    /**
+     * Divide an arbitrary precision number by 2
+     * and take the remainder also
+     *
+     * @author
+     *
+     * @param $value
+     *
+     * @return array
+     */
+    protected static function halve( $value ) {
+
+        $valueLen      = strlen( $value );
+        $totalQuotient = '';
+        $lastRemainder = 0;
+        for ( $idx = 0; $idx < $valueLen; $idx++ ) {
+
+            $actualDividend = $lastRemainder * 10 + ord( $value{$idx} ) - 48;
+            if ( $actualDividend < 2 ) {
+                $totalQuotient .= 0;
+                $idx++;
+
+                if( $idx == $valueLen ){
+                    $lastRemainder = $actualDividend;
+                    break;
+                }
+
+                $actualDividend = $actualDividend * 10 + ord( $value{$idx} ) - 48;
+            }
+
+            $quotient      = (int)( $actualDividend / 2 );
+            $lastRemainder = $actualDividend % 2;
+            $totalQuotient .= $quotient;
+
+        }
+
+        if ( $totalQuotient{0} === '0' ) {
+            $totalQuotient = substr( $totalQuotient, 1 );
+        }
+
+        return [ (string)$totalQuotient, (string)$lastRemainder ];
     }
 
     /**

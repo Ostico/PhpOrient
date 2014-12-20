@@ -89,7 +89,7 @@ class OrientSocket {
             $protocol = Reader::unpackShort( $this->read( 2 ) );
 
             if( $protocol > $this->protocolVersion ){
-                throw new PhpOrientWrongProtocolVersionException('Protocol version ' . $protocol . 'is not supported.');
+                throw new PhpOrientWrongProtocolVersionException('Protocol version ' . $protocol . ' is not supported.');
             }
 
             //protocol handshake
