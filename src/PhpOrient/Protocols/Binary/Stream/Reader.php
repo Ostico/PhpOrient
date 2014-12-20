@@ -96,12 +96,9 @@ class Reader {
                     $r1++;
                 }
                 $r = sprintf( "%d%05d%05d%05d", $r1, $r2, $r3, $r4 );
-                $l = strlen( $r );
-                $i = 0;
-                while ( $r[ $i ] == "0" && $i < $l - 1 )
-                    $i++;
 
-                $LongNum = substr( $r, $i );
+                $LongNum = ltrim( $r, "0" );
+                if( $LongNum == '' ) $LongNum = '0';
 
             }
 

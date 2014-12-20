@@ -64,7 +64,7 @@ class Writer {
                 };
             } else {
                 while ( $value != 0 ) {
-                    list( $value, $remainder ) = self::halve( $value );
+                    list( $value, $remainder ) = self::str_div( $value );
                     $bitString = $remainder . $bitString;
                 } ;
             }
@@ -85,19 +85,19 @@ class Writer {
      * Divide an arbitrary precision number by 2
      * and take the remainder also
      *
-     * @author
+     * @thanks to https://github.com/luca-mastrostefano for the precious help
      *
      * @param $value
      *
      * @return array
      */
-    protected static function halve( $value ) {
+    protected static function str_div( $value ) {
 
         $valueLen      = strlen( $value );
         $totalQuotient = '';
         $lastRemainder = 0;
         for ( $idx = 0; $idx < $valueLen; $idx++ ) {
-
+            //48 is the ascii value of 0
             $actualDividend = $lastRemainder * 10 + ord( $value{$idx} ) - 48;
             if ( $actualDividend < 2 ) {
                 $totalQuotient .= 0;
