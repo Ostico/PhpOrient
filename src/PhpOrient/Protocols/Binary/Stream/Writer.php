@@ -52,19 +52,19 @@ class Writer {
         } else {
 
             $bitString  = '';
-            if ( function_exists( "gmp_mod" ) ) {
+            if ( function_exists( "bcmod" ) ) {
+                while ( $value !== '0' ) {
+                    $bitString = bcmod( $value, '2' ) . $bitString;
+                    $value     = bcdiv( $value, '2' );
+                }
+            } elseif ( function_exists( "gmp_mod" ) ) {
                 while ( $value !== '0' ) {
                     $bitString = gmp_strval( gmp_mod( $value,'2') ) . $bitString;
                     $value = gmp_strval( gmp_div_q( $value, '2' ) );
                 };
-            } elseif ( function_exists( "bcmod" ) ) {
-                while ($value !== '0') {
-                    $bitString = bcmod($value, '2') . $bitString;
-                    $value = bcdiv($value, '2');
-                };
             } else {
                 while ( $value != 0 ) {
-                    list( $value, $remainder ) = self::str_div( $value );
+                    list( $value, $remainder ) = self::str2bin( $value );
                     $bitString = $remainder . $bitString;
                 } ;
             }
@@ -82,8 +82,8 @@ class Writer {
     }
 
     /**
-     * Divide an arbitrary precision number by 2
-     * and take the remainder also
+     * Transform an arbitrary precision number ( string )
+     * to a binary string of bits and take the remainder also
      *
      * @thanks to https://github.com/luca-mastrostefano for the precious help
      *
@@ -91,7 +91,7 @@ class Writer {
      *
      * @return array
      */
-    protected static function str_div( $value ) {
+    protected static function str2bin( $value ) {
 
         $valueLen      = strlen( $value );
         $totalQuotient = '';

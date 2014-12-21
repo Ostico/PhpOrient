@@ -84,4 +84,13 @@ abstract class AbstractTransport implements TransportInterface {
         $this->clusterList = $clusterList;
     }
 
+    /**
+     * Retrieve a new transaction instance
+     *
+     * @return \PhpOrient\Protocols\Binary\Transaction\TxCommit
+     */
+    public function getTransaction(){
+        return new \PhpOrient\Protocols\Binary\Transaction\TxCommit( $this );
+    }
+
 }

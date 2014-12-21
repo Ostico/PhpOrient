@@ -139,6 +139,12 @@ abstract class Operation implements ConfigurableInterface {
      * @throws SocketException
      */
     public function send(){
+
+        # skip execution in case of transaction
+        if( $this->_transport->inTransaction ){
+            return $this;
+        }
+
         $this->_output_buffer = implode( "", $this->_writeStack );
         $this->_dump_streams();
         $this->_socket->write( $this->_output_buffer );
@@ -171,6 +177,11 @@ abstract class Operation implements ConfigurableInterface {
      * @throws PhpOrientException
      */
     public function getResponse( ){
+
+        # skip execution in case of transaction
+        if( $this->_transport->inTransaction ){
+            return $this;
+        }
 
 //        if ( $_continue ){
 //            $result = $this->_read();

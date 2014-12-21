@@ -2,7 +2,6 @@
 
 namespace PhpOrient\Protocols\Binary\Operations;
 
-use PhpOrient\Exceptions\PhpOrientException;
 use PhpOrient\Protocols\Binary\Abstracts\NeedDBOpenedTrait;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Protocols\Binary\Data\Record;

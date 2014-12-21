@@ -69,6 +69,15 @@ class Client implements ConfigurableInterface {
     }
 
     /**
+     * Start a new Transaction
+     *
+     */
+    public function getTransaction(){
+       return $this->getTransport()->getTransaction();
+    }
+
+
+    /**
      * Create a transport instance.
      *
      * @param TransportInterface|null $transport
@@ -117,6 +126,17 @@ class Client implements ConfigurableInterface {
      */
     public function execute( $operation, array $params = array() ) {
         return $this->getTransport()->execute( $operation, $params );
+    }
+
+    /**
+     * Update a Record
+     *
+     * @param array $params
+     *
+     * @return mixed
+     */
+    public function recordUpdate( array $params = array() ){
+        return $this->getTransport()->execute( 'recordUpdate', $params );
     }
 
 }

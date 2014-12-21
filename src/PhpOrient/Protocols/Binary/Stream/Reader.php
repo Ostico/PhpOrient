@@ -67,10 +67,10 @@ class Reader {
             $hi  = current( unpack( 'N', $first ) );
             $low = current( unpack( 'N', $last ) );
 
-            if ( function_exists( "gmp_mul" ) ) {
-                $LongNum = gmp_strval( gmp_add( gmp_mul( $hi, "4294967296" ), $low ) );
-            } elseif ( function_exists( "bcmul" ) ) {
+            if ( function_exists( "bcmul" ) ) {
                 $LongNum = bcadd( bcmul( $hi, "4294967296" ), $low );
+            } elseif ( function_exists( "gmp_mul" ) ) {
+                $LongNum = gmp_strval( gmp_add( gmp_mul( $hi, "4294967296" ), $low ) );
             } else {
 
                 // compute everything manually
