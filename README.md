@@ -18,6 +18,7 @@ A PHP driver good enough for OrientDB that uses binary protocol.
 - [GNU Multiple Precision](http://php.net/manual/en/book.gmp.php)
 
 ## Installation
+
 Main public repository of OrientDB-PHP is hosted at [https://github.com/Ostico/PhpOrient.git](https://github.com/Ostico/PhpOrient.git).
 
 To install most recent version of library, just type
@@ -28,7 +29,23 @@ where you want its file to be located.
 
 You can also want to get latest stable version, so check out Downloads section. Stables are marked with tags.
 
+If you have not already installed globally, you have to download composer. Just run this command inside your PhpOrient directory.
+
+    php -r "readfile('https://getcomposer.org/installer');" | php
+
+Now get the required libraries:
+
+    php composer.phar --no-dev install
+
+
 ## Usage
+To use PhpOrient you have to include/require the vendor autoloader and declare the use of PhpOrient Client with fully qualified name.
+
+```php
+require __DIR__ . "/vendor/autoload.php";
+use \PhpOrient\Client;
+```
+
 
     Work in progress
 
