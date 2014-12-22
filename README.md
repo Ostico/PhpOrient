@@ -6,7 +6,7 @@ A good enough PHP driver for the OrientDB binary protocol.
 
 
 > **status: RC-1**
-> Please [report any bugs](https://github.com/Ostico/PhpOrient/issues) you find so that we can improve the library for everyone.
+> Please [report any bugs](https://github.com/Ostico/PhpOrient/issues) you find so that i can improve the library for everyone.
 
 ## Usage
 
