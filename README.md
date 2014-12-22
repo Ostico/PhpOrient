@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Ostico/PhpOrient.svg?branch=master)](https://travis-ci.org/Ostico/PhpOrient)
 
-A good enough PHP driver for the OrientDB binary protocol.
+A PHP driver good enough for OrientDB that uses binary protocol.
 
 > **status: RC-1**
 > Please [report any bugs](https://github.com/Ostico/PhpOrient/issues) you find so that we can improve the library for everyone.
