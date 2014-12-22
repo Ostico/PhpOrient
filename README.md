@@ -17,6 +17,16 @@ A PHP driver good enough for OrientDB that uses binary protocol.
 - [BCMath Arbitrary Precision Mathematics](http://php.net/manual/en/refs.math.php) (Faster, recommended)
 - [GNU Multiple Precision](http://php.net/manual/en/book.gmp.php)
 
+## Installation
+Main public repository of OrientDB-PHP is hosted at [https://github.com/Ostico/PhpOrient.git](https://github.com/Ostico/PhpOrient.git).
+
+To install most recent version of library, just type
+    
+    git clone https://github.com/Ostico/PhpOrient.git
+
+where you want its file to be located.
+
+You can also want to get latest stable version, so check out Downloads section. Stables are marked with tags.
 
 ## Usage
 
