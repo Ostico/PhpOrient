@@ -4,6 +4,9 @@
 
 A good enough PHP driver for the OrientDB binary protocol.
 
+> **status: RC-1**
+> Please [report any bugs](https://github.com/Ostico/PhpOrient/issues) you find so that we can improve the library for everyone.
+
 #### Requires
 - PHP Version >= 5.4
 - Orientdb version 1.7.4 or later.
@@ -14,9 +17,6 @@ A good enough PHP driver for the OrientDB binary protocol.
 - [BCMath Arbitrary Precision Mathematics](http://php.net/manual/en/refs.math.php) (Faster, recommended)
 - [GNU Multiple Precision](http://php.net/manual/en/book.gmp.php)
 
-
-> **status: RC-1**
-> Please [report any bugs](https://github.com/Ostico/PhpOrient/issues) you find so that we can improve the library for everyone.
 
 ## Usage
 
