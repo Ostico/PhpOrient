@@ -30,13 +30,13 @@ where you want its file to be located.
 You can also want to get latest stable version, so check out Downloads section. Stables are marked with tags.
 
 If you have not already installed globally, you have to download composer. Just run this command inside your PhpOrient directory.
-
-    php -r "readfile('https://getcomposer.org/installer');" | php
-
+```bash
+php -r "readfile('https://getcomposer.org/installer');" | php
+```
 Now get the required libraries:
-
-    php composer.phar --no-dev install
-
+```bash
+php composer.phar --no-dev install
+```
 
 ## Usage
 PhpOrient specify autoload information, Composer generates a vendor/autoload.php file. You can simply include this file and you will get autoloading for free and declare the use of PhpOrient Client with fully qualified name.
