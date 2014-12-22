@@ -9,9 +9,8 @@ PhpOrient works with orientdb version 1.7.4 and later.
 
 PhpOrient works even on 32bit and 64bit platforms.
 
-<u>Warning, if you use a 32bit platform you should use one of these library on your side to not lost significant digits with Java Long Integers.</u>
-<u>Furthermore, these php modules should be loaded to achieve a better driver performances on these systems.</u>
-
+    Warning, if you use a 32bit platform you should use one of these library on your side to not lost significant digits with Java Long Integers.</u>
+    Furthermore, these php modules should be loaded to achieve a better driver performances on these systems.</u>
 [BCMath Arbitrary Precision Mathematics](http://php.net/manual/en/refs.math.php) (recommended)
 
 [GNU Multiple Precision](http://php.net/manual/en/book.gmp.php)
