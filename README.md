@@ -10,7 +10,7 @@ A good enough PHP driver for the OrientDB binary protocol.
 
 ##### PhpOrient works even on 32bit and 64bit platforms.
 
-###### Warning, if you use a 32-bit platform, you must use one of these libraries into your application to avoid the loss of significant digits with Java long integers. Furthermore, these php modules should be loaded to achieve better driver performances on these systems.
+###### Warning, if you use a 32bit platform, you must use one of these libraries into YOUR application to avoid the loss of significant digits with Java long integers. Furthermore, these php modules should be loaded to achieve better driver performances on these systems.
 - [BCMath Arbitrary Precision Mathematics](http://php.net/manual/en/refs.math.php) (Faster, recommended)
 - [GNU Multiple Precision](http://php.net/manual/en/book.gmp.php)
 
