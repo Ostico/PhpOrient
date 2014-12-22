@@ -39,11 +39,11 @@ Now get the required libraries:
 
 
 ## Usage
-To use PhpOrient you have to include/require the vendor autoloader and declare the use of PhpOrient Client with fully qualified name.
+PhpOrient specify autoload information, Composer generates a vendor/autoload.php file. You can simply include this file and you will get autoloading for free and declare the use of PhpOrient Client with fully qualified name.
 
 ```php
-require __DIR__ . "/vendor/autoload.php";
-use \PhpOrient\Client;
+require "vendor/autoload.php";
+use PhpOrient\Client;
 ```
 
 
