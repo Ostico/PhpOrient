@@ -3,14 +3,12 @@
 [![Build Status](https://travis-ci.org/Ostico/PhpOrient.svg?branch=master)](https://travis-ci.org/Ostico/PhpOrient)
 
 A good enough PHP driver for the OrientDB binary protocol.
-( PHP Version >= 5.4 )
-
-PhpOrient works with orientdb version 1.7.4 and later.
-
-PhpOrient works even on 32bit and 64bit platforms.
 
 #### Requires
 - PHP Version >= 5.4
+- Orientdb version 1.7.4 or later.
+
+##### PhpOrient works even on 32bit and 64bit platforms.
 
 ###### Warning, if you use a 32bit platform you should use one of these library on your side to not lost significant digits with Java Long Integers.
 Furthermore, these php modules should be loaded to achieve better driver performances on these systems.</u>
