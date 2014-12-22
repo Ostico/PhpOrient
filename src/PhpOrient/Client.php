@@ -2,9 +2,14 @@
 
 namespace PhpOrient;
 
+use PhpOrient\Protocols\Binary\Data\Record;
+use PhpOrient\Protocols\Binary\Operations\RecordCreate;
+use PhpOrient\Protocols\Binary\Operations\RecordDelete;
+use PhpOrient\Protocols\Binary\Operations\RecordLoad;
+use PhpOrient\Protocols\Binary\Operations\RecordUpdate;
+use PhpOrient\Protocols\Common\ClusterMap;
 use PhpOrient\Protocols\Common\ConfigurableInterface;
 use PhpOrient\Protocols\Common\ConfigurableTrait;
-use PhpOrient\Protocols\Common\ClusterMap;
 use PhpOrient\Protocols\Common\TransportInterface;
 use PhpOrient\Protocols\Binary\SocketTransport;
 use PhpOrient\Exceptions\TransportException;
@@ -51,7 +56,6 @@ class Client implements ConfigurableInterface {
      */
     public function setTransport( TransportInterface $transport ) {
         $this->_transport = $this->createTransport( $transport );
-
         return $this;
     }
 
@@ -64,7 +68,6 @@ class Client implements ConfigurableInterface {
         if ( $this->_transport === null ) {
             $this->_transport = $this->createTransport();
         }
-
         return $this->_transport;
     }
 
@@ -72,7 +75,7 @@ class Client implements ConfigurableInterface {
      * Start a new Transaction
      *
      */
-    public function getTransaction(){
+    public function getTransactionStatement(){
        return $this->getTransport()->getTransaction();
     }
 
@@ -124,7 +127,7 @@ class Client implements ConfigurableInterface {
      *
      * @return mixed The result of the operation.
      */
-    public function execute( $operation, array $params = array() ) {
+    public function execute( $operation, Array $params = array() ) {
         return $this->getTransport()->execute( $operation, $params );
     }
 
@@ -132,11 +135,60 @@ class Client implements ConfigurableInterface {
      * Update a Record
      *
      * @param array $params
-     *
-     * @return mixed
+     * @return RecordUpdate|Record
      */
-    public function recordUpdate( array $params = array() ){
+    public function recordUpdate( Array $params = array() ){
         return $this->getTransport()->execute( 'recordUpdate', $params );
+    }
+
+    /**
+     * Create a record
+     *
+     * @param array $params
+     * @return RecordCreate|Record
+     */
+    public function recordCreate( Array $params = array() ){
+        return $this->getTransport()->execute( 'recordCreate', $params );
+    }
+
+    /**
+     * Delete a Record
+     *
+     * @param array $params
+     * @return RecordDelete|Record
+     */
+    public function recordDelete( Array $params = array() ){
+        return $this->getTransport()->execute( 'recordDelete', $params );
+    }
+
+    /**
+     * Load a Record
+     *
+     * @param array $params
+     * @return RecordLoad|Record
+     */
+    public function recordLoad( Array $params = array() ){
+        return $this->getTransport()->execute( 'recordLoad', $params );
+    }
+
+    /**
+     * Get the size of a Database
+     *
+     * @param array $params
+     * @return int|string
+     */
+    public function dbSize( Array $params = array() ){
+        return $this->getTransport()->execute( 'dbSize', $params );
+    }
+
+    /**
+     * Reload the structure of a Database
+     *
+     * @param array $params
+     * @return ClusterMap
+     */
+    public function dbReload( Array $params = array() ){
+        return $this->getTransport()->execute( 'dbReload', $params );
     }
 
 }

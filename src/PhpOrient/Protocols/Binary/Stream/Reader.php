@@ -23,7 +23,20 @@ class Reader {
      * @return int the short unpacked
      */
     public static function unpackShort( $value ) {
-        return current( unpack( 'n', $value ) );
+        $signed = current( unpack( 'n', $value ) );
+        /**
+         * If the bit sign is set,
+         * because unpack treat all as unsigned, -1 equals to 65535 .
+         * So, remove the sign and subtract -1
+         * Ex:
+         *    -4 equals 65532 as unsigned short
+         *    65532 ^ 0x8000 = 32764
+         *    32764 - 0x8000 = -4
+         */
+        if ( $signed & 0x8000 ){
+            $signed = ( $signed ^ 0x8000 ) - 0x8000;
+        }
+        return $signed;
     }
 
     /**
@@ -67,6 +80,20 @@ class Reader {
             $hi  = current( unpack( 'N', $first ) );
             $low = current( unpack( 'N', $last ) );
 
+            $isNegative = false;
+            if ( $hi & 0x80000000 ){
+                /**
+                 * if the bit sign is set,
+                 * remove the sign, subtract from the max signed integer
+                 * and store the sign
+                 * Ex:
+                 *  -12345 & 0x7FFFFFFF     == 2147471303
+                 *  0x7FFFFFFF - 2147471303 == 12344
+                 */
+                $hi = 0x7FFFFFFF - ( $hi & 0x7FFFFFFF );
+                $isNegative = true;
+            }
+
             if ( function_exists( "bcmul" ) ) {
                 $LongNum = bcadd( bcmul( $hi, "4294967296" ), $low );
             } elseif ( function_exists( "gmp_mul" ) ) {
@@ -95,10 +122,17 @@ class Reader {
                     $r2 -= 100000;
                     $r1++;
                 }
-                $r = sprintf( "%d%05d%05d%05d", $r1, $r2, $r3, $r4 );
+
+                $r = sprintf( "%d%05d%05d%05d",
+                        ( $r1 > 0 ? $r1 : - $r1 ),
+                        ( $r2 > 0 ? $r2 : - $r2 ),
+                        ( $r3 > 0 ? $r3 : - $r3 ),
+                        ( $r4 > 0 ? $r4 : - $r4 )
+                );
 
                 $LongNum = ltrim( $r, "0" );
                 if( $LongNum == '' ) $LongNum = '0';
+                $LongNum = ( !$isNegative ? '' : '-' ) . $LongNum;
 
             }
 

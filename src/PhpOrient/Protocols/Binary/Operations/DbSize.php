@@ -23,7 +23,7 @@ class DbSize extends Operation {
     /**
      * Read the response from the socket.
      *
-     * @return true
+     * @return int|string
      */
     protected function _read() {
         return $this->_readLong();

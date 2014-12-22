@@ -59,16 +59,23 @@ class Writer {
                 }
             } elseif ( function_exists( "gmp_mod" ) ) {
                 while ( $value !== '0' ) {
-                    $bitString = gmp_strval( gmp_mod( $value,'2') ) . $bitString;
-                    $value = gmp_strval( gmp_div_q( $value, '2' ) );
+                    list( $value, $remainder ) = gmp_div_qr( $value, '2' );
+                    $value = gmp_strval( $value );
+                    $bitString = gmp_strval( $remainder ) . $bitString;
                 };
             } else {
                 while ( $value != 0 ) {
-                    list( $value, $remainder ) = self::str2bin( $value );
+                    list( $value, $remainder ) = self::str2bin( (string)$value );
                     $bitString = $remainder . $bitString;
                 } ;
             }
-            $bitString = str_pad( $bitString, 64, '0', STR_PAD_LEFT );
+
+            if( $bitString != '' && $bitString{0} == '-' ){
+                $bitString = str_pad( substr( $bitString, 1 ), 64, '1', STR_PAD_LEFT );
+            } else {
+                $bitString = str_pad( $bitString, 64, '0', STR_PAD_LEFT );
+            }
+
             $hi = substr( $bitString, 0, 32 );
             $lo = substr( $bitString, 32, 32 );
             $hiBin = pack( 'H*', str_pad( base_convert( $hi, 2, 16 ), 8, 0, STR_PAD_LEFT ) );
@@ -93,6 +100,12 @@ class Writer {
      */
     protected static function str2bin( $value ) {
 
+        $isNegative = false;
+        if( $value{0} == '-' ){
+            $isNegative = true;
+            $value = substr( $value, 1 );
+        }
+
         $valueLen      = strlen( $value );
         $totalQuotient = '';
         $lastRemainder = 0;
@@ -104,7 +117,7 @@ class Writer {
                 $idx++;
 
                 if( $idx == $valueLen ){
-                    $lastRemainder = $actualDividend;
+                    $lastRemainder = (!$isNegative ? '' : '-' ) . $actualDividend;
                     break;
                 }
 
@@ -121,7 +134,7 @@ class Writer {
             $totalQuotient = substr( $totalQuotient, 1 );
         }
 
-        return [ (string)$totalQuotient, (string)$lastRemainder ];
+        return [ (!$isNegative ? '' : '-' ) . (string)$totalQuotient, (string)$lastRemainder ];
     }
 
     /**

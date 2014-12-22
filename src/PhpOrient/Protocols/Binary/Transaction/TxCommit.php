@@ -177,6 +177,10 @@ class TxCommit extends Operation {
                     'new_version'   => $this->_readInt(),
             ];
 
+            # Continue, server send in the updated records
+            # even the new the new created ones
+            if( !isset( $this->_pre_operation_records[ $lastUpdated[ 'updated_c_pos' ] ] ) ) continue;
+
             /**
              * @var RecordUpdate $operation
              */
