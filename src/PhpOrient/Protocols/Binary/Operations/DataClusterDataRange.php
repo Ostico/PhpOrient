@@ -29,7 +29,7 @@ class DataClusterDataRange extends Operation {
     /**
      * Read the response from the socket.
      *
-     * @return int The session id.
+     * @return int[]|string[]
      */
     protected function _read() {
         $result = array();

@@ -6,12 +6,10 @@ use PhpOrient\Exceptions\PhpOrientBadMethodCallException;
 use PhpOrient\Protocols\Binary\Abstracts\NeedDBOpenedTrait;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Protocols\Binary\Data\ID;
-use PhpOrient\Protocols\Binary\Data\Record;
 use PhpOrient\Protocols\Binary\Operations\RecordCreate;
 use PhpOrient\Protocols\Binary\Operations\RecordDelete;
 use PhpOrient\Protocols\Binary\Operations\RecordUpdate;
 use PhpOrient\Protocols\Binary\Serialization\CSV;
-use PhpOrient\Protocols\Binary\Stream\Writer;
 use PhpOrient\Protocols\Common\Constants;
 
 /**
