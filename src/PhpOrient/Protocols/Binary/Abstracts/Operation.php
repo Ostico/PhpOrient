@@ -437,7 +437,7 @@ abstract class Operation implements ConfigurableInterface {
                     $record[ 'version' ] = $this->_readInt();
 
                     $data                 = CSV::unserialize( $this->_readBytes() );
-                    $record[ 'oClass' ]   = $data[ 'oClass' ];
+                    $record[ 'oClass' ]   = @$data[ 'oClass' ];
                     $record[ 'rid' ]      = new ID( $cluster, $position );
                     unset( $data[ 'oClass' ] );
                     $record[ 'oData' ]    = $data;
@@ -532,17 +532,17 @@ abstract class Operation implements ConfigurableInterface {
 
                 for( $n = 0; $n < $list_len; $n++ ){
                     $res[] = Record::fromConfig( $this->_readRecord() );
-                    # async-result-type can be:
-                    # 0: no records remain to be fetched
-                    # 1: a record is returned as a result set
-                    # 2: a record is returned as pre-fetched to be loaded in client's
-                    #       cache only. It's not part of the result set but the client
-                    #       knows that it's available for later access
-                    $cached_results = $this->_read_prefetch_record();
-                    $res = array_merge( $res, $cached_results );
-                    # cache = cached_results['cached']
                 }
 
+                # async-result-type can be:
+                # 0: no records remain to be fetched
+                # 1: a record is returned as a result set
+                # 2: a record is returned as pre-fetched to be loaded in client's
+                #       cache only. It's not part of the result set but the client
+                #       knows that it's available for later access
+                $cached_results = $this->_read_prefetch_record();
+                $res = array_merge( $res, $cached_results );
+                # cache = cached_results['cached']
                 break;
             default:
                 # debug errors

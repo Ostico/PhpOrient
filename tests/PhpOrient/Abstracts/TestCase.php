@@ -28,27 +28,21 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
         $this->client = $this->createClient();
 
-        $this->client->execute( 'connect' );
+        $this->client->connect();
 
         try {
-            $this->client->execute( 'dbDrop', [
-                'database'     => $this->db_name,
-                'storage_type' => Constants::STORAGE_TYPE_MEMORY
-            ] );
+            $this->client->dbDrop( $this->db_name, Constants::STORAGE_TYPE_MEMORY );
         } catch ( \Exception $e ) {
 //            echo $e->getMessage();
             $this->client->getTransport()->debug( $e->getMessage() );
         }
 
-        $this->client->execute( 'dbCreate', [
-            'database'      => $this->db_name,
-            'database_type' => Constants::DATABASE_TYPE_GRAPH,
-            'storage_type'  => Constants::STORAGE_TYPE_MEMORY,
-        ] );
+        $this->client->dbCreate( $this->db_name,
+            Constants::STORAGE_TYPE_MEMORY,
+            Constants::DATABASE_TYPE_GRAPH
+        );
 
-        $this->cluster_struct = $this->client->execute( 'dbOpen', [
-            'database' => $this->db_name
-        ] );
+        $this->cluster_struct = $this->client->dbOpen( $this->db_name );
 
         $this->thisTest = microtime(true);
     }

@@ -57,6 +57,7 @@ class Client implements ConfigurableInterface {
      */
     public function setTransport( TransportInterface $transport ) {
         $this->_transport = $this->createTransport( $transport );
+
         return $this;
     }
 
@@ -69,6 +70,7 @@ class Client implements ConfigurableInterface {
         if ( $this->_transport === null ) {
             $this->_transport = $this->createTransport();
         }
+
         return $this->_transport;
     }
 
@@ -77,8 +79,8 @@ class Client implements ConfigurableInterface {
      *
      * @return \PhpOrient\Protocols\Binary\Transaction\TxCommit
      */
-    public function getTransactionStatement(){
-       return $this->getTransport()->getTransaction();
+    public function getTransactionStatement() {
+        return $this->getTransport()->getTransaction();
     }
 
     /**
@@ -107,10 +109,10 @@ class Client implements ConfigurableInterface {
             }
 
             $_transport->configure( array(
-                    'hostname' => $this->hostname,
-                    'port'     => $this->port,
-                    'username' => $this->username,
-                    'password' => $this->password
+                'hostname' => $this->hostname,
+                'port'     => $this->port,
+                'username' => $this->username,
+                'password' => $this->password
             ) );
 
         } else {
@@ -142,22 +144,26 @@ class Client implements ConfigurableInterface {
      * @return int
      */
     public function connect( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dataClusterAdd', $params );
+        $params[ 'serializationType' ] = Constants::SERIALIZATION_DOCUMENT2CSV;
+
+        return $this->getTransport()->execute( 'connect', $params );
     }
 
     /**
      * Execute a not idempotent SQL command
      *
      * @see PhpOrient\Protocols\Binary\Operations\Command
+     *
      * @param string $query
+     *
      * @return mixed
      */
-    public function command( $query = '' ){
-        $params = [];
-        return $this->getTransport()->execute( 'recordUpdate',
-                $params['command'] = Constants::QUERY_CMD,
-                $params[ 'query' ] = $query
-        );
+    public function command( $query ) {
+        $params              = [ ];
+        $params[ 'command' ] = Constants::QUERY_CMD;
+        $params[ 'query' ]   = $query;
+
+        return $this->getTransport()->execute( 'command', $params );
     }
 
     /**
@@ -166,18 +172,19 @@ class Client implements ConfigurableInterface {
      * @see PhpOrient\Protocols\Binary\Operations\Command
      *
      * @param string $query
-     * @param int $limit
+     * @param int    $limit
      * @param string $fetchPlan
+     *
      * @return mixed
      */
-    public function query( $query = '', $limit = 20, $fetchPlan = '*:0' ){
-        $params = [];
-        return $this->getTransport()->execute( 'command',
-                $params[ 'command' ]    = Constants::QUERY_SYNC,
-                $params[ 'query' ]      = $query,
-                $params[ 'limit' ]      = $limit,
-                $params[ 'fetch_plan' ] = $fetchPlan
-        );
+    public function query( $query, $limit = 20, $fetchPlan = '*:0' ) {
+        $params                 = [ ];
+        $params[ 'command' ]    = Constants::QUERY_SYNC;
+        $params[ 'query' ]      = $query;
+        $params[ 'limit' ]      = $limit;
+        $params[ 'fetch_plan' ] = $fetchPlan;
+
+        return $this->getTransport()->execute( 'command', $params );
     }
 
     /**
@@ -185,43 +192,48 @@ class Client implements ConfigurableInterface {
      * A callback function is needed
      *
      * @see PhpOrient\Protocols\Binary\Operations\Command
+     *
      * @param string $query
-     * @param int $limit
+     * @param int    $limit
      * @param string $fetchPlan
+     *
      * @return mixed
      */
-    public function queryAsync( $query = '', $limit = 20, $fetchPlan = '*:0' ){
-        $params = [];
-        return $this->getTransport()->execute( 'command',
-                $params['command']      = Constants::QUERY_ASYNC,
-                $params[ 'query' ]      = $query,
-                $params[ 'limit' ]      = $limit,
-                $params[ 'fetch_plan' ] = $fetchPlan
-        );
+    public function queryAsync( $query, $limit = 20, $fetchPlan = '*:0' ) {
+        $params                 = [ ];
+        $params[ 'command' ]    = Constants::QUERY_ASYNC;
+        $params[ 'query' ]      = $query;
+        $params[ 'limit' ]      = $limit;
+        $params[ 'fetch_plan' ] = $fetchPlan;
+
+        return $this->getTransport()->execute( 'command', $params );
     }
 
     /**
      * Execute an SQL Batch Script command<br />
      *
      * @see PhpOrient\Protocols\Binary\Operations\Command
+     *
      * @param string $param
+     *
      * @return mixed
      */
-    public function sqlBatch( $param = '' ){
-        $params = [];
-        return $this->getTransport()->execute( 'command',
-                $params['command'] = Constants::QUERY_SCRIPT,
-                $params['query']   = $param
-        );
+    public function sqlBatch( $param ) {
+        $params              = [ ];
+        $params[ 'command' ] = Constants::QUERY_SCRIPT;
+        $params[ 'query' ]   = $param;
+
+        return $this->getTransport()->execute( 'command', $params );
     }
 
     /**
      * Update a Record
      *
      * @param array $params
+     *
      * @return RecordUpdate|Record
      */
-    public function recordUpdate( Array $params = array() ){
+    public function recordUpdate( Array $params = array() ) {
         return $this->getTransport()->execute( 'recordUpdate', $params );
     }
 
@@ -229,9 +241,10 @@ class Client implements ConfigurableInterface {
      * Create a record
      *
      * @param array $params
+     *
      * @return RecordCreate|Record
      */
-    public function recordCreate( Array $params = array() ){
+    public function recordCreate( Array $params = array() ) {
         return $this->getTransport()->execute( 'recordCreate', $params );
     }
 
@@ -239,9 +252,10 @@ class Client implements ConfigurableInterface {
      * Delete a Record
      *
      * @param array $params
+     *
      * @return RecordDelete|Record
      */
-    public function recordDelete( Array $params = array() ){
+    public function recordDelete( Array $params = array() ) {
         return $this->getTransport()->execute( 'recordDelete', $params );
     }
 
@@ -249,9 +263,10 @@ class Client implements ConfigurableInterface {
      * Load a Record
      *
      * @param array $params
+     *
      * @return RecordLoad|Record
      */
-    public function recordLoad( Array $params = array() ){
+    public function recordLoad( Array $params = array() ) {
         return $this->getTransport()->execute( 'recordLoad', $params );
     }
 
@@ -259,9 +274,10 @@ class Client implements ConfigurableInterface {
      * Get the size of a Database
      *
      * @param array $params
+     *
      * @return int|string
      */
-    public function dbSize( Array $params = array() ){
+    public function dbSize( Array $params = array() ) {
         return $this->getTransport()->execute( 'dbSize', $params );
     }
 
@@ -269,9 +285,10 @@ class Client implements ConfigurableInterface {
      * Reload the structure of a Database
      *
      * @param array $params
+     *
      * @return ClusterMap
      */
-    public function dbReload( Array $params = array() ){
+    public function dbReload( Array $params = array() ) {
         return $this->getTransport()->execute( 'dbReload', $params );
     }
 
@@ -279,9 +296,10 @@ class Client implements ConfigurableInterface {
      * Release the structure of a Database
      *
      * @param array $params
+     *
      * @return bool
      */
-    public function dbRelease( Array $params = array() ){
+    public function dbRelease( Array $params = array() ) {
         return $this->getTransport()->execute( 'dbRelease', $params );
     }
 
@@ -289,12 +307,19 @@ class Client implements ConfigurableInterface {
      * Open a Database and perform a connection<br />
      * if it is not established before
      *
-     * @param array $params
+     * @param string $database
+     * @param string $dbType
      *
      * @return ClusterMap
      */
-    public function dbOpen( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dbOpen', $params );
+    public function dbOpen( $database, $dbType = Constants::DATABASE_TYPE_GRAPH ) {
+        return $this->getTransport()->execute( 'dbOpen',
+            array(
+                'database'          => $database,
+                'type'              => $dbType,
+                'serializationType' => Constants::SERIALIZATION_DOCUMENT2CSV
+            )
+        );
     }
 
     /**
@@ -325,34 +350,58 @@ class Client implements ConfigurableInterface {
     /**
      * Check if a database exists
      *
-     * @param array $params
+     * @param        $database
+     * @param string $database_type
      *
      * @return bool
      */
-    public function dbExists( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dbExists', $params );
+    public function dbExists( $database, $database_type = Constants::DATABASE_TYPE_GRAPH ) {
+        return $this->getTransport()->execute( 'dbExists',
+            array(
+                'database'      => $database,
+                'database_type' => $database_type
+            )
+        );
     }
 
     /**
-     * Check if a database exists
+     * Drop an existent database
      *
-     * @param array $params
+     * @param        $database
+     * @param string $storage_type
      *
-     * @return bool
+     * @return mixed
      */
-    public function dbDrop( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dbDrop', $params );
+    public function dbDrop( $database, $storage_type = Constants::STORAGE_TYPE_PLOCAL ) {
+        return $this->getTransport()->execute( 'dbDrop',
+            array(
+                'database'     => $database,
+                'storage_type' => $storage_type
+            )
+        );
     }
 
     /**
      * Create a new Database
      *
-     * @param array $params
+     * @param string $database
+     * @param string $storage_type
+     * @param string $database_type
      *
      * @return bool
      */
-    public function dbCreate( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dbCreate', $params );
+    public function dbCreate( $database,
+                              $storage_type = Constants::STORAGE_TYPE_PLOCAL,
+                              $database_type = Constants::DATABASE_TYPE_GRAPH ) {
+
+        return $this->getTransport()->execute( 'dbCreate',
+            array(
+                'database'      => $database,
+                'database_type' => $database_type,
+                'storage_type'  => $storage_type
+            )
+        );
+
     }
 
     /**

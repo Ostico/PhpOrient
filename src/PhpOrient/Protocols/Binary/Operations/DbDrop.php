@@ -15,7 +15,7 @@ class DbDrop extends Operation {
     protected $opCode = Constants::DB_DROP_OP;
 
     /**
-     * @var string The name of the database to dop.
+     * @var string The name of the database to drop.
      */
     public $database;
 

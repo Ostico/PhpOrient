@@ -55,18 +55,22 @@ class DbOpen extends Operation {
      */
     public $password;
 
-    public function send(){
-
-        if( $this->_transport->getSessionId() < 0 ){
+    /**
+     * Write the request header.
+     * Override to permit connection
+     *
+     * @see Operation::_writeHeader
+     */
+    protected function _writeHeader() {
+        if( 0 && $this->_transport->getSessionId() < 0 ){
             $connection = new Connect( $this->_transport );
             $connection->configure( array(
-                'username' => $this->username,
-                'password' => $this->password
+                    'username' => $this->username,
+                    'password' => $this->password
             ) );
             $connection->prepare()->send()->getResponse();
         }
-
-        return parent::send();
+        parent::_writeHeader();
     }
 
     /**
