@@ -10,7 +10,7 @@ class ClientConnectionTest extends EmptyTestCase {
         $transport = $client->getTransport();
         $this->assertInstanceOf( '\PhpOrient\Protocols\Common\AbstractTransport', $transport );
         $this->assertInstanceOf( '\PhpOrient\Protocols\Common\TransportInterface', $transport );
-        $client->execute('connect');
+        $client->execute('connect', ['username' => 'root', 'password' => 'root'] );
         $this->assertNotEquals( -1, $client->getTransport()->getSessionId() );
         $this->assertNotEquals( -1, $client->getTransport()->getProtocolVersion() );
 
@@ -18,7 +18,7 @@ class ClientConnectionTest extends EmptyTestCase {
 
     public function testManualConfiguration() {
 
-        $config = static::getConfig();
+        $config = static::getConfig( 'connect' );
 
         $client = new Client();
         $client->hostname = $config[ 'hostname' ];
@@ -42,8 +42,7 @@ class ClientConnectionTest extends EmptyTestCase {
 
     public function testManualConfiguration2() {
 
-        $config = static::getConfig();
-
+        $config = static::getConfig('connect');
         $client = new Client();
 
         $transport = new \PhpOrient\Protocols\Binary\SocketTransport();
@@ -54,7 +53,7 @@ class ClientConnectionTest extends EmptyTestCase {
 
         $client->setTransport( $transport );
 
-        $client->execute('connect',$config);
+        $client->execute( 'connect', $config );
         $this->assertNotEquals( -1, $client->getTransport()->getSessionId() );
         $this->assertNotEquals( -1, $client->getTransport()->getProtocolVersion() );
 
@@ -62,7 +61,7 @@ class ClientConnectionTest extends EmptyTestCase {
 
     public function testAnotherConfiguration() {
 
-        $config = static::getConfig();
+        $config = static::getConfig( 'connect' );
 
         $client = new Client();
 
@@ -72,7 +71,7 @@ class ClientConnectionTest extends EmptyTestCase {
 
         $transport->configure( $config );
 
-        $client->execute('connect');
+        $client->execute( 'connect' );
         $this->assertNotEquals( -1, $client->getTransport()->getSessionId() );
         $this->assertNotEquals( -1, $client->getTransport()->getProtocolVersion() );
 

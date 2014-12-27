@@ -11,13 +11,18 @@ use PhpOrient\Abstracts\EmptyTestCase;
 class DBExistsTest extends EmptyTestCase {
 
     public function testDBExists(){
-        $connection = $this->client->execute( 'connect' );
+
+        $config = self::getConfig('connect');
+
+        $connection = $this->client->execute( 'connect', $config );
         $result = $this->client->execute( 'dbExists', [ 'database' => 'GratefulDeadConcerts' ] );
         $this->assertTrue( $result );
     }
 
     public function testDBNOTExists(){
-        $connection = $this->client->execute( 'connect' );
+        $config = self::getConfig('connect');
+
+        $connection = $this->client->execute( 'connect', $config );
         $result = $this->client->execute( 'dbExists', [ 'database' => 'asjbgfakjlghajlfg' ] );
         $this->assertFalse( $result );
     }

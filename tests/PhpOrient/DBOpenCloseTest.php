@@ -25,7 +25,6 @@ class DBOpenCloseTest extends EmptyTestCase {
     }
 
     public function testDBOpen(){
-        $connection = $this->client->execute( 'connect' );
         $result = $this->client->execute( 'dbOpen', [ 'database' => 'GratefulDeadConcerts' ] );
 
         $this->assertNotEquals( -1, $result['sessionId'] );
@@ -45,7 +44,6 @@ class DBOpenCloseTest extends EmptyTestCase {
 
     public function testDBClose() {
 
-        $connection = $this->client->execute( 'connect' );
         $result     = $this->client->execute( 'dbOpen', [ 'database' => 'GratefulDeadConcerts' ] );
 
         $this->assertNotEquals( -1, $result[ 'sessionId' ] );

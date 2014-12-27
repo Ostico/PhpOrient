@@ -56,24 +56,6 @@ class DbOpen extends Operation {
     public $password;
 
     /**
-     * Write the request header.
-     * Override to permit connection
-     *
-     * @see Operation::_writeHeader
-     */
-    protected function _writeHeader() {
-        if( 0 && $this->_transport->getSessionId() < 0 ){
-            $connection = new Connect( $this->_transport );
-            $connection->configure( array(
-                    'username' => $this->username,
-                    'password' => $this->password
-            ) );
-            $connection->prepare()->send()->getResponse();
-        }
-        parent::_writeHeader();
-    }
-
-    /**
      * Write the data to the socket.
      */
     protected function _write() {
@@ -107,6 +89,8 @@ class DbOpen extends Operation {
     protected function _read() {
         $sessionId     = $this->_readInt();
         $totalClusters = $this->_readShort();
+        $this->_transport->setSessionId( $sessionId );
+        $this->_transport->connected = true;
 
         $dataClusters      = [ ];
         for ( $i = 0; $i < $totalClusters; $i++ ) {

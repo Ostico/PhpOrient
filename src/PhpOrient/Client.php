@@ -312,11 +312,13 @@ class Client implements ConfigurableInterface {
      *
      * @return ClusterMap
      */
-    public function dbOpen( $database, $dbType = Constants::DATABASE_TYPE_GRAPH ) {
+    public function dbOpen( $database, $username= '', $password = '', $dbType = Constants::DATABASE_TYPE_GRAPH ) {
         return $this->getTransport()->execute( 'dbOpen',
             array(
                 'database'          => $database,
                 'type'              => $dbType,
+                'username'          => $username,
+                'password'          => $password,
                 'serializationType' => Constants::SERIALIZATION_DOCUMENT2CSV
             )
         );

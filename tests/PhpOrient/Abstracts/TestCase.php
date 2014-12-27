@@ -26,7 +26,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
     public function setUp() {
 
-        $this->client = $this->createClient();
+        $this->client = $this->createClient('connect');
 
         $this->client->connect();
 
@@ -42,7 +42,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
             Constants::DATABASE_TYPE_GRAPH
         );
 
-        $this->cluster_struct = $this->client->dbOpen( $this->db_name );
+        $this->cluster_struct = $this->client->dbOpen( $this->db_name, 'admin', 'admin' );
 
         $this->thisTest = microtime(true);
     }

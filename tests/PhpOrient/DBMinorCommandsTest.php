@@ -5,13 +5,13 @@ namespace PhpOrient;
 use PhpOrient\Protocols\Common\Constants;
 use PhpOrient\Abstracts\EmptyTestCase;
 
-class DBFreezeTest extends EmptyTestCase {
+class DBMinorCommandsTest extends EmptyTestCase {
 
     protected $db_name = 'test_freeze';
 
     public function testFreezeRelease() {
 
-        $this->client->execute( 'connect' );
+        $this->client->execute( 'connect', self::getConfig('connect') );
 
         try {
             $this->client->execute( 'dbDrop', [
@@ -51,7 +51,6 @@ class DBFreezeTest extends EmptyTestCase {
     }
 
     public function testDBSize(){
-        $connection = $this->client->execute( 'connect' );
         $result     = $this->client->execute( 'dbOpen', [ 'database' => 'GratefulDeadConcerts' ] );
         $this->assertNotEmpty( count($result) );
         $result = $this->client->execute( 'dbSize' );
@@ -60,7 +59,6 @@ class DBFreezeTest extends EmptyTestCase {
     }
 
     public function testDBSizeWithoutDB(){
-        $connection = $this->client->execute( 'connect' );
         $this->setExpectedException( '\PhpOrient\Exceptions\PhpOrientException',
                 'Can not perform DbSize operation on a Database without open it.' );
         $result = $this->client->execute( 'dbSize' );
@@ -68,7 +66,6 @@ class DBFreezeTest extends EmptyTestCase {
     }
 
     public function testRecordCount(){
-        $connection = $this->client->execute( 'connect' );
         $result     = $this->client->execute( 'dbOpen', [ 'database' => 'GratefulDeadConcerts' ] );
         $this->assertNotEmpty( count($result) );
         $result = $this->client->execute( 'dbCountRecords' );
@@ -77,7 +74,6 @@ class DBFreezeTest extends EmptyTestCase {
     }
 
     public function testRecordCountWithoudDB(){
-        $connection = $this->client->execute( 'connect' );
         $this->setExpectedException( '\PhpOrient\Exceptions\PhpOrientException',
                 'Can not perform DbCountRecords operation on a Database without open it.' );
         $result = $this->client->execute( 'dbCountRecords' );

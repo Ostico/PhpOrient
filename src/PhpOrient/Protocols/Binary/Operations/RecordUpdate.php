@@ -147,7 +147,7 @@ class RecordUpdate extends Operation {
         # not every time this INT is present
         # So, i double check for protocol here
         # and add a socket timeout.
-        if ( $this->_transport->getProtocolVersion() > 21 ) {
+        if ( $this->_transport->getProtocolVersion() >= 21 ) {
             $changesNum = $this->_readInt();
             $changes = [ ];
             if ( $changesNum > 0 && $this->_transport->getProtocolVersion() > 23 ) {

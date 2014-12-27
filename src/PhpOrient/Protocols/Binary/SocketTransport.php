@@ -137,8 +137,13 @@ class SocketTransport extends AbstractTransport {
                     'without connection parameters');
                 }
 
-                $params[ 'username' ] = $this->username;
-                $params[ 'password' ] = $this->password;
+                if( empty( $params[ 'username' ] ) ){
+                    $params[ 'username' ] = $this->username;
+                }
+
+                if( empty( $params[ 'password' ] ) ){
+                    $params[ 'password' ] = $this->password;
+                }
 
             }
 

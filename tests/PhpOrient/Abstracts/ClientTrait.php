@@ -14,20 +14,37 @@ use PhpOrient\Configuration\Constants as ClientConstants;
 trait ClientTrait {
 
     /**
-     * @return array the test server config
+     * @param string $type
+     *
+     * @return mixed the test server config
      */
-    protected static function getConfig() {
-        $config                   = json_decode( file_get_contents( __DIR__ . '/../../test-server.json' ), true );
+    protected static function getConfig( $type = '' ) {
+
+        $config = json_decode( file_get_contents( __DIR__ . '/../../test-server.json' ), true );
+        switch ( $type ){
+            case 'connect':
+            case 'open':
+                $config[ 'username' ] = $config[ $type ]['username'];
+                $config[ 'password' ] = $config[ $type ]['password'];
+                break;
+            default:
+                $config[ 'username' ] = $config[ 'open' ]['username'];
+                $config[ 'password' ] = $config[ 'open' ]['password'];
+        }
+
         ClientConstants::$LOGGING       = $config[ 'logging' ];
         ClientConstants::$LOG_FILE_PATH = $config[ 'log_file_path' ];
         return $config;
     }
 
     /**
+     * @param string $type
+     *
      * @return Client
+     * @throws \Exception
      */
-    protected function createClient() {
-        $config = static::getConfig();
+    protected function createClient( $type = '' ) {
+        $config = static::getConfig( $type );
         $client = new Client();
         $client->configure( array(
             'username' => $config[ 'username' ],
