@@ -67,6 +67,11 @@ class DbOpen extends Operation {
         if( $this->_transport->getProtocolVersion() > 21 ){
             $this->_writeString( $this->_clientID ); // client id, unused.
             $this->_writeString( $this->serializationType ); // serialization database_type
+
+            if( $this->_transport->getProtocolVersion() > 26 ){
+                $this->_writeBoolean( false ); # token
+            }
+
             $this->_writeString( $this->database );
             $this->_writeString( $this->type );
             $this->_writeString( $this->username );
@@ -87,10 +92,17 @@ class DbOpen extends Operation {
      * @return int The session id.
      */
     protected function _read() {
-        $sessionId     = $this->_readInt();
-        $totalClusters = $this->_readShort();
+        $sessionId = $this->_readInt();
         $this->_transport->setSessionId( $sessionId );
-        $this->_transport->connected = true;
+        $this->_transport->databaseOpened = true;
+        $this->_transport->connected = false;
+
+        if ( $this->_transport->getProtocolVersion() > 26 ) {
+            $token = $this->_readString(); # token
+            $this->_transport->setToken( $token );
+        }
+
+        $totalClusters = $this->_readShort();
 
         $dataClusters      = [ ];
         for ( $i = 0; $i < $totalClusters; $i++ ) {
@@ -112,8 +124,6 @@ class DbOpen extends Operation {
             }
 
         }
-
-        $this->_transport->databaseOpened = true;
 
         //TODO: Try with a cluster instance
         # cluster config string ( -1 )

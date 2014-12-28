@@ -34,11 +34,13 @@ class DBMinorCommandsTest extends EmptyTestCase {
         $result     = $this->client->execute( 'dbOpen', [ 'database' => $this->db_name ] );
         $this->assertNotEmpty( $this->client->getTransport()->getClusterMap() );
 
+        $this->client->execute( 'connect', self::getConfig('connect') );
         $result     = $this->client->execute( 'dbFreeze', [ 'database' => $this->db_name ] );
         $this->assertNotEquals( -1, $result[ 'sessionId' ] );
 
         $result     = $this->client->execute( 'dbRelease', [ 'database' => $this->db_name ] );
         $this->assertNotEquals( -1, $result[ 'sessionId' ] );
+
 
         $result     = $this->client->execute( 'dbDrop', [
                 'database' => $this->db_name,

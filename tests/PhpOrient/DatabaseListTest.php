@@ -45,6 +45,7 @@ class DatabaseListTest extends TestCase {
         $this->assertEquals( 11, count( $this->client->getTransport()->getClusterMap() ) );
         $this->assertEquals( $this->cluster_struct, $this->client->getTransport()->getClusterMap() );
 
+        $this->client->execute( 'connect', self::getConfig('connect') );
         $list = $this->client->execute( 'dbList' );
         $this->assertTrue( count( $list['databases'] ) > 1 );
 

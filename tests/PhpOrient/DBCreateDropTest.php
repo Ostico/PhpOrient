@@ -10,6 +10,8 @@ class DBCreateDropTest extends TestCase {
 
     public function testDBCreateDrop() {
 
+        $this->client->connect( self::getConfig('connect') );
+
         $result     = $this->client->execute( 'dbExists', [ 'database' => $this->db_name ] );
         $this->assertTrue( $result );
 
@@ -18,7 +20,7 @@ class DBCreateDropTest extends TestCase {
         $this->assertNotEquals( -1, $result[ 'sessionId' ] );
         $this->assertNotEmpty( $result );
 
-
+        $this->client->connect( self::getConfig('connect') );
         $result     = $this->client->execute( 'dbDrop', [
                 'database' => $this->db_name,
                 'storage_type' => Constants::STORAGE_TYPE_MEMORY

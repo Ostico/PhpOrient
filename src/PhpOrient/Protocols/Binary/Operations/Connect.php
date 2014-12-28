@@ -56,6 +56,11 @@ class Connect extends Operation {
 
             $this->_writeString( $this->_clientID );
             $this->_writeString( $this->serializationType );
+
+            if( $this->_transport->getProtocolVersion() > 26 ){
+                $this->_writeBoolean( false ); # token
+            }
+
             $this->_writeString( $this->username );
             $this->_writeString( $this->password );
 
@@ -78,6 +83,12 @@ class Connect extends Operation {
 
         $_sessionId = $this->_readInt();
         $this->_transport->setSessionId( $_sessionId );
+
+        if ( $this->_transport->getProtocolVersion() > 26 ) {
+            $token = $this->_readString(); # token
+            $this->_transport->setToken( $token );
+        }
+
         $this->_transport->connected = true;
         return $_sessionId;
 

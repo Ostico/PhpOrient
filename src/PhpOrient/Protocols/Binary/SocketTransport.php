@@ -43,6 +43,11 @@ class SocketTransport extends AbstractTransport {
     protected $sessionId = -1;
 
     /**
+     * @var string
+     */
+    protected $token = '';
+
+    /**
      * @var int The Protocol id for the connection.
      */
     protected $_protocolVersion;
@@ -77,6 +82,20 @@ class SocketTransport extends AbstractTransport {
      */
     public function setSessionId( $sessionId ){
         $this->sessionId = $sessionId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToken() {
+        return $this->token;
+    }
+
+    /**
+     * @param string $token
+     */
+    public function setToken( $token ) {
+        $this->token = $token;
     }
 
     /**
