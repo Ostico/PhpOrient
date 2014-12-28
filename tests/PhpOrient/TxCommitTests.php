@@ -8,6 +8,7 @@
 namespace PhpOrient;
 
 use PhpOrient\Abstracts\TestCase;
+use PhpOrient\Protocols\Binary\Data\ID;
 use PhpOrient\Protocols\Binary\Data\Record;
 
 class TxCommitTests extends TestCase {
@@ -91,24 +92,19 @@ class TxCommitTests extends TestCase {
         $rec2 = new Record();
         $rec2->setOData( $recUp );
         $rec2->setOClass( 'V' );
-        $updateCommand = $this->client->recordUpdate( [
-                        'cluster_id'       => $this->first_rec->getRid()->cluster,
-                        'cluster_position' => $this->first_rec->getRid()->position,
-                        'record'           => $rec2,
-                        'record_version'   => $this->first_rec->getVersion()
-                ]
+        $rec2->setRid( $this->first_rec->getRid() );
+        $rec2->setVersion( $this->first_rec->getVersion() );
+
+        $updateCommand = $this->client->recordUpdate( $rec2 );
+
+        $createCommand = $this->client->recordCreate(
+            ( new Record() )
+                ->setOData( [ 'alloggio' => 'bungalow' ] )
+                ->setOClass( 'V' )
+                ->setRid( new ID( 9 ) )
         );
 
-        $createCommand = $this->client->recordCreate( [
-                'cluster_id' => 9,
-                'record'     => ( new Record() )
-                                    ->setOData( [ 'alloggio' => 'bungalow' ] )
-                                    ->setOClass( 'V' )
-        ] );
-
-        $deleteCommand = $this->client->recordDelete( [
-            'rid'    => $this->sec_rec->getRid()
-        ] );
+        $deleteCommand = $this->client->recordDelete( $this->sec_rec->getRid() );
 
         $this->assertInstanceOf( 'PhpOrient\Protocols\Binary\operations\RecordUpdate', $updateCommand );
         $tx->attach( $updateCommand );
@@ -129,6 +125,10 @@ class TxCommitTests extends TestCase {
                 $this->assertEquals( $record->getOClass(), 'V' );
             }
         }
+
+        //check for deleted record
+        $deleted = $this->client->recordLoad( $this->sec_rec->getRid() );
+        $this->assertEmpty( $deleted );
 
     }
 

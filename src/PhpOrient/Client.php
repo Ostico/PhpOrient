@@ -2,6 +2,7 @@
 
 namespace PhpOrient;
 
+use PhpOrient\Protocols\Binary\Data\ID;
 use PhpOrient\Protocols\Binary\Data\Record;
 use PhpOrient\Protocols\Binary\Operations\RecordCreate;
 use PhpOrient\Protocols\Binary\Operations\RecordDelete;
@@ -229,78 +230,93 @@ class Client implements ConfigurableInterface {
     /**
      * Update a Record
      *
-     * @param array $params
+     * @param Record $record
      *
      * @return RecordUpdate|Record
      */
-    public function recordUpdate( Array $params = array() ) {
-        return $this->getTransport()->execute( 'recordUpdate', $params );
+    public function recordUpdate( Record $record ) {
+        return $this->getTransport()->execute( 'recordUpdate',
+            [
+                'rid'              => $record->getRid(),
+                'record'           => $record,
+                'record_version'   => $record->getVersion()
+            ]
+        );
     }
 
     /**
      * Create a record
      *
-     * @param array $params
+     * @param Record $record
      *
      * @return RecordCreate|Record
      */
-    public function recordCreate( Array $params = array() ) {
-        return $this->getTransport()->execute( 'recordCreate', $params );
+    public function recordCreate(  Record $record ) {
+        return $this->getTransport()->execute( 'recordCreate', [
+            'cluster_id' => $record->getRid()->cluster,
+            'record'     => $record
+        ] );
     }
 
     /**
      * Delete a Record
      *
-     * @param array $params
+     * @param ID $rid
      *
      * @return RecordDelete|Record
      */
-    public function recordDelete( Array $params = array() ) {
-        return $this->getTransport()->execute( 'recordDelete', $params );
+    public function recordDelete( ID $rid ) {
+        return $this->getTransport()->execute( 'recordDelete', [
+            'rid'    => $rid
+        ] );
     }
 
     /**
      * Load a Record
      *
-     * @param array $params
+     * @param ID $rid
+     * @param string $fetchPlan
      *
-     * @return RecordLoad|Record
+     * @return mixed
      */
-    public function recordLoad( Array $params = array() ) {
-        return $this->getTransport()->execute( 'recordLoad', $params );
+    public function recordLoad( ID $rid, $fetchPlan = '*:0' ) {
+        return $this->getTransport()->execute( 'recordLoad', [
+            'rid'        => $rid,
+            'fetch_plan' => $fetchPlan
+        ] );
     }
 
     /**
      * Get the size of a Database
      *
-     * @param array $params
-     *
      * @return int|string
      */
-    public function dbSize( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dbSize', $params );
+    public function dbSize() {
+        return $this->getTransport()->execute( 'dbSize', [] );
     }
 
     /**
      * Reload the structure of a Database
      *
-     * @param array $params
-     *
      * @return ClusterMap
      */
-    public function dbReload( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dbReload', $params );
+    public function dbReload() {
+        return $this->getTransport()->execute( 'dbReload', [] );
     }
 
     /**
      * Release the structure of a Database
      *
-     * @param array $params
+     * @param string $db_name
+     * @param string $storage_type
      *
-     * @return bool
+     * @return mixed
      */
-    public function dbRelease( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dbRelease', $params );
+    public function dbRelease( $db_name, $storage_type = Constants::STORAGE_TYPE_PLOCAL ) {
+        return $this->getTransport()->execute( 'dbRelease', [
+            'database'     => $db_name,
+            'storage_type' => $storage_type
+        ] );
     }
 
     /**
@@ -327,12 +343,10 @@ class Client implements ConfigurableInterface {
     /**
      * List all databases inside OrientDB instance
      *
-     * @param array $params
-     *
      * @return array
      */
-    public function dbList( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dbList', $params );
+    public function dbList() {
+        return $this->getTransport()->execute( 'dbList', [] );
     }
 
     /**
@@ -341,12 +355,16 @@ class Client implements ConfigurableInterface {
      *
      * @see http://www.orientechnologies.com/docs/last/orientdb.wiki/Console-Command-Freeze-Db.html
      *
-     * @param array $params
+     * @param string $db_name
+     * @param string $storage_type
      *
      * @return bool
      */
-    public function dbFreeze( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dbFreeze', $params );
+    public function dbFreeze( $db_name, $storage_type = Constants::STORAGE_TYPE_PLOCAL ) {
+        return $this->getTransport()->execute( 'dbFreeze', [
+            'database'     => $db_name,
+            'storage_type' => $storage_type
+        ] );
     }
 
     /**
@@ -420,12 +438,10 @@ class Client implements ConfigurableInterface {
     /**
      * Close a database a drop the connection
      *
-     * @param array $params
-     *
      * @return int
      */
-    public function dbClose( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dbClose', $params );
+    public function dbClose() {
+        return $this->getTransport()->execute( 'dbClose', [] );
     }
 
     /**
