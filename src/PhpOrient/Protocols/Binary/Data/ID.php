@@ -12,12 +12,16 @@ namespace PhpOrient\Protocols\Binary\Data;
 class ID implements \JsonSerializable{
 
     /**
-     * @var int The cluster the record belongs to.
+     * The cluster the record belongs to.
+     *
+     * @var int
      */
     public $cluster;
 
     /**
-     * @var int The position of the record in the cluster.
+     * The position of the record in the cluster.
+     *
+     * @var int
      */
     public $position;
 
@@ -26,6 +30,7 @@ class ID implements \JsonSerializable{
      * # Record ID Constructor.
      *
      * @param int|string|array $cluster  The cluster id, string representation or configuration object
+     *
      * @param int              $position The position in the cluster, if $cluster is an integer.
      */
     public function __construct( $cluster = -1, $position = -1 ) {
