@@ -50,6 +50,22 @@ class Client implements ConfigurableInterface {
     protected $_transport;
 
     /**
+     * Class Constructor
+     *
+     * @param string $hostname
+     * @param string $port
+     */
+    public function __construct( $hostname = '', $port = '' ) {
+        if ( !empty( $hostname ) ) {
+            $this->hostname = $hostname;
+        }
+
+        if ( !empty( $port ) ) {
+            $this->port = $port;
+        }
+    }
+
+    /**
      * Sets the transport
      *
      * @param \PhpOrient\Protocols\Common\TransportInterface $transport
@@ -136,16 +152,31 @@ class Client implements ConfigurableInterface {
     }
 
     /**
+     *
      * This is the first operation requested by the client when<br />
      * it needs to work with the server instance.<br />
      * It returns the session id of the client.
      *
-     * @param array $params
+     * @param string $username
+     * @param string $password
+     * @param string $serializationType
      *
-     * @return int
+     * @return mixed
      */
-    public function connect( Array $params = array() ) {
-        $params[ 'serializationType' ] = Constants::SERIALIZATION_DOCUMENT2CSV;
+    public function connect(
+        $username = '',
+        $password = '',
+        $serializationType = Constants::SERIALIZATION_DOCUMENT2CSV ) {
+
+        if ( !empty( $username ) ) {
+            $params[ 'username' ] = $username;
+        }
+
+        if ( !empty( $password ) ) {
+            $params[ 'password' ] = $password;
+        }
+
+        $params[ 'serializationType' ] = $serializationType;
 
         return $this->getTransport()->execute( 'connect', $params );
     }
@@ -195,17 +226,13 @@ class Client implements ConfigurableInterface {
      * @see PhpOrient\Protocols\Binary\Operations\Command
      *
      * @param string $query
-     * @param int    $limit
-     * @param string $fetchPlan
+     * @param Array    $params
      *
      * @return mixed
      */
-    public function queryAsync( $query, $limit = 20, $fetchPlan = '*:0' ) {
-        $params                 = [ ];
+    public function queryAsync( $query, Array $params = array() ) {
         $params[ 'command' ]    = Constants::QUERY_ASYNC;
         $params[ 'query' ]      = $query;
-        $params[ 'limit' ]      = $limit;
-        $params[ 'fetch_plan' ] = $fetchPlan;
 
         return $this->getTransport()->execute( 'command', $params );
     }
@@ -325,10 +352,11 @@ class Client implements ConfigurableInterface {
      *
      * @param string $database
      * @param string $dbType
-     *
+     * @param string $username
+     * @param string $password
      * @return ClusterMap
      */
-    public function dbOpen( $database, $username= '', $password = '', $dbType = Constants::DATABASE_TYPE_GRAPH ) {
+    public function dbOpen( $database, $username = '', $password = '', $dbType = Constants::DATABASE_TYPE_GRAPH ) {
         return $this->getTransport()->execute( 'dbOpen',
             array(
                 'database'          => $database,
@@ -427,12 +455,10 @@ class Client implements ConfigurableInterface {
     /**
      * Create a new Database
      *
-     * @param array $params
-     *
      * @return int|string numeric
      */
-    public function dbCountRecords( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dbCountRecords', $params );
+    public function dbCountRecords() {
+        return $this->getTransport()->execute( 'dbCountRecords', [] );
     }
 
     /**

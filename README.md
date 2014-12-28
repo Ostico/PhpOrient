@@ -46,6 +46,99 @@ require "vendor/autoload.php";
 use PhpOrient\Client;
 ```
 
+### Client initialization
+There are several ways to initialize the client
+
+```php
+$client = new Client( 'localhost', 2424 );
+$client->username = 'root';
+$client->password = 'root_pass';
+```
+
+```php
+$client = new Client();
+$client->hostname = 'localhost';
+$client->port     = 2424;
+$client->username = 'root';
+$client->password = 'root_pass';
+```
+
+```php
+$client = new Client();
+$client->configure( array(
+    'username' => 'root',
+    'password' => 'root_pass',
+    'hostname' => 'localhost,
+    'port'     => 2424,
+) );
+```
+
+### Connect to perform Server Management Operations
+```php
+$client = new Client( 'localhost', 2424 );
+$client->username = 'root';
+$client->password = 'root_pass';
+$client->connect();
+```
+
+```php
+$client = new Client( 'localhost', 2424 );
+$client->connect( 'root', 'root_pass' );
+```
+
+### Database Create
+```php
+$client->dbCreate( 'my_new_database',
+    Constants::STORAGE_TYPE_MEMORY,   # optional, default: PLOCAL
+    Constants::DATABASE_TYPE_GRAPH    # optional, default: DATABASE_TYPE_GRAPH
+);
+```
+
+### Check if a DB Exists
+```php
+$client->dbExists( 'my_database', 
+    Constants::DATABASE_TYPE_GRAPH   # optional, default: DATABASE_TYPE_GRAPH
+);
+```
+
+### Get the the list of databases
+```php
+$client->dbList();
+```
+
+### Get the size of a database ( needs a DB opened )
+```php
+$client->dbSize();
+```
+
+### Open a Database
+```php
+$ClusterMap = $client->dbOpen( 'GratefulDeadConcerts, 'admin', 'admin' );
+```
+
+### Get the number of records in an open database
+```php
+$result = $client->dbCountRecords();
+```
+
+### Send a command
+This should be used only to perform not idempotent commands on a database
+```php
+$client->command( 'create class Animal extends V' );
+$client->command( "insert into Animal set name = 'rat', specie = 'rodent'" );
+```
+
+### Make a query
+```php
+$client->query( 'select from followed_by limit 10' );
+```
+
+### Make an Async query
+```php
+$myFunction = function( Record $record) { var_dump( $record ); };
+$client->queryAsync( 'select from followed_by', [ 'fetch_plan' => '*:1', '_callback' => $myFunction ] );
+```
+
 
     Work in progress
 

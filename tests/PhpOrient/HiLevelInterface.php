@@ -10,6 +10,7 @@ namespace PhpOrient;
 
 
 use PhpOrient\Abstracts\TestCase;
+use PhpOrient\Protocols\Binary\Data\Record;
 use PhpOrient\Protocols\Common\Constants;
 
 class HiLevelInterface extends TestCase {
@@ -54,6 +55,13 @@ class HiLevelInterface extends TestCase {
             $this->assertEquals( 'rat', $animal[ 0 ][ 'name' ] );
         }
 
+    }
+
+    public function testRealUsage(){
+        $client = new Client( 'localhost', 2424 );
+        $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
+        $myFunction = function( Record $record) { var_dump( $record ); };
+        $client->queryAsync( 'select from followed_by', [ 'fetch_plan' => '*:1', '_callback' => $myFunction ] );
     }
 
 }

@@ -151,17 +151,17 @@ class SocketTransport extends AbstractTransport {
              */
             if( $operation instanceof DbOpen || $operation instanceof Connect ){
 
-                if( empty($this->username) && empty($this->password) ){
-                    throw new TransportException('Can not initialize a transport ' .
-                    'without connection parameters');
-                }
-
                 if( empty( $params[ 'username' ] ) ){
                     $params[ 'username' ] = $this->username;
                 }
 
                 if( empty( $params[ 'password' ] ) ){
                     $params[ 'password' ] = $this->password;
+                }
+
+                if( empty( $params[ 'username' ] ) && empty( $params[ 'password' ] ) ){
+                    throw new TransportException('Can not initialize a transport ' .
+                        'without connection parameters');
                 }
 
             }
