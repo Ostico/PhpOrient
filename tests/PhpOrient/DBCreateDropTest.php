@@ -10,10 +10,6 @@ class DBCreateDropTest extends TestCase {
 
     public function testDBCreateDrop() {
 
-//        if( $this->client->getTransport()->getProtocolVersion() < 26 ){
-            $this->markTestSkipped( 'Record Create/Update Unpredictable Behaviour' );
-//        }
-
         $this->client->connect( self::getConfig('connect') );
 
         $result     = $this->client->execute( 'dbExists', [ 'database' => $this->db_name ] );
