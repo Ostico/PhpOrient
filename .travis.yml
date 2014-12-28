@@ -13,7 +13,6 @@ script: ./vendor/bin/phpunit
 
 env:
   - ORIENTDB_VERSION=2.0-rc1
-#  - ORIENTDB_VERSION=1.7.10
   - ORIENTDB_VERSION=1.7.8
   - ORIENTDB_VERSION=1.7.7
   - ORIENTDB_VERSION=1.7.4

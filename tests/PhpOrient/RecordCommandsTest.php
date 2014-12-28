@@ -39,6 +39,10 @@ class RecordCommandsTest extends TestCase {
 
     public function testCreateLoad(){
 
+        if( $this->client->getTransport()->getProtocolVersion() < 26 ){
+            $this->markTestSkipped( 'Record Create/Update Unpredictable Behaviour' );
+        }
+
         $rec1 = [
             'oData' => [
                 'alloggio' => 'baita',
@@ -97,6 +101,10 @@ class RecordCommandsTest extends TestCase {
 
     public function testCreateUpdateLoad(){
 
+        if( $this->client->getTransport()->getProtocolVersion() < 26 ){
+            $this->markTestSkipped( 'Record Create/Update Unpredictable Behaviour' );
+        }
+
         $recOrig = [ 'alloggio' => 'case', 'lavoro' => 'mercato', 'vacanza' => 'mare' ];
         $rec = new Record();
         $rec->setOData( $recOrig );
@@ -138,6 +146,10 @@ class RecordCommandsTest extends TestCase {
     }
 
     public function testReLoadUpdate(){
+
+        if( $this->client->getTransport()->getProtocolVersion() < 26 ){
+            $this->markTestSkipped( 'Record Create/Update Unpredictable Behaviour' );
+        }
 
         $recOrig = [ 'alloggio' => 'case', 'lavoro' => 'mercato', 'vacanza' => 'mare' ];
         $rec = new Record();
@@ -181,6 +193,10 @@ class RecordCommandsTest extends TestCase {
     }
 
     public function testCreateLoadDeleteLoad(){
+
+        if( $this->client->getTransport()->getProtocolVersion() < 26 ){
+            $this->markTestSkipped( 'Record Create/Update Unpredictable Behaviour' );
+        }
 
         $recOrig = [ 'alloggio' => 'case', 'lavoro' => 'mercato', 'vacanza' => 'mare' ];
         $rec = new Record();
