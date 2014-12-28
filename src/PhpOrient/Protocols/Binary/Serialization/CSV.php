@@ -227,23 +227,33 @@ class CSV {
 
         $c = $input[ 0 ];
 
+        $useStrings = ( PHP_INT_SIZE == 4 );
+
         if ( $c === 'a' || $c === 't' ) {
             // date
             $collected = \DateTime::createFromFormat( 'U', $collected );
             $input     = substr( $input, 1 );
         } elseif ( $c === 'f' ) {
             // float
-            $collected = (float)$collected;
+            if( !$useStrings ){
+                $collected = (float)$collected;
+            }
             $input     = substr( $input, 1 );
         } elseif ( $c === 'b' || $c === 's' || $c === 'l' ) {
-            $collected = (int)$collected;
+            if( !$useStrings ){
+                $collected = (int)$collected;
+            }
             $input     = substr( $input, 1 );
         } elseif ( $c === 'c' || $c === 'd' ) {
             $input = substr( $input, 1 );
         } elseif ( $isFloat ) {
-            $collected = (float)$collected;
+            if( !$useStrings ){
+                $collected = (float)$collected;
+            }
         } else {
-            $collected = (int)$collected;
+            if( !$useStrings ){
+                $collected = (int)$collected;
+            }
         }
 
         return [ $collected, $input ];
