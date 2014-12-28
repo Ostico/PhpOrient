@@ -68,7 +68,7 @@ $client = new Client();
 $client->configure( array(
     'username' => 'root',
     'password' => 'root_pass',
-    'hostname' => 'localhost,
+    'hostname' => 'localhost',
     'port'     => 2424,
 ) );
 ```
