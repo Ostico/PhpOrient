@@ -1,4 +1,8 @@
 <?php
+/**
+ * Client Class
+ *
+ */
 
 namespace PhpOrient;
 
@@ -25,35 +29,45 @@ class Client implements ConfigurableInterface {
     use ConfigurableTrait;
 
     /**
-     * @var string The server host.
+     * The server host.
+     *
+     * @var string
      */
     public $hostname;
 
     /**
-     * @var string The port for the server.
+     * The port for the server.
+     *
+     * @var string
      */
     public $port;
 
     /**
-     * @var string The username for the server.
+     * The username for the server.
+     *
+     * @var string
      */
     public $username;
 
     /**
-     * @var string The password for the server.
+     * The password for the server.
+     *
+     * @var string
      */
     public $password;
 
     /**
-     * @var TransportInterface The transport to use for the connection to the server.
+     * The transport to use for the connection to the server.
+     *
+     * @var TransportInterface
      */
     protected $_transport;
 
     /**
      * Class Constructor
      *
-     * @param string $hostname
-     * @param string $port
+     * @param string $hostname The server host.
+     * @param string $port The server port.
      */
     public function __construct( $hostname = '', $port = '' ) {
         if ( !empty( $hostname ) ) {
@@ -304,7 +318,7 @@ class Client implements ConfigurableInterface {
      * @param ID $rid
      * @param string $fetchPlan
      *
-     * @return mixed
+     * @return RecordLoad/Record
      */
     public function recordLoad( ID $rid, $fetchPlan = '*:0' ) {
         return $this->getTransport()->execute( 'recordLoad', [

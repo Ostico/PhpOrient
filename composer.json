@@ -12,7 +12,9 @@
     "authors": [
         {
             "name": "Domenico Lupinetti",
-            "email": "ostico@gmail.com"
+            "email": "ostico@gmail.com",
+            "homepage": "https://www.linkedin.com/in/domenicolupinetti",
+            "role": "Owner, Developer"
         }
     ],
     "require": {
@@ -21,7 +23,10 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~3.7.0",
-        "monolog/monolog": "1.11.*"
+        "monolog/monolog": "1.11.*",
+        "phpdocumentor/template-zend": "1.3.0",
+        "phpdocumentor/phpdocumentor": "dev-master",
+        "evert/phpdoc-md": "dev-master"
     },
     "autoload": {
         "psr-4": {"PhpOrient\\": "src/PhpOrient"}

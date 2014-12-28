@@ -10,7 +10,6 @@ namespace PhpOrient\Protocols\Binary\Data;
 
 
 use PhpOrient\Protocols\Binary\Abstracts\SerializableInterface;
-use PhpOrient\Protocols\Binary\Serialization\CSV;
 use PhpOrient\Protocols\Common\ConfigurableTrait;
 
 class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
@@ -46,7 +45,7 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
     }
 
     /**
-     * Sets the Id
+     * Sets the Record Id
      *
      * @param ID $rid
      *
@@ -60,7 +59,7 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
 
 
     /**
-     * Sets the Class
+     * Sets the Orient Class
      *
      * @param string $oClass
      *
@@ -73,7 +72,7 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
     }
 
     /**
-     * Gets the Class
+     * Gets the Orient Class
      * @return string|null
      */
     public function getOClass() {
@@ -102,7 +101,7 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
     }
 
     /**
-     * Sets the Bytes
+     * Sets the Orient Record Content
      *
      * @param array $oData
      *
@@ -114,7 +113,7 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
     }
 
     /**
-     * Gets the Bytes
+     * Gets the Orient Record Content
      * @return string
      */
     public function getOData() {
@@ -236,6 +235,9 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
     }
 
     /**
+     * Magic Method, access directly to the Orient Record
+     * content as property
+     *
      * @param $name
      *
      * @return mixed
@@ -245,12 +247,14 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
     }
 
     /**
+     * Magic Method, set directly to the Orient Record
+     * content as property
+     *
      * @param $name
      * @param $value
      */
     public function __set( $name, $value ) {
         $this->offsetSet( $name, $value );
     }
-
 
 }

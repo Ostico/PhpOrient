@@ -138,10 +138,10 @@ class RecordCommandsTest extends TestCase {
 
         $this->assertEquals( (string)$rec2, (string)$updated );
 
-        $load = $this->client->execute( 'recordLoad', [ 'rid' => $updated->getRid() ]);
-        $this->assertInstanceOf( '\PhpOrient\Protocols\Binary\Data\Record', $load[0] );
-        $this->assertEquals( (string)$updated->getRid(), (string)$load[0]->getRid() );
-        $this->assertEquals( (string)$updated, (string)$load[0] );
+        $load = $this->client->execute( 'recordLoad', [ 'rid' => $updated->getRid() ])[0];
+        $this->assertInstanceOf( '\PhpOrient\Protocols\Binary\Data\Record', $load );
+        $this->assertEquals( (string)$updated->getRid(), (string)$load->getRid() );
+        $this->assertEquals( (string)$updated, (string)$load );
 
     }
 

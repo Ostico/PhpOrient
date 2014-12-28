@@ -10,6 +10,7 @@ namespace PhpOrient;
 
 
 use PhpOrient\Abstracts\TestCase;
+use PhpOrient\Protocols\Binary\Data\ID;
 use PhpOrient\Protocols\Binary\Data\Record;
 use PhpOrient\Protocols\Common\Constants;
 
@@ -62,6 +63,23 @@ class HiLevelInterface extends TestCase {
         $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
         $myFunction = function( Record $record) { var_dump( $record ); };
         $client->queryAsync( 'select from followed_by', [ 'fetch_plan' => '*:1', '_callback' => $myFunction ] );
+    }
+
+    public function testRecordCreateUpdate(){
+        $recordContent = [ 'accommodation' => 'houses', 'work' => 'bazar', 'holiday' => 'sea' ];
+        $rec = ( new Record() )->setOData( $recordContent )->setRid( new ID( 9 ) );
+        $record = $this->client->recordCreate( $rec );
+
+        $_recUp = [ 'accommodation' => 'hotel', 'work' => 'office', 'holiday' => 'mountain' ];
+        $recUp = ( new Record() )->setOData( $_recUp )->setOClass( 'V' )->setRid( $record->getRid() );
+        $updated = $this->client->recordUpdate( $recUp );
+
+//        $updated = $this->client->query( "select from V where @rid = '#9:0'" )[0];
+
+        $_recUp = [ 'accommodation' => 'bridge', 'work' => [ 'none', 'some' ], 'holiday' => 'what??' ];
+        $recUp = $record->setOData( $_recUp );
+        $updated = $this->client->recordUpdate( $recUp );
+
     }
 
 }

@@ -1,0 +1,60 @@
+API Index
+=========
+
+* PhpOrient
+    * [Client](PhpOrient-Client.md)
+    * PhpOrient\Exceptions
+        * [PhpOrientBadMethodCallException](PhpOrient-Exceptions-PhpOrientBadMethodCallException.md)
+        * [PhpOrientException](PhpOrient-Exceptions-PhpOrientException.md)
+        * [PhpOrientWrongProtocolVersionException](PhpOrient-Exceptions-PhpOrientWrongProtocolVersionException.md)
+        * [TransportException](PhpOrient-Exceptions-TransportException.md)
+        * [SocketException](PhpOrient-Exceptions-SocketException.md)
+    * PhpOrient\Configuration
+        * [Constants](PhpOrient-Configuration-Constants.md)
+    * PhpOrient\Protocols
+        * PhpOrient\Protocols\Binary
+            * PhpOrient\Protocols\Binary\Stream
+                * [Reader](PhpOrient-Protocols-Binary-Stream-Reader.md)
+                * [Writer](PhpOrient-Protocols-Binary-Stream-Writer.md)
+            * PhpOrient\Protocols\Binary\Serialization
+                * [CSV](PhpOrient-Protocols-Binary-Serialization-CSV.md)
+            * PhpOrient\Protocols\Binary\Operations
+                * [DbRelease](PhpOrient-Protocols-Binary-Operations-DbRelease.md)
+                * [DataClusterDrop](PhpOrient-Protocols-Binary-Operations-DataClusterDrop.md)
+                * [DbCountRecords](PhpOrient-Protocols-Binary-Operations-DbCountRecords.md)
+                * [DbExists](PhpOrient-Protocols-Binary-Operations-DbExists.md)
+                * [DbSize](PhpOrient-Protocols-Binary-Operations-DbSize.md)
+                * [RecordCreate](PhpOrient-Protocols-Binary-Operations-RecordCreate.md)
+                * [DataClusterCount](PhpOrient-Protocols-Binary-Operations-DataClusterCount.md)
+                * [DbFreeze](PhpOrient-Protocols-Binary-Operations-DbFreeze.md)
+                * [DataClusterAdd](PhpOrient-Protocols-Binary-Operations-DataClusterAdd.md)
+                * [RecordUpdate](PhpOrient-Protocols-Binary-Operations-RecordUpdate.md)
+                * [RecordLoad](PhpOrient-Protocols-Binary-Operations-RecordLoad.md)
+                * [RecordDelete](PhpOrient-Protocols-Binary-Operations-RecordDelete.md)
+                * [Command](PhpOrient-Protocols-Binary-Operations-Command.md)
+                * [DbReload](PhpOrient-Protocols-Binary-Operations-DbReload.md)
+                * [Connect](PhpOrient-Protocols-Binary-Operations-Connect.md)
+                * [DataClusterDataRange](PhpOrient-Protocols-Binary-Operations-DataClusterDataRange.md)
+                * [DbOpen](PhpOrient-Protocols-Binary-Operations-DbOpen.md)
+                * [DbList](PhpOrient-Protocols-Binary-Operations-DbList.md)
+                * [DbDrop](PhpOrient-Protocols-Binary-Operations-DbDrop.md)
+                * [DbClose](PhpOrient-Protocols-Binary-Operations-DbClose.md)
+                * [DbCreate](PhpOrient-Protocols-Binary-Operations-DbCreate.md)
+            * [OrientSocket](PhpOrient-Protocols-Binary-OrientSocket.md)
+            * [SocketTransport](PhpOrient-Protocols-Binary-SocketTransport.md)
+            * PhpOrient\Protocols\Binary\Data
+                * [ID](PhpOrient-Protocols-Binary-Data-ID.md)
+                * [Bag](PhpOrient-Protocols-Binary-Data-Bag.md)
+                * [Record](PhpOrient-Protocols-Binary-Data-Record.md)
+            * PhpOrient\Protocols\Binary\Abstracts
+                * [SerializableInterface](PhpOrient-Protocols-Binary-Abstracts-SerializableInterface.md)
+                * [Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+            * PhpOrient\Protocols\Binary\Transaction
+                * [TxCommit](PhpOrient-Protocols-Binary-Transaction-TxCommit.md)
+        * PhpOrient\Protocols\Common
+            * [AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport.md)
+            * [ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface.md)
+            * [ClusterMap](PhpOrient-Protocols-Common-ClusterMap.md)
+            * [TransportInterface](PhpOrient-Protocols-Common-TransportInterface.md)
+            * [Constants](PhpOrient-Protocols-Common-Constants.md)
+

@@ -4,7 +4,7 @@
 
 A PHP driver good enough for OrientDB that uses binary protocol.
 
-> **status: RC-1**
+> **status: Beta**
 > Please [report any bugs](https://github.com/Ostico/PhpOrient/issues) you find so that we can improve the library for everyone.
 
 #### Requires
@@ -138,6 +138,52 @@ $client->query( 'select from followed_by limit 10' );
 $myFunction = function( Record $record) { var_dump( $record ); };
 $client->queryAsync( 'select from followed_by', [ 'fetch_plan' => '*:1', '_callback' => $myFunction ] );
 ```
+
+### Load a Record
+```php
+$record = $client->recordLoad( new ID( '#3:0' ) )[0];
+$record = $client->recordLoad( new ID( 3, 0 ) )[0];
+$record = $client->recordLoad( new ID( [ 'cluster' => 3, 'position' => 0 ] ) )[0];
+```
+
+### Create a Record
+```php
+$recordContent = [ 'accommodation' => 'houses', 'work' => 'bazar', 'holiday' => 'sea' ];
+$rec = ( new Record() )->setOData( $recordContent )->setRid( new ID( 9 /* set only the cluster ID */ ) ); 
+$record = $this->client->recordCreate( $rec );
+```
+
+### Update a Record
+To update a Record you must have one.
+
+If you have not a record you can build up a new one specifying a RID and the data:
+```php
+$_recUp = [ 'accommodation' => 'hotel', 'work' => 'office', 'holiday' => 'mountain' ];
+$recUp = ( new Record() )->setOData( $_recUp )->setOClass( 'V' )->setRid( new ID( 9, 0 ) );
+$updated = $client->recordUpdate( $recUp );
+```
+
+Otherwise you can work with a previous loaded/created Record
+```php
+/*
+ Create/Load or Query for a Record
+*/
+$recordContent = [ 'accommodation' => 'houses', 'work' => 'bazar', 'holiday' => 'sea' ];
+$rec = ( new Record() )->setOData( $recordContent )->setRid( new ID( 9 ) );
+$record = $client->recordCreate( $rec );
+/*
+or Query for an existent one
+*/
+$record = $client->query( "select from V where @rid = '#9:0'" )[0];
+/*
+ NOW UPDATE
+*/
+$_recUp = [ 'accommodation' => 'bridge', 'work' => 'none', 'holiday' => 'what??' ];
+$recUp = $record->setOData( $_recUp );
+$updated = $client->recordUpdate( $recUp );
+```
+
+### Load a Record with cache
 
 
     Work in progress
