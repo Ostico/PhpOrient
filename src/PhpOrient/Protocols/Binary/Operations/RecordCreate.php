@@ -77,7 +77,7 @@ class RecordCreate extends Operation {
         }
 
         $position = $this->_readLong();
-        $version  = $this->_readInt(); //TODO see this
+        $version  = $this->_readInt();
 
         # There are some strange behaviours with protocols between 19 and 23
         # the INT ( count-of-collection-changes ) in documentation
@@ -85,7 +85,7 @@ class RecordCreate extends Operation {
         # not every time this INT is present
         # So, i double check for protocol here
         # and add a socket timeout.
-        if ( $this->_transport->getProtocolVersion() >= 21 ) {
+        if ( $this->_transport->getProtocolVersion() > 21 ) {
 
             $changesNum = $this->_readInt();
             $changes = [ ];
