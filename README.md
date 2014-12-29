@@ -19,7 +19,7 @@ A PHP driver good enough for OrientDB that uses binary protocol.
 
 ## Installation
 
-Main public repository of OrientDB-PHP is hosted at [https://github.com/Ostico/PhpOrient.git](https://github.com/Ostico/PhpOrient.git).
+Main public repository of PhpOrient is hosted at [https://github.com/Ostico/PhpOrient.git](https://github.com/Ostico/PhpOrient.git).
 
 To install most recent version of library, just type
     
