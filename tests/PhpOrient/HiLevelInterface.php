@@ -59,7 +59,7 @@ class HiLevelInterface extends TestCase {
     }
 
     public function testRealUsage(){
-        $client = new Client( 'localhost', 2424 );
+        $client = new PhpOrient( 'localhost', 2424 );
         $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
         $myFunction = function( Record $record) {
             var_dump( $record );
@@ -91,7 +91,7 @@ class HiLevelInterface extends TestCase {
     }
 
     public function testLoadWithCache(){
-        $client = new Client( 'localhost', 2424 );
+        $client = new PhpOrient( 'localhost', 2424 );
         $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
         $myFunction = function( Record $record) {
             $this->assertInstanceOf( '\PhpOrient\Protocols\Binary\Data\Record', $record );

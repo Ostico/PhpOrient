@@ -1,12 +1,12 @@
-PhpOrient\Client
+PhpOrient\PhpOrient
 ===============
 
-Class Client
+Class PhpOrient
 
 
 
 
-* Class name: Client
+* Class name: PhpOrient
 * Namespace: PhpOrient
 * This class implements: [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface.md)
 
@@ -152,7 +152,7 @@ Methods
 
 ### __construct
 ```php
-    mixed PhpOrient\Client::__construct(string $hostname, string $port)
+    mixed PhpOrient\PhpOrient::__construct(string $hostname, string $port)
 ```
 ##### Class Constructor
 
@@ -169,7 +169,7 @@ Methods
 
 ### setTransport
 ```php
-    \PhpOrient\Client PhpOrient\Client::setTransport(\PhpOrient\Protocols\Common\TransportInterface $transport)
+    \PhpOrient\PhpOrient PhpOrient\PhpOrient::setTransport(\PhpOrient\Protocols\Common\TransportInterface $transport)
 ```
 ##### Sets the transport
 
@@ -185,7 +185,7 @@ Methods
 
 ### getTransport
 ```php
-    \PhpOrient\Protocols\Common\AbstractTransport PhpOrient\Client::getTransport()
+    \PhpOrient\Protocols\Common\AbstractTransport PhpOrient\PhpOrient::getTransport()
 ```
 ##### Gets the transport
 
@@ -198,7 +198,7 @@ Methods
 
 ### getTransactionStatement
 ```php
-    \PhpOrient\Protocols\Binary\Transaction\TxCommit PhpOrient\Client::getTransactionStatement()
+    \PhpOrient\Protocols\Binary\Transaction\TxCommit PhpOrient\PhpOrient::getTransactionStatement()
 ```
 ##### Start a new Transaction
 
@@ -211,7 +211,7 @@ Methods
 
 ### createTransport
 ```php
-    \PhpOrient\Protocols\Binary\SocketTransport PhpOrient\Client::createTransport(\PhpOrient\Protocols\Common\TransportInterface|null $transport)
+    \PhpOrient\Protocols\Binary\SocketTransport PhpOrient\PhpOrient::createTransport(\PhpOrient\Protocols\Common\TransportInterface|null $transport)
 ```
 ##### Create a transport instance.
 
@@ -227,7 +227,7 @@ Methods
 
 ### execute
 ```php
-    mixed PhpOrient\Client::execute(string $operation, array $params)
+    mixed PhpOrient\PhpOrient::execute(string $operation, array $params)
 ```
 ##### Execute the given operation.
 
@@ -244,7 +244,7 @@ Methods
 
 ### connect
 ```php
-    mixed PhpOrient\Client::connect(string $username, string $password, string $serializationType)
+    mixed PhpOrient\PhpOrient::connect(string $username, string $password, string $serializationType)
 ```
 ##### This is the first operation requested by the client when<br />
 it needs to work with the server instance.<br />
@@ -264,7 +264,7 @@ It returns the session id of the client.
 
 ### shutDown
 ```php
-    mixed PhpOrient\Client::shutDown(string $username, string $password)
+    mixed PhpOrient\PhpOrient::shutDown(string $username, string $password)
 ```
 ##### Send a command to shutdown the server
 Requires "shutdown" permission to be set in orientdb-server-config.xml file
@@ -282,7 +282,7 @@ Requires "shutdown" permission to be set in orientdb-server-config.xml file
 
 ### command
 ```php
-    mixed PhpOrient\Client::command(string $query)
+    mixed PhpOrient\PhpOrient::command(string $query)
 ```
 ##### Execute a not idempotent SQL command
 
@@ -298,7 +298,7 @@ Requires "shutdown" permission to be set in orientdb-server-config.xml file
 
 ### query
 ```php
-    mixed PhpOrient\Client::query(string $query, integer $limit, string $fetchPlan)
+    mixed PhpOrient\PhpOrient::query(string $query, integer $limit, string $fetchPlan)
 ```
 ##### Execute an idempotent SQL command ( Select usually )
 
@@ -316,7 +316,7 @@ Requires "shutdown" permission to be set in orientdb-server-config.xml file
 
 ### queryAsync
 ```php
-    mixed PhpOrient\Client::queryAsync(string $query, Array $params)
+    mixed PhpOrient\PhpOrient::queryAsync(string $query, Array $params)
 ```
 ##### Execute an idempotent SQL command in Async mode( Select usually )<br />
 A callback function is needed
@@ -334,7 +334,7 @@ A callback function is needed
 
 ### sqlBatch
 ```php
-    mixed PhpOrient\Client::sqlBatch(string $param)
+    mixed PhpOrient\PhpOrient::sqlBatch(string $param)
 ```
 ##### Execute an SQL Batch Script command<br />
 
@@ -350,7 +350,7 @@ A callback function is needed
 
 ### recordUpdate
 ```php
-    \PhpOrient\Protocols\Binary\Operations\RecordUpdate|\PhpOrient\Protocols\Binary\Data\Record PhpOrient\Client::recordUpdate(\PhpOrient\Protocols\Binary\Data\Record $record)
+    \PhpOrient\Protocols\Binary\Operations\RecordUpdate|\PhpOrient\Protocols\Binary\Data\Record PhpOrient\PhpOrient::recordUpdate(\PhpOrient\Protocols\Binary\Data\Record $record)
 ```
 ##### Update a Record
 
@@ -366,7 +366,7 @@ A callback function is needed
 
 ### recordCreate
 ```php
-    \PhpOrient\Protocols\Binary\Operations\RecordCreate|\PhpOrient\Protocols\Binary\Data\Record PhpOrient\Client::recordCreate(\PhpOrient\Protocols\Binary\Data\Record $record)
+    \PhpOrient\Protocols\Binary\Operations\RecordCreate|\PhpOrient\Protocols\Binary\Data\Record PhpOrient\PhpOrient::recordCreate(\PhpOrient\Protocols\Binary\Data\Record $record)
 ```
 ##### Create a record
 
@@ -382,7 +382,7 @@ A callback function is needed
 
 ### recordDelete
 ```php
-    \PhpOrient\Protocols\Binary\Operations\RecordDelete|\PhpOrient\Protocols\Binary\Data\Record PhpOrient\Client::recordDelete(\PhpOrient\Protocols\Binary\Data\ID $rid)
+    \PhpOrient\Protocols\Binary\Operations\RecordDelete|\PhpOrient\Protocols\Binary\Data\Record PhpOrient\PhpOrient::recordDelete(\PhpOrient\Protocols\Binary\Data\ID $rid)
 ```
 ##### Delete a Record
 
@@ -398,7 +398,7 @@ A callback function is needed
 
 ### recordLoad
 ```php
-    \PhpOrient\RecordLoad/Record PhpOrient\Client::recordLoad(\PhpOrient\Protocols\Binary\Data\ID $rid, array $params)
+    \PhpOrient\RecordLoad/Record PhpOrient\PhpOrient::recordLoad(\PhpOrient\Protocols\Binary\Data\ID $rid, array $params)
 ```
 ##### Load a Record
 
@@ -415,7 +415,7 @@ A callback function is needed
 
 ### dbSize
 ```php
-    integer|string PhpOrient\Client::dbSize()
+    integer|string PhpOrient\PhpOrient::dbSize()
 ```
 ##### Get the size of a Database
 
@@ -428,7 +428,7 @@ A callback function is needed
 
 ### dbReload
 ```php
-    \PhpOrient\Protocols\Common\ClusterMap PhpOrient\Client::dbReload()
+    \PhpOrient\Protocols\Common\ClusterMap PhpOrient\PhpOrient::dbReload()
 ```
 ##### Reload the structure of a Database
 
@@ -441,7 +441,7 @@ A callback function is needed
 
 ### dbRelease
 ```php
-    mixed PhpOrient\Client::dbRelease(string $db_name, string $storage_type)
+    mixed PhpOrient\PhpOrient::dbRelease(string $db_name, string $storage_type)
 ```
 ##### Release the structure of a Database
 
@@ -458,7 +458,7 @@ A callback function is needed
 
 ### dbOpen
 ```php
-    \PhpOrient\Protocols\Common\ClusterMap PhpOrient\Client::dbOpen(string $database, string $username, string $password, string $dbType)
+    \PhpOrient\Protocols\Common\ClusterMap PhpOrient\PhpOrient::dbOpen(string $database, string $username, string $password, string $dbType)
 ```
 ##### Open a Database and perform a connection<br />
 if it is not established before
@@ -478,7 +478,7 @@ if it is not established before
 
 ### dbList
 ```php
-    array PhpOrient\Client::dbList()
+    array PhpOrient\PhpOrient::dbList()
 ```
 ##### List all databases inside OrientDB instance
 
@@ -491,7 +491,7 @@ if it is not established before
 
 ### dbFreeze
 ```php
-    boolean PhpOrient\Client::dbFreeze(string $db_name, string $storage_type)
+    boolean PhpOrient\PhpOrient::dbFreeze(string $db_name, string $storage_type)
 ```
 ##### Freeze a database ( need Release to unlock )<br />
 Flushes all cached content to the disk storage and allows to perform only read commands
@@ -509,7 +509,7 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 ### dbExists
 ```php
-    boolean PhpOrient\Client::dbExists($database, string $database_type)
+    boolean PhpOrient\PhpOrient::dbExists($database, string $database_type)
 ```
 ##### Check if a database exists
 
@@ -526,7 +526,7 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 ### dbDrop
 ```php
-    mixed PhpOrient\Client::dbDrop($database, string $storage_type)
+    mixed PhpOrient\PhpOrient::dbDrop($database, string $storage_type)
 ```
 ##### Drop an existent database
 
@@ -543,7 +543,7 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 ### dbCreate
 ```php
-    boolean PhpOrient\Client::dbCreate(string $database, string $storage_type, string $database_type)
+    boolean PhpOrient\PhpOrient::dbCreate(string $database, string $storage_type, string $database_type)
 ```
 ##### Create a new Database
 
@@ -561,7 +561,7 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 ### dbCountRecords
 ```php
-    integer|string PhpOrient\Client::dbCountRecords()
+    integer|string PhpOrient\PhpOrient::dbCountRecords()
 ```
 ##### Create a new Database
 
@@ -574,7 +574,7 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 ### dbClose
 ```php
-    integer PhpOrient\Client::dbClose()
+    integer PhpOrient\PhpOrient::dbClose()
 ```
 ##### Close a database a drop the connection
 
@@ -587,7 +587,7 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 ### dataClusterDrop
 ```php
-    boolean PhpOrient\Client::dataClusterDrop(integer $cluster_id)
+    boolean PhpOrient\PhpOrient::dataClusterDrop(integer $cluster_id)
 ```
 ##### Drop a data cluster
 
@@ -603,7 +603,7 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 ### dataClusterDataRange
 ```php
-    array<mixed,integer>|array<mixed,string> PhpOrient\Client::dataClusterDataRange(integer $cluster_id)
+    array<mixed,integer>|array<mixed,string> PhpOrient\PhpOrient::dataClusterDataRange(integer $cluster_id)
 ```
 ##### Returns the range of record ids for a cluster.
 
@@ -619,7 +619,7 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 ### dataClusterCount
 ```php
-    integer|string PhpOrient\Client::dataClusterCount(array $cluster_ids)
+    integer|string PhpOrient\PhpOrient::dataClusterCount(array $cluster_ids)
 ```
 ##### Returns the number of records in one or more clusters.
 
@@ -635,7 +635,7 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 ### dataClusterAdd
 ```php
-    integer PhpOrient\Client::dataClusterAdd($cluster_name, string $cluster_type)
+    integer PhpOrient\PhpOrient::dataClusterAdd($cluster_name, string $cluster_type)
 ```
 ##### Add a new data cluster
 
@@ -669,7 +669,7 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 ### fromConfig
 ```php
-    static PhpOrient\Client::fromConfig(array $options)
+    static PhpOrient\PhpOrient::fromConfig(array $options)
 ```
 ##### Return a new class instance configured from the given options.
 

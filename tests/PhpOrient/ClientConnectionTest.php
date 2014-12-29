@@ -20,7 +20,7 @@ class ClientConnectionTest extends EmptyTestCase {
 
         $config = static::getConfig( 'connect' );
 
-        $client = new Client();
+        $client = new PhpOrient();
         $client->hostname = $config[ 'hostname' ];
         $client->port     = $config[ 'port' ];
         $client->username = $config[ 'username' ];
@@ -43,7 +43,7 @@ class ClientConnectionTest extends EmptyTestCase {
     public function testManualConfiguration2() {
 
         $config = static::getConfig('connect');
-        $client = new Client();
+        $client = new PhpOrient();
 
         $transport = new \PhpOrient\Protocols\Binary\SocketTransport();
         $this->assertInstanceOf( '\PhpOrient\Protocols\Common\AbstractTransport', $transport );
@@ -63,7 +63,7 @@ class ClientConnectionTest extends EmptyTestCase {
 
         $config = static::getConfig( 'connect' );
 
-        $client = new Client();
+        $client = new PhpOrient();
 
         $transport = $client->getTransport();
         $this->assertInstanceOf( '\PhpOrient\Protocols\Common\AbstractTransport', $transport );
@@ -79,7 +79,7 @@ class ClientConnectionTest extends EmptyTestCase {
 
     public function testINVALIDConfiguration() {
 
-        $client = new Client();
+        $client = new PhpOrient();
         $client->getTransport();
         $this->setExpectedException( '\PhpOrient\Exceptions\SocketException',
                 'Can not initialize a connection ' .

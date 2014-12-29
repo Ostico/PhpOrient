@@ -2,7 +2,6 @@ API Index
 =========
 
 * PhpOrient
-    * [Client](PhpOrient-Client.md)
     * PhpOrient\Exceptions
         * [PhpOrientBadMethodCallException](PhpOrient-Exceptions-PhpOrientBadMethodCallException.md)
         * [PhpOrientException](PhpOrient-Exceptions-PhpOrientException.md)
@@ -58,4 +57,5 @@ API Index
             * [ClusterMap](PhpOrient-Protocols-Common-ClusterMap.md)
             * [TransportInterface](PhpOrient-Protocols-Common-TransportInterface.md)
             * [Constants](PhpOrient-Protocols-Common-Constants.md)
+    * [PhpOrient](PhpOrient-PhpOrient.md)
 

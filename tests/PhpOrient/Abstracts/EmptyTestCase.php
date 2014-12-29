@@ -2,13 +2,13 @@
 
 namespace PhpOrient\Abstracts;
 
-use PhpOrient\Client;
+use PhpOrient\PhpOrient;
 
 abstract class EmptyTestCase extends \PHPUnit_Framework_TestCase {
     use ClientTrait;
 
     /**
-     * @var Client
+     * @var PhpOrient
      */
     protected $client;
     protected $thisTest;

@@ -8,7 +8,7 @@
 
 namespace PhpOrient\Abstracts;
 
-use PhpOrient\Client;
+use PhpOrient\PhpOrient;
 use PhpOrient\Configuration\Constants as ClientConstants;
 
 trait ClientTrait {
@@ -40,12 +40,12 @@ trait ClientTrait {
     /**
      * @param string $type
      *
-     * @return Client
+     * @return PhpOrient
      * @throws \Exception
      */
     protected function createClient( $type = '' ) {
         $config = static::getConfig( $type );
-        $client = new Client();
+        $client = new PhpOrient();
         $client->configure( array(
             'username' => $config[ 'username' ],
             'password' => $config[ 'password' ],

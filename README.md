@@ -43,7 +43,7 @@ PhpOrient specify autoload information, Composer generates a vendor/autoload.php
 
 ```php
 require "vendor/autoload.php";
-use PhpOrient\Client;
+use PhpOrient\PhpOrient;
 ```
 A complete phpdoc reference can be found here [ApiIndex](https://github.com/Ostico/PhpOrient/blob/master/docs/ApiIndex.md)
 
@@ -51,13 +51,13 @@ A complete phpdoc reference can be found here [ApiIndex](https://github.com/Osti
 There are several ways to initialize the client
 
 ```php
-$client = new Client( 'localhost', 2424 );
+$client = new PhpOrient( 'localhost', 2424 );
 $client->username = 'root';
 $client->password = 'root_pass';
 ```
 
 ```php
-$client = new Client();
+$client = new PhpOrient();
 $client->hostname = 'localhost';
 $client->port     = 2424;
 $client->username = 'root';
@@ -65,7 +65,7 @@ $client->password = 'root_pass';
 ```
 
 ```php
-$client = new Client();
+$client = new PhpOrient();
 $client->configure( array(
     'username' => 'root',
     'password' => 'root_pass',
@@ -76,36 +76,36 @@ $client->configure( array(
 
 ### Connect to perform Server Management Operations
 ```php
-$client = new Client( 'localhost', 2424 );
+$client = new PhpOrient( 'localhost', 2424 );
 $client->username = 'root';
 $client->password = 'root_pass';
 $client->connect();
 ```
 
 ```php
-$client = new Client( 'localhost', 2424 );
+$client = new PhpOrient( 'localhost', 2424 );
 $client->connect( 'root', 'root_pass' );
 ```
 
 ### Database Create
 ```php
 $new_cluster_id = $client->dbCreate( 'my_new_database',
-    Client::STORAGE_TYPE_MEMORY,   # optional, default: STORAGE_TYPE_PLOCAL
-    Client::DATABASE_TYPE_GRAPH    # optional, default: DATABASE_TYPE_GRAPH
+    PhpOrient::STORAGE_TYPE_MEMORY,   # optional, default: STORAGE_TYPE_PLOCAL
+    PhpOrient::DATABASE_TYPE_GRAPH    # optional, default: DATABASE_TYPE_GRAPH
 );
 ```
 
 ### Drop a Database
 ```php
 $client->dbDrop( $this->db_name, 
-    Client::STORAGE_TYPE_MEMORY  # optional, default: STORAGE_TYPE_PLOCAL
+    PhpOrient::STORAGE_TYPE_MEMORY  # optional, default: STORAGE_TYPE_PLOCAL
 );
 ```
 
 ### Check if a DB Exists
 ```php
 $client->dbExists( 'my_database', 
-    Client::DATABASE_TYPE_GRAPH   # optional, default: DATABASE_TYPE_GRAPH
+    PhpOrient::DATABASE_TYPE_GRAPH   # optional, default: DATABASE_TYPE_GRAPH
 );
 ```
 
@@ -144,7 +144,7 @@ $reloaded_list = $client->dbReload();  # $reloaded_list === $client->getTranspor
 ### Create a new data Cluster
 ```php
 $client->dataClusterAdd( 'new_cluster', 
-    Client::CLUSTER_TYPE_MEMORY  # optional, default: Client::CLUSTER_TYPE_PHYSICAL
+    PhpOrient::CLUSTER_TYPE_MEMORY  # optional, default: PhpOrient::CLUSTER_TYPE_PHYSICAL
 );
 ```
 
@@ -308,9 +308,9 @@ $this->assertEmpty( $deleted );
 ### A GRAPH Example
 ```php
 require "vendor/autoload.php";
-use PhpOrient\Client;
+use PhpOrient\PhpOrient;
 
-$client = new Client();
+$client = new PhpOrient();
 $client->configure( array(
     'username' => 'admin',
     'password' => 'admin',
@@ -320,7 +320,7 @@ $client->configure( array(
 
 $client->connect();
 
-$client->dbCreate( 'animals', Client::STORAGE_TYPE_MEMORY );
+$client->dbCreate( 'animals', PhpOrient::STORAGE_TYPE_MEMORY );
 $client->dbOpen( 'animals', 'admin', 'admin' );
 
 $client->command( 'create class Animal extends V' );

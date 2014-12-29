@@ -21,11 +21,11 @@ use PhpOrient\Protocols\Binary\SocketTransport;
 use PhpOrient\Exceptions\TransportException;
 
 /**
- * Class Client
+ * Class PhpOrient
  *
  * @package PhpOrient
  */
-class Client implements ConfigurableInterface {
+class PhpOrient implements ConfigurableInterface {
     use ConfigurableTrait;
 
     const DATABASE_TYPE_DOCUMENT     = Constants::DATABASE_TYPE_DOCUMENT;
