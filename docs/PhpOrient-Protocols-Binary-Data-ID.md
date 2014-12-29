@@ -21,7 +21,7 @@ Properties
 ```php
     public integer $cluster
 ```
- 
+ The cluster the record belongs to.
 
 
 
@@ -32,7 +32,7 @@ Properties
 ```php
     public integer $position
 ```
- 
+ The position of the record in the cluster.
 
 
 

@@ -28,6 +28,16 @@ use PhpOrient\Exceptions\TransportException;
 class Client implements ConfigurableInterface {
     use ConfigurableTrait;
 
+    const DATABASE_TYPE_DOCUMENT     = Constants::DATABASE_TYPE_DOCUMENT;
+    const DATABASE_TYPE_GRAPH        = Constants::DATABASE_TYPE_GRAPH;
+    const CLUSTER_TYPE_PHYSICAL      = Constants::CLUSTER_TYPE_PHYSICAL;
+    const CLUSTER_TYPE_MEMORY        = Constants::CLUSTER_TYPE_MEMORY;
+    const SERIALIZATION_DOCUMENT2CSV = Constants::SERIALIZATION_DOCUMENT2CSV;
+    const SERIALIZATION_SERIAL_BIN   = Constants::SERIALIZATION_SERIAL_BIN;
+    const STORAGE_TYPE_LOCAL         = Constants::STORAGE_TYPE_LOCAL;
+    const STORAGE_TYPE_PLOCAL        = Constants::STORAGE_TYPE_PLOCAL;
+    const STORAGE_TYPE_MEMORY        = Constants::STORAGE_TYPE_MEMORY;
+
     /**
      * The server host.
      *
@@ -196,6 +206,17 @@ class Client implements ConfigurableInterface {
     }
 
     /**
+     * Send a command to shutdown the server
+     * Requires "shutdown" permission to be set in orientdb-server-config.xml file
+     *
+     * @param string $username
+     * @param string $password
+     */
+    public function shutDown( $username = '', $password = '' ){
+        $this->execute( 'shutDown', [ 'username' => $username, 'password' => $password ] );
+    }
+
+    /**
      * Execute a not idempotent SQL command
      *
      * @see PhpOrient\Protocols\Binary\Operations\Command
@@ -316,15 +337,13 @@ class Client implements ConfigurableInterface {
      * Load a Record
      *
      * @param ID $rid
-     * @param string $fetchPlan
+     * @param array $params
      *
      * @return RecordLoad/Record
      */
-    public function recordLoad( ID $rid, $fetchPlan = '*:0' ) {
-        return $this->getTransport()->execute( 'recordLoad', [
-            'rid'        => $rid,
-            'fetch_plan' => $fetchPlan
-        ] );
+    public function recordLoad( ID $rid, Array $params = array()  ) {
+        $params[ 'rid' ]      = $rid;
+        return $this->getTransport()->execute( 'recordLoad', $params );
     }
 
     /**
@@ -487,45 +506,49 @@ class Client implements ConfigurableInterface {
     /**
      * Drop a data cluster
      *
-     * @param array $params
+     * @param int $cluster_id
      *
      * @return boolean True if the DataCluster was immediately deleted.
      */
-    public function dataClusterDrop( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dataClusterDrop', $params );
+    public function dataClusterDrop( $cluster_id ) {
+        return $this->getTransport()->execute( 'dataClusterDrop', [ 'id' => $cluster_id ] );
     }
 
     /**
      * Returns the range of record ids for a cluster.
      *
-     * @param array $params
+     * @param int $cluster_id
      *
      * @return int[]|string[] numeric
      */
-    public function dataClusterDataRange( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dataClusterDataRange', $params );
+    public function dataClusterDataRange( $cluster_id ) {
+        return $this->getTransport()->execute( 'dataClusterDataRange', [ 'id' => $cluster_id ] );
     }
 
     /**
      * Returns the number of records in one or more clusters.
      *
-     * @param array $params
+     * @param int[]|string[] numeric $cluster_ids
      *
      * @return int|string numeric
      */
-    public function dataClusterCount( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dataClusterCount', $params );
+    public function dataClusterCount( Array $cluster_ids = array() ) {
+        return $this->getTransport()->execute( 'dataClusterCount', [ 'ids' => $cluster_ids ] );
     }
 
     /**
      * Add a new data cluster
      *
-     * @param array $params
+     * @param        $cluster_name
+     * @param string $cluster_type
      *
-     * @return int
+     * @return int the new cluster ID
      */
-    public function dataClusterAdd( Array $params = array() ) {
-        return $this->getTransport()->execute( 'dataClusterAdd', $params );
+    public function dataClusterAdd( $cluster_name, $cluster_type = Constants::CLUSTER_TYPE_PHYSICAL ) {
+        return $this->getTransport()->execute( 'dataClusterAdd', [
+            'cluster_name' => $cluster_name,
+            'cluster_type' => $cluster_type
+        ] );
     }
 
 

@@ -32,12 +32,12 @@ class DataClusterAdd extends Operation {
     /**
      * @var string The cluster location.
      */
-    public $location;
+    public $location = 'default';
 
     /**
      * @var string The name of the segment.
      */
-    public $segmentName;
+    public $segmentName = 'default';
 
     /**
      * Write the data to the socket.

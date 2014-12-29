@@ -130,6 +130,19 @@ Methods
 
 
 
+### getIdList
+```php
+    array<mixed,integer>|array<mixed,string> PhpOrient\Protocols\Common\ClusterMap::getIdList()
+```
+##### Return the list of cluster IDs
+
+
+
+* Visibility: **public**
+
+
+
+
 ### getClusterID
 ```php
     integer|null PhpOrient\Protocols\Common\ClusterMap::getClusterID($name)

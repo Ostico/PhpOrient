@@ -101,6 +101,7 @@ class ClusterMap implements ConfigurableInterface, \ArrayAccess, \Countable, \It
         $this->config( $options );
         if ( !empty( $this->dataClusters ) ) {
             $this->reverseMap = array();
+            $this->reverseIDMap = array();
             foreach ( $this->dataClusters as $pos => $value ) {
                 $this->reverseMap[ $value[ 'name' ] ] = [ $pos, $value[ 'id' ] ];
                 $this->reverseIDMap[ $value[ 'id' ] ] = [ $pos, $value[ 'name' ] ];
@@ -109,6 +110,15 @@ class ClusterMap implements ConfigurableInterface, \ArrayAccess, \Countable, \It
 
         return $this;
 
+    }
+
+    /**
+     * Return the list of cluster IDs
+     *
+     * @return int[]|string[] numeric
+     */
+    public function getIdList(){
+        return array_keys( $this->reverseIDMap );
     }
 
     /**

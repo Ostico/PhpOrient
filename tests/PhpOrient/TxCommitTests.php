@@ -88,7 +88,7 @@ class TxCommitTests extends TestCase {
         $tx = $tx->begin();
         $this->assertInstanceOf( 'PhpOrient\Protocols\Binary\Transaction\TxCommit', $tx );
 
-        $recUp = [ 'alloggio' => 'baita di montagna' ];
+        $recUp = [ 'accommodation' => 'mountain cabin' ];
         $rec2 = new Record();
         $rec2->setOData( $recUp );
         $rec2->setOClass( 'V' );
@@ -99,7 +99,7 @@ class TxCommitTests extends TestCase {
 
         $createCommand = $this->client->recordCreate(
             ( new Record() )
-                ->setOData( [ 'alloggio' => 'bungalow' ] )
+                ->setOData( [ 'accommodation' => 'bungalow' ] )
                 ->setOClass( 'V' )
                 ->setRid( new ID( 9 ) )
         );
@@ -118,10 +118,10 @@ class TxCommitTests extends TestCase {
          */
         foreach ( $result as $record ){
             if( $record->getRid() == $this->first_rec->getRid() ){
-                $this->assertEquals( $record->getOData(), [ 'alloggio' => 'baita di montagna' ] );
+                $this->assertEquals( $record->getOData(), [ 'accommodation' => 'mountain cabin' ] );
                 $this->assertEquals( $record->getOClass(), $this->first_rec->getOClass() );
             } else {
-                $this->assertEquals( $record->getOData(), [ 'alloggio' => 'bungalow' ] );
+                $this->assertEquals( $record->getOData(), [ 'accommodation' => 'bungalow' ] );
                 $this->assertEquals( $record->getOClass(), 'V' );
             }
         }

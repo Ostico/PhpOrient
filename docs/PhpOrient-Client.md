@@ -11,6 +11,80 @@ Class Client
 * This class implements: [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface.md)
 
 
+Constants
+----------
+
+
+### DATABASE_TYPE_DOCUMENT
+
+    const DATABASE_TYPE_DOCUMENT = \PhpOrient\Protocols\Common\Constants::DATABASE_TYPE_DOCUMENT
+
+
+
+
+
+### DATABASE_TYPE_GRAPH
+
+    const DATABASE_TYPE_GRAPH = \PhpOrient\Protocols\Common\Constants::DATABASE_TYPE_GRAPH
+
+
+
+
+
+### CLUSTER_TYPE_PHYSICAL
+
+    const CLUSTER_TYPE_PHYSICAL = \PhpOrient\Protocols\Common\Constants::CLUSTER_TYPE_PHYSICAL
+
+
+
+
+
+### CLUSTER_TYPE_MEMORY
+
+    const CLUSTER_TYPE_MEMORY = \PhpOrient\Protocols\Common\Constants::CLUSTER_TYPE_MEMORY
+
+
+
+
+
+### SERIALIZATION_DOCUMENT2CSV
+
+    const SERIALIZATION_DOCUMENT2CSV = \PhpOrient\Protocols\Common\Constants::SERIALIZATION_DOCUMENT2CSV
+
+
+
+
+
+### SERIALIZATION_SERIAL_BIN
+
+    const SERIALIZATION_SERIAL_BIN = \PhpOrient\Protocols\Common\Constants::SERIALIZATION_SERIAL_BIN
+
+
+
+
+
+### STORAGE_TYPE_LOCAL
+
+    const STORAGE_TYPE_LOCAL = \PhpOrient\Protocols\Common\Constants::STORAGE_TYPE_LOCAL
+
+
+
+
+
+### STORAGE_TYPE_PLOCAL
+
+    const STORAGE_TYPE_PLOCAL = \PhpOrient\Protocols\Common\Constants::STORAGE_TYPE_PLOCAL
+
+
+
+
+
+### STORAGE_TYPE_MEMORY
+
+    const STORAGE_TYPE_MEMORY = \PhpOrient\Protocols\Common\Constants::STORAGE_TYPE_MEMORY
+
+
+
 
 
 Properties
@@ -188,6 +262,24 @@ It returns the session id of the client.
 
 
 
+### shutDown
+```php
+    mixed PhpOrient\Client::shutDown(string $username, string $password)
+```
+##### Send a command to shutdown the server
+Requires "shutdown" permission to be set in orientdb-server-config.xml file
+
+
+
+* Visibility: **public**
+
+
+##### Arguments
+* $username **string**
+* $password **string**
+
+
+
 ### command
 ```php
     mixed PhpOrient\Client::command(string $query)
@@ -306,7 +398,7 @@ A callback function is needed
 
 ### recordLoad
 ```php
-    \PhpOrient\RecordLoad/Record PhpOrient\Client::recordLoad(\PhpOrient\Protocols\Binary\Data\ID $rid, string $fetchPlan)
+    \PhpOrient\RecordLoad/Record PhpOrient\Client::recordLoad(\PhpOrient\Protocols\Binary\Data\ID $rid, array $params)
 ```
 ##### Load a Record
 
@@ -317,7 +409,7 @@ A callback function is needed
 
 ##### Arguments
 * $rid **[PhpOrient\Protocols\Binary\Data\ID](PhpOrient-Protocols-Binary-Data-ID.md)**
-* $fetchPlan **string**
+* $params **array**
 
 
 
@@ -495,7 +587,7 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 ### dataClusterDrop
 ```php
-    boolean PhpOrient\Client::dataClusterDrop(array $params)
+    boolean PhpOrient\Client::dataClusterDrop(integer $cluster_id)
 ```
 ##### Drop a data cluster
 
@@ -505,13 +597,13 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 
 ##### Arguments
-* $params **array**
+* $cluster_id **integer**
 
 
 
 ### dataClusterDataRange
 ```php
-    array<mixed,integer>|array<mixed,string> PhpOrient\Client::dataClusterDataRange(array $params)
+    array<mixed,integer>|array<mixed,string> PhpOrient\Client::dataClusterDataRange(integer $cluster_id)
 ```
 ##### Returns the range of record ids for a cluster.
 
@@ -521,13 +613,13 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 
 ##### Arguments
-* $params **array**
+* $cluster_id **integer**
 
 
 
 ### dataClusterCount
 ```php
-    integer|string PhpOrient\Client::dataClusterCount(array $params)
+    integer|string PhpOrient\Client::dataClusterCount(array $cluster_ids)
 ```
 ##### Returns the number of records in one or more clusters.
 
@@ -537,13 +629,13 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 
 ##### Arguments
-* $params **array**
+* $cluster_ids **array**
 
 
 
 ### dataClusterAdd
 ```php
-    integer PhpOrient\Client::dataClusterAdd(array $params)
+    integer PhpOrient\Client::dataClusterAdd($cluster_name, string $cluster_type)
 ```
 ##### Add a new data cluster
 
@@ -553,7 +645,8 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 
 ##### Arguments
-* $params **array**
+* $cluster_name **mixed**
+* $cluster_type **string**
 
 
 

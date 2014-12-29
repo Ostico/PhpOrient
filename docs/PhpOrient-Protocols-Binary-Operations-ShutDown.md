@@ -1,4 +1,4 @@
-PhpOrient\Protocols\Binary\Operations\DataClusterAdd
+PhpOrient\Protocols\Binary\Operations\ShutDown
 ===============
 
 
@@ -6,7 +6,7 @@ PhpOrient\Protocols\Binary\Operations\DataClusterAdd
 
 
 
-* Class name: DataClusterAdd
+* Class name: ShutDown
 * Namespace: PhpOrient\Protocols\Binary\Operations
 * Parent class: [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
 
@@ -29,9 +29,9 @@ Properties
 * Visibility: **protected**
 
 
-#### $id
+#### $username
 ```php
-    public integer $id = -1
+    public string $username
 ```
  
 
@@ -40,42 +40,9 @@ Properties
 * Visibility: **public**
 
 
-#### $cluster_name
+#### $password
 ```php
-    public string $cluster_name
-```
- 
-
-
-
-* Visibility: **public**
-
-
-#### $cluster_type
-```php
-    public string $cluster_type = \PhpOrient\Protocols\Common\Constants::CLUSTER_TYPE_PHYSICAL
-```
- 
-
-
-
-* Visibility: **public**
-
-
-#### $location
-```php
-    public string $location = 'default'
-```
- 
-
-
-
-* Visibility: **public**
-
-
-#### $segmentName
-```php
-    public string $segmentName = 'default'
+    public string $password
 ```
  
 

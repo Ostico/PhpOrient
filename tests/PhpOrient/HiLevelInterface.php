@@ -61,7 +61,10 @@ class HiLevelInterface extends TestCase {
     public function testRealUsage(){
         $client = new Client( 'localhost', 2424 );
         $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
-        $myFunction = function( Record $record) { var_dump( $record ); };
+        $myFunction = function( Record $record) {
+            var_dump( $record );
+            $this->assertInstanceOf( '\PhpOrient\Protocols\Binary\Data\Record', $record );
+        };
         $client->queryAsync( 'select from followed_by', [ 'fetch_plan' => '*:1', '_callback' => $myFunction ] );
     }
 
@@ -72,14 +75,29 @@ class HiLevelInterface extends TestCase {
 
         $_recUp = [ 'accommodation' => 'hotel', 'work' => 'office', 'holiday' => 'mountain' ];
         $recUp = ( new Record() )->setOData( $_recUp )->setOClass( 'V' )->setRid( $record->getRid() );
-        $updated = $this->client->recordUpdate( $recUp );
+        $updated0 = $this->client->recordUpdate( $recUp );
 
-//        $updated = $this->client->query( "select from V where @rid = '#9:0'" )[0];
+        $updated1 = $this->client->query( "select from V where @rid = '#9:0'" )[0];
+
+        $this->assertEquals( $updated1, $updated0 );
 
         $_recUp = [ 'accommodation' => 'bridge', 'work' => [ 'none', 'some' ], 'holiday' => 'what??' ];
         $recUp = $record->setOData( $_recUp );
-        $updated = $this->client->recordUpdate( $recUp );
+        $updated2 = $this->client->recordUpdate( $recUp );
 
+        $this->assertNotEquals( $updated2, $updated1 );
+        $this->assertEquals( $_recUp, $updated2->getOData() );
+
+    }
+
+    public function testLoadWithCache(){
+        $client = new Client( 'localhost', 2424 );
+        $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
+        $myFunction = function( Record $record) {
+            $this->assertInstanceOf( '\PhpOrient\Protocols\Binary\Data\Record', $record );
+        };
+        $records = $client->recordLoad( new ID( "9", "1" ), [ 'fetch_plan' => '*:3', '_callback' => $myFunction ] );
+        $this->assertNotEmpty( $records );
     }
 
 }

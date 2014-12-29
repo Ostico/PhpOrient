@@ -20,6 +20,7 @@ API Index
                 * [CSV](PhpOrient-Protocols-Binary-Serialization-CSV.md)
             * PhpOrient\Protocols\Binary\Operations
                 * [DbRelease](PhpOrient-Protocols-Binary-Operations-DbRelease.md)
+                * [ShutDown](PhpOrient-Protocols-Binary-Operations-ShutDown.md)
                 * [DataClusterDrop](PhpOrient-Protocols-Binary-Operations-DataClusterDrop.md)
                 * [DbCountRecords](PhpOrient-Protocols-Binary-Operations-DbCountRecords.md)
                 * [DbExists](PhpOrient-Protocols-Binary-Operations-DbExists.md)

@@ -108,4 +108,18 @@ class SQLCommandsTest extends TestCase {
 
     }
 
+    public function testSQLBatch(){
+
+        $cmd = 'begin;' .
+               'let a = create vertex set script = true;' .
+               'let b = select from v limit 1;' .
+               'let e = create edge from $a to $b;' .
+               'commit retry 100;';
+
+        $result = $this->client->sqlBatch( $cmd );
+
+        $this->assertInstanceOf( '\PhpOrient\Protocols\Binary\Data\Record', $result[0] );
+
+    }
+
 }

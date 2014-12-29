@@ -96,4 +96,12 @@ class DataClusterTest extends TestCase {
 
     }
 
+    public function testClusterCountByClusterMap(){
+        $this->client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
+        $total = $this->client->dataClusterCount( $this->client->getTransport()->getClusterMap()->getIdList() );
+
+        $this->assertNotEmpty( $total );
+
+    }
+
 } 
