@@ -6,6 +6,7 @@ use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Configuration\Constants as ClientConstants;
 use PhpOrient\Protocols\Common\ClusterMap;
 use PhpOrient\Protocols\Common\Constants;
+use PhpOrient\Exceptions\PhpOrientWrongProtocolVersionException;
 
 class DbOpen extends Operation {
 
@@ -59,6 +60,10 @@ class DbOpen extends Operation {
      * Write the data to the socket.
      */
     protected function _write() {
+
+        if( $this->serializationType == Constants::SERIALIZATION_SERIAL_BIN ){
+            throw new PhpOrientWrongProtocolVersionException( 'Serialization Type Binary not yet supported' );
+        }
 
         $this->_writeString( $this->clientName );
         $this->_writeString( $this->clientVersion );

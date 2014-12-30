@@ -88,4 +88,22 @@ class ClientConnectionTest extends EmptyTestCase {
 
     }
 
+    public function testWrongProtocol_1() {
+
+        $client = new PhpOrient( 'localhost', 2424 );
+        $this->setExpectedException( '\PhpOrient\Exceptions\PhpOrientWrongProtocolVersionException' );
+        $client->connect( 'root', 'root', PhpOrient::SERIALIZATION_SERIAL_BIN );
+
+    }
+
+    public function testWrongProtocol_2() {
+
+        $client = new PhpOrient( 'localhost', 2424 );
+        $this->setExpectedException( '\PhpOrient\Exceptions\PhpOrientWrongProtocolVersionException' );
+        $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin',
+            [ 'serializationType' => PhpOrient::SERIALIZATION_SERIAL_BIN, ]
+        );
+
+    }
+
 }

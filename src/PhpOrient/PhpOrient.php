@@ -384,19 +384,30 @@ class PhpOrient implements ConfigurableInterface {
      * if it is not established before
      *
      * @param string $database
-     * @param string $dbType
      * @param string $username
      * @param string $password
+     * @param array  $params {<code>
+     *    'serializationType' => PhpOrient::SERIALIZATION_DOCUMENT2CSV,
+     *    'databaseType'      => PhpOrient::DATABASE_TYPE_GRAPH
+     * }</code>
      * @return ClusterMap
      */
-    public function dbOpen( $database, $username = '', $password = '', $dbType = Constants::DATABASE_TYPE_GRAPH ) {
+    public function dbOpen( $database, $username = '', $password = '', Array $params = [] ) {
+
+        $default = [
+            'databaseType'      => Constants::DATABASE_TYPE_GRAPH,
+            'serializationType' => Constants::SERIALIZATION_DOCUMENT2CSV,
+        ];
+
+        $params = array_merge( $default, $params );
+
         return $this->getTransport()->execute( 'dbOpen',
             array(
                 'database'          => $database,
-                'type'              => $dbType,
+                'type'              => $params['databaseType'],
                 'username'          => $username,
                 'password'          => $password,
-                'serializationType' => Constants::SERIALIZATION_DOCUMENT2CSV
+                'serializationType' => $params['serializationType']
             )
         );
     }

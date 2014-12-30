@@ -5,6 +5,7 @@ namespace PhpOrient\Protocols\Binary\Operations;
 use PhpOrient\Protocols\Common\Constants;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Configuration\Constants as ClientConstants;
+use PhpOrient\Exceptions\PhpOrientWrongProtocolVersionException;
 
 class Connect extends Operation {
 
@@ -47,6 +48,10 @@ class Connect extends Operation {
      * Write the data to the socket.
      */
     protected function _write() {
+
+        if( $this->serializationType == Constants::SERIALIZATION_SERIAL_BIN ){
+            throw new PhpOrientWrongProtocolVersionException( 'Serialization Type Binary not yet supported' );
+        }
 
         $this->_writeString( $this->clientName );
         $this->_writeString( $this->clientVersion );
