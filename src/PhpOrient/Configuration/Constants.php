@@ -14,7 +14,7 @@ class Constants {
      * @const string the client version.
      *
      */
-    const VERSION = "v0.0.1";
+    const VERSION = "v1.0.0";
     const ID = "1";
     const NAME = "PhpOrient - PHP binary client for OrientDB";
     const SUPPORTED_PROTOCOL = 28;
