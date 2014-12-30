@@ -119,45 +119,6 @@ $client->dbList();
 $ClusterMap = $client->dbOpen( 'GratefulDeadConcerts, 'admin', 'admin' );
 ```
 
-### Get the size of a database ( needs a DB opened )
-```php
-$client->dbSize();
-```
-
-### Get the range of record ids for a cluster
-```php
-$data = $client->dataClusterDataRange( 9 );
-```
-
-### Get the number of records in one or more clusters
-```php
-$client->dataClusterCount( $client->getTransport()->getClusterMap()->getIdList() );
-```
-
-### Reload the Database info
-This method automatically updates the client Cluster Map. 
-Can be used after a Class creation or a DataCluster Add/Drop
-```php
-$reloaded_list = $client->dbReload();  # $reloaded_list === $client->getTransport()->getClusterMap()
-```
-
-### Create a new data Cluster
-```php
-$client->dataClusterAdd( 'new_cluster', 
-    PhpOrient::CLUSTER_TYPE_MEMORY  # optional, default: PhpOrient::CLUSTER_TYPE_PHYSICAL
-);
-```
-
-### Drop a data cluster
-```php
-$client->dataClusterDrop( 11 );
-```
-
-### Get the number of records in an open database
-```php
-$result = $client->dbCountRecords();
-```
-
 ### Send a command
 This should be used only to perform not idempotent commands on a database
 ```php
@@ -348,6 +309,47 @@ foreach ( $animal_foods as $food ) {
     $this->assertEquals( 'rat', $animal[ 'name' ] );
 }
 ```
+
+### Get the size of a database ( needs a DB opened )
+```php
+$client->dbSize();
+```
+
+### Get the range of record ids for a cluster
+```php
+$data = $client->dataClusterDataRange( 9 );
+```
+
+### Get the number of records in one or more clusters
+```php
+$client->dataClusterCount( $client->getTransport()->getClusterMap()->getIdList() );
+```
+
+### Get the number of records in an open database
+```php
+$result = $client->dbCountRecords();
+```
+
+
+### Reload the Database info
+This method automatically updates the client Cluster Map. 
+Can be used after a Class creation or a DataCluster Add/Drop
+```php
+$reloaded_list = $client->dbReload();  # $reloaded_list === $client->getTransport()->getClusterMap()
+```
+
+### Create a new data Cluster
+```php
+$client->dataClusterAdd( 'new_cluster', 
+    PhpOrient::CLUSTER_TYPE_MEMORY  # optional, default: PhpOrient::CLUSTER_TYPE_PHYSICAL
+);
+```
+
+### Drop a data cluster
+```php
+$client->dataClusterDrop( 11 );
+```
+
 
 ## Contributions
 
