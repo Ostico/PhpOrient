@@ -110,6 +110,9 @@ class DbOpen extends Operation {
 
         if ( $this->_transport->getProtocolVersion() > 26 ) {
             $token = $this->_readString(); # token
+            if( empty( $token ) ){
+                $this->_transport->setRequestToken( false );
+            }
             $this->_transport->setToken( $token );
         }
 

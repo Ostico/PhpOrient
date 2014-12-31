@@ -75,9 +75,9 @@
         <!-- USE SESSION TOKEN, TO TURN ON SET THE 'ENABLED' PARAMETER TO 'true' -->
         <handler class="com.orientechnologies.orient.server.token.OrientTokenHandler">
             <parameters>
-                <parameter name="enabled" value="false"/>
+                <parameter name="enabled" value="true"/>
                 <!-- PRIVATE KEY -->
-                <parameter name="oAuth2Key" value=""/>
+                <parameter name="oAuth2Key" value="a_little_pass"/>
                 <!-- SESSION LENGTH IN MINUTES, DEFAULT=1 HOUR -->
                 <parameter name="sessionLength" value="60"/>
                 <!-- ENCRYPTION ALGORITHM, DEFAULT=HmacSHA256 -->
