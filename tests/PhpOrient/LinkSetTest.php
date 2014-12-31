@@ -77,7 +77,7 @@ class TestSetsAndRidBags extends TestCase {
         };
         $result = $this->client->queryAsync( 'select from #11:0', [
             'limit'      => 20,
-            'fetch_plan' => '*:-1',
+            'fetch_plan' => '*:2',
             '_callback'  => $myFunction
         ] );
 
