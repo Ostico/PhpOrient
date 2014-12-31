@@ -266,7 +266,7 @@ class Bag implements \Countable, \ArrayAccess, \Iterator {
             }
 
             $cluster                = Reader::unpackShort( substr( $this->deserialized, $start, 2 ) );
-            $position               = Reader::unpackLong( substr( $this->deserialized, $start, 8 ) );
+            $position               = Reader::unpackLong( substr( $this->deserialized, $start + 2, 8 ) );
             $this->items[ $offset ] = new ID( $cluster, $position );
         } else {
             $this->items[ $offset ] = false;
