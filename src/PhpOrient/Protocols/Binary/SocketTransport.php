@@ -48,6 +48,13 @@ class SocketTransport extends AbstractTransport {
     protected $token = '';
 
     /**
+     * With this flag a session with token is requested
+     *
+     * @var bool
+     */
+    protected $requestToken = false;
+
+    /**
      * @var int The Protocol id for the connection.
      */
     protected $_protocolVersion;
@@ -79,9 +86,11 @@ class SocketTransport extends AbstractTransport {
 
     /**
      * @param $sessionId
+     * @return SocketTransport
      */
     public function setSessionId( $sessionId ){
         $this->sessionId = $sessionId;
+        return $this;
     }
 
     /**
@@ -93,9 +102,29 @@ class SocketTransport extends AbstractTransport {
 
     /**
      * @param string $token
+     * @return SocketTransport
      */
     public function setToken( $token ) {
         $this->token = $token;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isRequestToken() {
+        return $this->requestToken;
+    }
+
+    /**
+     * Set the client to get and send the token
+     *
+     * @param boolean $requestToken
+     * @return SocketTransport
+     */
+    public function setRequestToken( $requestToken = true ) {
+        $this->requestToken = (bool)$requestToken;
+        return $this;
     }
 
     /**
@@ -157,11 +186,6 @@ class SocketTransport extends AbstractTransport {
 
                 if( empty( $params[ 'password' ] ) ){
                     $params[ 'password' ] = $this->password;
-                }
-
-                if( empty( $params[ 'username' ] ) && empty( $params[ 'password' ] ) ){
-                    throw new TransportException('Can not initialize a transport ' .
-                        'without connection parameters');
                 }
 
             }

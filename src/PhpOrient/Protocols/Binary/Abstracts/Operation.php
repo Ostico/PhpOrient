@@ -5,6 +5,8 @@ namespace PhpOrient\Protocols\Binary\Abstracts;
 use PhpOrient\Configuration\Constants;
 use PhpOrient\Protocols\Binary\Data\ID;
 use PhpOrient\Protocols\Binary\Data\Record;
+use PhpOrient\Protocols\Binary\Operations\Connect;
+use PhpOrient\Protocols\Binary\Operations\DbOpen;
 use PhpOrient\Protocols\Binary\Serialization\CSV;
 use PhpOrient\Protocols\Binary\SocketTransport;
 use PhpOrient\Protocols\Binary\Stream\Reader;
@@ -100,6 +102,17 @@ abstract class Operation implements ConfigurableInterface {
     protected function _writeHeader() {
         $this->_writeByte( $this->opCode );
         $this->_writeInt( $this->_transport->getSessionId() );
+        $token = $this->_transport->getToken();
+
+        /*
+         *  we must recognize dbOpen and Connect messages
+         */
+        if(
+            !$this instanceof DbOpen &&
+            !$this instanceof Connect &&
+            $this->_transport->isRequestToken() ){
+            $this->_writeString( $token );
+        }
     }
 
     /**
@@ -110,6 +123,20 @@ abstract class Operation implements ConfigurableInterface {
     protected function _readHeader() {
         $status    = $this->_readByte();
         $sessionId = $this->_readInt();
+
+        /*
+         *  we must recognize dbOpen and Connect messages
+         */
+        if(
+            !$this instanceof DbOpen &&
+            !$this instanceof Connect &&
+            $this->_transport->isRequestToken() ){
+            $token_refresh = $this->_readString();
+            if( !empty( $token_refresh ) ){
+                $this->_transport->setToken( $token_refresh );
+            }
+        }
+
         if ( $status === 1 ) {
             $this->_readByte(); // discard the first byte of the error
             $error = $this->_readError();
@@ -183,15 +210,10 @@ abstract class Operation implements ConfigurableInterface {
             return $this;
         }
 
-//        if ( $_continue ){
-//            $result = $this->_read();
-//            $this->_dump_streams();
-//        } else{
-            $this->_readHeader();
-            $result = $this->_read();
-            $this->_dump_streams();
-            $this->_input_buffer = '';
-//        }
+        $this->_readHeader();
+        $result = $this->_read();
+        $this->_dump_streams();
+        $this->_input_buffer = '';
 
         return $result;
 

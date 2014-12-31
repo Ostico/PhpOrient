@@ -16,25 +16,25 @@ Constants
 
 
 ### CONN_TIMEOUT
-
+```php
     const CONN_TIMEOUT = 5
-
+```
 
 
 
 
 ### READ_TIMEOUT
-
+```php
     const READ_TIMEOUT = 30
-
+```
 
 
 
 
 ### WRITE_TIMEOUT
-
+```php
     const WRITE_TIMEOUT = 10
-
+```
 
 
 

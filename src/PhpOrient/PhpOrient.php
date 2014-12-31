@@ -78,8 +78,10 @@ class PhpOrient implements ConfigurableInterface {
      *
      * @param string $hostname The server host.
      * @param string $port The server port.
+     * @param string|bool $token An old connection Token to reuse,
+     *                           or a flag to set a new token instance initialization
      */
-    public function __construct( $hostname = '', $port = '' ) {
+    public function __construct( $hostname = '', $port = '', $token = '' ) {
         if ( !empty( $hostname ) ) {
             $this->hostname = $hostname;
         }
@@ -87,6 +89,37 @@ class PhpOrient implements ConfigurableInterface {
         if ( !empty( $port ) ) {
             $this->port = $port;
         }
+
+        $this->setSessionToken( $token );
+
+    }
+
+    /**
+     * Set the session token to re-use old
+     * connection credentials
+     * or a flag to set a new token instance initialization
+     *
+     * @param string|bool $token
+     *
+*@return PhpOrient
+     */
+    public function setSessionToken( $token = '' ){
+        if ( !empty( $token ) ){
+            if ( $token !== true ) {
+                $this->getTransport()->setToken( $token );
+            }
+            $this->getTransport()->setRequestToken();
+        }
+        return $this;
+    }
+
+    /**
+     * Get the token for this connection
+     *
+     * @return string
+     */
+    public function getSessionToken(){
+        return $this->getTransport()->getToken();
     }
 
     /**
@@ -105,7 +138,7 @@ class PhpOrient implements ConfigurableInterface {
     /**
      * Gets the transport
      *
-     * @return \PhpOrient\Protocols\Common\AbstractTransport
+     * @return \PhpOrient\Protocols\Binary\SocketTransport
      */
     public function getTransport() {
         if ( $this->_transport === null ) {
@@ -370,7 +403,7 @@ class PhpOrient implements ConfigurableInterface {
      * @param string $db_name
      * @param string $storage_type
      *
-     * @return mixed
+     * @return true
      */
     public function dbRelease( $db_name, $storage_type = Constants::STORAGE_TYPE_PLOCAL ) {
         return $this->getTransport()->execute( 'dbRelease', [
@@ -462,7 +495,7 @@ class PhpOrient implements ConfigurableInterface {
      * @param        $database
      * @param string $storage_type
      *
-     * @return mixed
+     * @return true
      */
     public function dbDrop( $database, $storage_type = Constants::STORAGE_TYPE_PLOCAL ) {
         return $this->getTransport()->execute( 'dbDrop',

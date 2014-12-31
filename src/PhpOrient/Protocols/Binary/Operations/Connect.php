@@ -2,6 +2,7 @@
 
 namespace PhpOrient\Protocols\Binary\Operations;
 
+use PhpOrient\Exceptions\PhpOrientBadMethodCallException;
 use PhpOrient\Protocols\Common\Constants;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Configuration\Constants as ClientConstants;
@@ -53,6 +54,11 @@ class Connect extends Operation {
             throw new PhpOrientWrongProtocolVersionException( 'Serialization Type Binary not yet supported' );
         }
 
+        if( empty( $this->username ) && empty( $this->password ) ){
+            throw new PhpOrientBadMethodCallException('Can not begin a connection ' .
+                'without connection parameters');
+        }
+
         $this->_writeString( $this->clientName );
         $this->_writeString( $this->clientVersion );
         $this->_writeShort( $this->_transport->getProtocolVersion() );
@@ -63,7 +69,7 @@ class Connect extends Operation {
             $this->_writeString( $this->serializationType );
 
             if( $this->_transport->getProtocolVersion() > 26 ){
-                $this->_writeBoolean( false ); # token
+                $this->_writeBoolean( $this->_transport->isRequestToken() ); # token
             }
 
             $this->_writeString( $this->username );

@@ -15,7 +15,7 @@ use PhpOrient\Protocols\Binary\SocketTransport;
 trait NeedDBOpenedTrait {
 
     protected function _checkConditions(  SocketTransport $transport  ){
-        if( !$transport->databaseOpened ){
+        if( !$transport->databaseOpened && !$transport->isRequestToken() ){
             throw new PhpOrientException('Can not perform ' . join( '', array_slice( explode( '\\', get_class( $this ) ), -1 ) ) . ' operation on a Database without open it.');
         }
     }

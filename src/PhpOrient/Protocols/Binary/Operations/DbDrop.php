@@ -37,7 +37,7 @@ class DbDrop extends Operation {
     /**
      * Read the response from the socket.
      *
-     * @return boolean true if the database was dropped.
+     * @return true if the database was dropped.
      */
     protected function _read() {
         return true;

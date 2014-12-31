@@ -16,73 +16,73 @@ Constants
 
 
 ### DATABASE_TYPE_DOCUMENT
-
+```php
     const DATABASE_TYPE_DOCUMENT = \PhpOrient\Protocols\Common\Constants::DATABASE_TYPE_DOCUMENT
-
+```
 
 
 
 
 ### DATABASE_TYPE_GRAPH
-
+```php
     const DATABASE_TYPE_GRAPH = \PhpOrient\Protocols\Common\Constants::DATABASE_TYPE_GRAPH
-
+```
 
 
 
 
 ### CLUSTER_TYPE_PHYSICAL
-
+```php
     const CLUSTER_TYPE_PHYSICAL = \PhpOrient\Protocols\Common\Constants::CLUSTER_TYPE_PHYSICAL
-
+```
 
 
 
 
 ### CLUSTER_TYPE_MEMORY
-
+```php
     const CLUSTER_TYPE_MEMORY = \PhpOrient\Protocols\Common\Constants::CLUSTER_TYPE_MEMORY
-
+```
 
 
 
 
 ### SERIALIZATION_DOCUMENT2CSV
-
+```php
     const SERIALIZATION_DOCUMENT2CSV = \PhpOrient\Protocols\Common\Constants::SERIALIZATION_DOCUMENT2CSV
-
+```
 
 
 
 
 ### SERIALIZATION_SERIAL_BIN
-
+```php
     const SERIALIZATION_SERIAL_BIN = \PhpOrient\Protocols\Common\Constants::SERIALIZATION_SERIAL_BIN
-
+```
 
 
 
 
 ### STORAGE_TYPE_LOCAL
-
+```php
     const STORAGE_TYPE_LOCAL = \PhpOrient\Protocols\Common\Constants::STORAGE_TYPE_LOCAL
-
+```
 
 
 
 
 ### STORAGE_TYPE_PLOCAL
-
+```php
     const STORAGE_TYPE_PLOCAL = \PhpOrient\Protocols\Common\Constants::STORAGE_TYPE_PLOCAL
-
+```
 
 
 
 
 ### STORAGE_TYPE_MEMORY
-
+```php
     const STORAGE_TYPE_MEMORY = \PhpOrient\Protocols\Common\Constants::STORAGE_TYPE_MEMORY
-
+```
 
 
 
@@ -152,7 +152,7 @@ Methods
 
 ### __construct
 ```php
-    mixed PhpOrient\PhpOrient::__construct(string $hostname, string $port)
+    mixed PhpOrient\PhpOrient::__construct(string $hostname, string $port, string $sessionToken)
 ```
 ##### Class Constructor
 
@@ -164,6 +164,37 @@ Methods
 ##### Arguments
 * $hostname **string** <p>The server host.</p>
 * $port **string** <p>The server port.</p>
+* $sessionToken **string** <p>An old connection Token to reuse</p>
+
+
+
+### setSessionToken
+```php
+    \PhpOrient\PhpOrient PhpOrient\PhpOrient::setSessionToken(string $token)
+```
+##### Set the session token to re-use old
+connection credentials
+
+
+
+* Visibility: **public**
+
+
+##### Arguments
+* $token **string**
+
+
+
+### getSessionToken
+```php
+    string PhpOrient\PhpOrient::getSessionToken()
+```
+##### Get the token for this connection
+
+
+
+* Visibility: **public**
+
 
 
 
@@ -185,7 +216,7 @@ Methods
 
 ### getTransport
 ```php
-    \PhpOrient\Protocols\Common\AbstractTransport PhpOrient\PhpOrient::getTransport()
+    \PhpOrient\Protocols\Binary\SocketTransport PhpOrient\PhpOrient::getTransport()
 ```
 ##### Gets the transport
 
@@ -458,7 +489,7 @@ A callback function is needed
 
 ### dbOpen
 ```php
-    \PhpOrient\Protocols\Common\ClusterMap PhpOrient\PhpOrient::dbOpen(string $database, string $username, string $password, string $dbType)
+    \PhpOrient\Protocols\Common\ClusterMap PhpOrient\PhpOrient::dbOpen(string $database, string $username, string $password, array $params)
 ```
 ##### Open a Database and perform a connection<br />
 if it is not established before
@@ -472,7 +503,10 @@ if it is not established before
 * $database **string**
 * $username **string**
 * $password **string**
-* $dbType **string**
+* $params **array** <p>{<code>
+'serializationType' => PhpOrient::SERIALIZATION_DOCUMENT2CSV,
+'databaseType'      => PhpOrient::DATABASE_TYPE_GRAPH
+}</code></p>
 
 
 

@@ -20,7 +20,12 @@ abstract class EmptyTestCase extends \PHPUnit_Framework_TestCase {
 
     public function tearDown(){
         $resultTime = microtime(true) - $this->thisTest;
-        echo " " . str_pad( $this->getName(false) , 41, " ", STR_PAD_RIGHT ). " - Did in " . $resultTime . " seconds.\n";
+        echo " " . str_pad(
+                    substr(
+                        get_class($this),
+                        strrpos( get_class($this), "\\" ) + 1
+                    ) . "::" . $this->getName(false), 61, " ", STR_PAD_RIGHT
+            ) . " - Did in " . $resultTime . " seconds.\n";
     }
 
 }

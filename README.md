@@ -266,6 +266,79 @@ $deleted = $client->recordLoad( $sec_rec->getRid() );
 $this->assertEmpty( $deleted );
 ```
 
+### Get the size of a database ( needs a DB opened )
+```php
+$client->dbSize();
+```
+
+### Get the range of record ids for a cluster
+```php
+$data = $client->dataClusterDataRange( 9 );
+```
+
+### Get the number of records in one or more clusters
+```php
+$client->dataClusterCount( $client->getTransport()->getClusterMap()->getIdList() );
+```
+
+### Get the number of records in an open database
+```php
+$result = $client->dbCountRecords();
+```
+
+### Reload the Database info
+This method automatically updates the client Cluster Map. 
+Can be used after a Class creation or a DataCluster Add/Drop
+```php
+$reloaded_list = $client->dbReload();  # $reloaded_list === $client->getTransport()->getClusterMap()
+```
+
+### Create a new data Cluster
+```php
+$client->dataClusterAdd( 'new_cluster', 
+    PhpOrient::CLUSTER_TYPE_MEMORY  # optional, default: PhpOrient::CLUSTER_TYPE_PHYSICAL
+);
+```
+
+### Drop a data cluster
+```php
+$client->dataClusterDrop( 11 );
+```
+
+### Persistent Connections ( Session Token )
+Since version 27 is introduced an extension to allow use a token based session. This functionality must be enabled on the server config.
+
+- In the first negotiation the client can ask for a token based authentication using the token-auth flag
+- The server will reply with a token or an empty string meaning that it not support token based session and is using a old style session.
+- For each request the client send the token 
+
+When using the token based authentication, the connections can be shared between users of the same server.
+```php
+$client = new PhpOrient( 'localhost', 2424 ); 
+$client->setSessionToken( true );  // set true to enable the token based authentication
+$clusterID = $client->dbOpen( "GratefulDeadConcerts", 'admin', 'admin' );
+$sessionToken = $client->getSessionToken(); // store this token somewhere
+
+//destroy the old client, equals to another user/socket/ip ecc.
+unset($client);
+
+// create a new client
+$client = new PhpOrient( 'localhost', 2424 ); 
+
+// set the previous obtained token to re-attach to the old session
+$client->setSessionToken( $sessionToken );  
+
+//now the dbOpen is not needed to perform database operations
+$records = $client->query( 'select * from V limit 10' );
+
+//set the flag again to true if you want to renew the token
+$client->setSessionToken( true );  // set true
+$clusterID = $client->dbOpen( "GratefulDeadConcerts", 'admin', 'admin' );
+$new_sessionToken = $client->getSessionToken();
+
+$this->assertNotEquals( $sessionToken, $new_sessionToken );
+```
+
 ### A GRAPH Example
 ```php
 require "vendor/autoload.php";
@@ -309,47 +382,6 @@ foreach ( $animal_foods as $food ) {
     $this->assertEquals( 'rat', $animal[ 'name' ] );
 }
 ```
-
-### Get the size of a database ( needs a DB opened )
-```php
-$client->dbSize();
-```
-
-### Get the range of record ids for a cluster
-```php
-$data = $client->dataClusterDataRange( 9 );
-```
-
-### Get the number of records in one or more clusters
-```php
-$client->dataClusterCount( $client->getTransport()->getClusterMap()->getIdList() );
-```
-
-### Get the number of records in an open database
-```php
-$result = $client->dbCountRecords();
-```
-
-
-### Reload the Database info
-This method automatically updates the client Cluster Map. 
-Can be used after a Class creation or a DataCluster Add/Drop
-```php
-$reloaded_list = $client->dbReload();  # $reloaded_list === $client->getTransport()->getClusterMap()
-```
-
-### Create a new data Cluster
-```php
-$client->dataClusterAdd( 'new_cluster', 
-    PhpOrient::CLUSTER_TYPE_MEMORY  # optional, default: PhpOrient::CLUSTER_TYPE_PHYSICAL
-);
-```
-
-### Drop a data cluster
-```php
-$client->dataClusterDrop( 11 );
-```
-
 
 ## Contributions
 

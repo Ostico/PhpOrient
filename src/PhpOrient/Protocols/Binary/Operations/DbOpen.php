@@ -2,6 +2,7 @@
 
 namespace PhpOrient\Protocols\Binary\Operations;
 
+use PhpOrient\Exceptions\PhpOrientBadMethodCallException;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Configuration\Constants as ClientConstants;
 use PhpOrient\Protocols\Common\ClusterMap;
@@ -65,6 +66,11 @@ class DbOpen extends Operation {
             throw new PhpOrientWrongProtocolVersionException( 'Serialization Type Binary not yet supported' );
         }
 
+        if( empty( $this->username ) && empty( $this->password ) ){
+            throw new PhpOrientBadMethodCallException('Can not open a database ' .
+                'without login parameters');
+        }
+
         $this->_writeString( $this->clientName );
         $this->_writeString( $this->clientVersion );
         $this->_writeShort( $this->_transport->getProtocolVersion() );
@@ -74,7 +80,7 @@ class DbOpen extends Operation {
             $this->_writeString( $this->serializationType ); // serialization database_type
 
             if( $this->_transport->getProtocolVersion() > 26 ){
-                $this->_writeBoolean( false ); # token
+                $this->_writeBoolean( $this->_transport->isRequestToken() ); # token
             }
 
             $this->_writeString( $this->database );

@@ -16,33 +16,33 @@ Constants
 
 
 ### VERSION
-
+```php
     const VERSION = "v0.0.1"
-
+```
 
 
 
 
 ### ID
-
+```php
     const ID = "1"
-
+```
 
 
 
 
 ### NAME
-
+```php
     const NAME = "PhpOrient - PHP binary client for OrientDB"
-
+```
 
 
 
 
 ### SUPPORTED_PROTOCOL
-
+```php
     const SUPPORTED_PROTOCOL = 28
-
+```
 
 
 

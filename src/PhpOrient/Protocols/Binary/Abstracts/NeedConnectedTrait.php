@@ -19,7 +19,7 @@ trait NeedConnectedTrait {
      * @throws PhpOrientException
      */
     protected function _checkConditions( SocketTransport $transport ){
-        if( !$transport->connected ){
+        if( !$transport->connected && !$transport->isRequestToken() ){
             throw new PhpOrientException('Can not perform ' . join( '', array_slice( explode( '\\', get_class( $this ) ), -1 ) ) . ' operation without a connection.');
         }
     }
