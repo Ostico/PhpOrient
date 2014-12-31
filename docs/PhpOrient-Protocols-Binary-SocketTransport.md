@@ -84,6 +84,17 @@ Properties
 * Visibility: **protected**
 
 
+#### $requestToken
+```php
+    protected boolean $requestToken = false
+```
+ With this flag a session with token is requested
+
+
+
+* Visibility: **protected**
+
+
 #### $_protocolVersion
 ```php
     protected integer $_protocolVersion
@@ -210,7 +221,7 @@ Methods
 
 ### setSessionId
 ```php
-    mixed PhpOrient\Protocols\Binary\SocketTransport::setSessionId($sessionId)
+    \PhpOrient\Protocols\Binary\SocketTransport PhpOrient\Protocols\Binary\SocketTransport::setSessionId($sessionId)
 ```
 ##### 
 
@@ -239,7 +250,7 @@ Methods
 
 ### setToken
 ```php
-    mixed PhpOrient\Protocols\Binary\SocketTransport::setToken(string $token)
+    \PhpOrient\Protocols\Binary\SocketTransport PhpOrient\Protocols\Binary\SocketTransport::setToken(string $token)
 ```
 ##### 
 
@@ -250,6 +261,35 @@ Methods
 
 ##### Arguments
 * $token **string**
+
+
+
+### isRequestToken
+```php
+    boolean PhpOrient\Protocols\Binary\SocketTransport::isRequestToken()
+```
+##### 
+
+
+
+* Visibility: **public**
+
+
+
+
+### setRequestToken
+```php
+    \PhpOrient\Protocols\Binary\SocketTransport PhpOrient\Protocols\Binary\SocketTransport::setRequestToken(boolean $requestToken)
+```
+##### Set the client to get and send the token
+
+
+
+* Visibility: **public**
+
+
+##### Arguments
+* $requestToken **boolean**
 
 
 

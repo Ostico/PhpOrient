@@ -17,7 +17,7 @@ Constants
 
 ### VERSION
 ```php
-    const VERSION = "v0.0.1"
+    const VERSION = "v1.1.0"
 ```
 
 

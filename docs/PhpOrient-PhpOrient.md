@@ -152,7 +152,7 @@ Methods
 
 ### __construct
 ```php
-    mixed PhpOrient\PhpOrient::__construct(string $hostname, string $port, string $sessionToken)
+    mixed PhpOrient\PhpOrient::__construct(string $hostname, string $port, string|boolean $token)
 ```
 ##### Class Constructor
 
@@ -164,16 +164,18 @@ Methods
 ##### Arguments
 * $hostname **string** <p>The server host.</p>
 * $port **string** <p>The server port.</p>
-* $sessionToken **string** <p>An old connection Token to reuse</p>
+* $token **string|boolean** <p>An old connection Token to reuse,
+                          or a flag to set a new token instance initialization</p>
 
 
 
 ### setSessionToken
 ```php
-    \PhpOrient\PhpOrient PhpOrient\PhpOrient::setSessionToken(string $token)
+    \PhpOrient\PhpOrient PhpOrient\PhpOrient::setSessionToken(string|boolean $token)
 ```
 ##### Set the session token to re-use old
 connection credentials
+or a flag to set a new token instance initialization
 
 
 
@@ -181,7 +183,7 @@ connection credentials
 
 
 ##### Arguments
-* $token **string**
+* $token **string|boolean**
 
 
 
@@ -472,7 +474,7 @@ A callback function is needed
 
 ### dbRelease
 ```php
-    mixed PhpOrient\PhpOrient::dbRelease(string $db_name, string $storage_type)
+    true PhpOrient\PhpOrient::dbRelease(string $db_name, string $storage_type)
 ```
 ##### Release the structure of a Database
 
@@ -560,7 +562,7 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 ### dbDrop
 ```php
-    mixed PhpOrient\PhpOrient::dbDrop($database, string $storage_type)
+    true PhpOrient\PhpOrient::dbDrop($database, string $storage_type)
 ```
 ##### Drop an existent database
 
