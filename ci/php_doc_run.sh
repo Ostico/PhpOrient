@@ -16,7 +16,6 @@ php ../vendor/bin/phpdocmd ../docs/doc_creation/structure.xml ../docs/ --lt "%c"
 pushd ../docs/
 rm -rf doc_creation/
 ## update the wiki git
-cp ApiIndex.md Home.md
 git add .
 git commit -a -m"Update Wiki"
 popd
