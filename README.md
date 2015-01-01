@@ -27,6 +27,10 @@ To install most recent version of library, just type
 
 where you want its file to be located.
 
+You can also install library via Composer: https://packagist.org/packages/ostico/phporient , it is linked to this GitHub repository, so it is everityme updated.
+
+    composer require "ostico/phporient" "dev-master" --update-no-dev
+
 You can also want to get latest stable version, so check out Downloads section. Stables are marked with tags.
 
 If you have not already installed globally, you have to download composer. Just run this command inside your PhpOrient directory.
