@@ -27,20 +27,18 @@ To install most recent version of library, just type
 
 where you want its file to be located.
 
-You can also install library via Composer: https://packagist.org/packages/ostico/phporient , it is linked to this GitHub repository, so it is everityme updated.
-
-    composer require "ostico/phporient" "dev-master" --update-no-dev
-
-You can also want to get latest stable version, so check out Downloads section. Stables are marked with tags.
-
 If you have not already installed globally, you have to download composer. Just run this command inside your PhpOrient directory.
 ```bash
 php -r "readfile('https://getcomposer.org/installer');" | php
 ```
-Now get the required libraries:
+Now get the required libraries to work with PhpOrient:
 ```bash
 php composer.phar --no-dev install
 ```
+
+If you already have a composer installed or your existing project use it, you can install/add PhpOrient via Composer [https://packagist.org/packages/ostico/phporient](https://packagist.org/packages/ostico/phporient), it is linked to this GitHub repository, so it is everityme updated. and add it library to your project.
+    
+    composer require "ostico/phporient" "dev-master" --update-no-dev
 
 ## Usage
 PhpOrient specify autoload information, Composer generates a vendor/autoload.php file. You can simply include this file and you will get autoloading for free and declare the use of PhpOrient Client with fully qualified name.
