@@ -47,7 +47,7 @@ PhpOrient specify autoload information, Composer generates a vendor/autoload.php
 require "vendor/autoload.php";
 use PhpOrient\PhpOrient;
 ```
-A complete phpdoc reference can be found here [ApiIndex](https://github.com/Ostico/PhpOrient/blob/master/docs/ApiIndex.md)
+A complete phpdoc reference can be found here [ApiIndex](https://github.com/Ostico/PhpOrient/blob/master/docs/ApiIndex.md) or in the [PhpOrient Wiki](https://github.com/Ostico/PhpOrient/wiki/ApiIndex)
 
 ### Client initialization
 There are several ways to initialize the client
