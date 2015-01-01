@@ -1,6 +1,6 @@
 #!/bin/bash
 
-php ../vendor/bin/phpdoc -d /var/www/PhpOrient/src/ -t ../docs/doc_creation --template="xml"
+php ../vendor/bin/phpdoc -d ../src/ -t ../docs/doc_creation --template="xml"
 pushd ../docs/doc_creation/
 rm -rf phpdoc-*
 popd
