@@ -8,7 +8,7 @@ Class ClusterMap
 
 * Class name: ClusterMap
 * Namespace: PhpOrient\Protocols\Common
-* This class implements: [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface.md), ArrayAccess, Countable, Iterator
+* This class implements: [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface), ArrayAccess, Countable, Iterator
 
 
 
@@ -122,7 +122,7 @@ Methods
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface.md)
+* This method is defined by [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface)
 
 
 ##### Arguments

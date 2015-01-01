@@ -9,7 +9,7 @@ PhpOrient\Protocols\Binary\Abstracts\Operation
 * Class name: Operation
 * Namespace: PhpOrient\Protocols\Binary\Abstracts
 * This is an **abstract** class
-* This class implements: [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface.md)
+* This class implements: [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface)
 
 
 
@@ -111,7 +111,7 @@ Methods
 
 
 ##### Arguments
-* $_transport **[PhpOrient\Protocols\Binary\SocketTransport](PhpOrient-Protocols-Binary-SocketTransport.md)**
+* $_transport **[PhpOrient\Protocols\Binary\SocketTransport](PhpOrient-Protocols-Binary-SocketTransport)**
 
 
 
@@ -155,7 +155,7 @@ Methods
 
 
 ##### Arguments
-* $transport **[PhpOrient\Protocols\Binary\SocketTransport](PhpOrient-Protocols-Binary-SocketTransport.md)**
+* $transport **[PhpOrient\Protocols\Binary\SocketTransport](PhpOrient-Protocols-Binary-SocketTransport)**
 
 
 
@@ -551,7 +551,7 @@ In case of record:
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface.md)
+* This method is defined by [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface)
 
 
 ##### Arguments

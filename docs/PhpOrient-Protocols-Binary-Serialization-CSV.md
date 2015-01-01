@@ -271,7 +271,7 @@ If the number has a suffix, consume it also and instantiate the right type, e.g.
 
 
 ##### Arguments
-* $document **[PhpOrient\Protocols\Binary\Abstracts\SerializableInterface](PhpOrient-Protocols-Binary-Abstracts-SerializableInterface.md)**
+* $document **[PhpOrient\Protocols\Binary\Abstracts\SerializableInterface](PhpOrient-Protocols-Binary-Abstracts-SerializableInterface)**
 * $embedded **mixed**
 
 

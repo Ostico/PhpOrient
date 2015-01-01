@@ -8,7 +8,7 @@ PhpOrient\Protocols\Binary\Data\Record
 
 * Class name: Record
 * Namespace: PhpOrient\Protocols\Binary\Data
-* This class implements: ArrayAccess, JsonSerializable, [PhpOrient\Protocols\Binary\Abstracts\SerializableInterface](PhpOrient-Protocols-Binary-Abstracts-SerializableInterface.md)
+* This class implements: ArrayAccess, JsonSerializable, [PhpOrient\Protocols\Binary\Abstracts\SerializableInterface](PhpOrient-Protocols-Binary-Abstracts-SerializableInterface)
 
 
 
@@ -90,7 +90,7 @@ Methods
 
 
 ##### Arguments
-* $rid **[PhpOrient\Protocols\Binary\Data\ID](PhpOrient-Protocols-Binary-Data-ID.md)**
+* $rid **[PhpOrient\Protocols\Binary\Data\ID](PhpOrient-Protocols-Binary-Data-ID)**
 
 
 
@@ -191,7 +191,7 @@ OrientDB record.
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\SerializableInterface](PhpOrient-Protocols-Binary-Abstracts-SerializableInterface.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\SerializableInterface](PhpOrient-Protocols-Binary-Abstracts-SerializableInterface)
 
 
 

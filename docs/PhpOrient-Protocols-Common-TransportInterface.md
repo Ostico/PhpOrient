@@ -9,7 +9,7 @@ PhpOrient\Protocols\Common\TransportInterface
 * Interface name: TransportInterface
 * Namespace: PhpOrient\Protocols\Common
 * This is an **interface**
-* This interface extends: [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface.md)
+* This interface extends: [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface)
 
 
 
@@ -45,7 +45,7 @@ Methods
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface.md)
+* This method is defined by [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface)
 
 
 ##### Arguments

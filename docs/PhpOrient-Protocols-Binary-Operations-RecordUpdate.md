@@ -39,7 +39,7 @@ Take a look at the main page for more details.
 
 * Class name: RecordUpdate
 * Namespace: PhpOrient\Protocols\Binary\Operations
-* Parent class: [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* Parent class: [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -245,7 +245,7 @@ Methods
 
 * Visibility: **protected**
 * This method is **abstract**.
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -260,7 +260,7 @@ Methods
 
 * Visibility: **protected**
 * This method is **abstract**.
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -274,11 +274,11 @@ Methods
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 ##### Arguments
-* $_transport **[PhpOrient\Protocols\Binary\SocketTransport](PhpOrient-Protocols-Binary-SocketTransport.md)**
+* $_transport **[PhpOrient\Protocols\Binary\SocketTransport](PhpOrient-Protocols-Binary-SocketTransport)**
 
 
 
@@ -291,11 +291,11 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 ##### Arguments
-* $transport **[PhpOrient\Protocols\Binary\SocketTransport](PhpOrient-Protocols-Binary-SocketTransport.md)**
+* $transport **[PhpOrient\Protocols\Binary\SocketTransport](PhpOrient-Protocols-Binary-SocketTransport)**
 
 
 
@@ -308,7 +308,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -322,7 +322,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -336,7 +336,7 @@ Methods
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -350,7 +350,7 @@ Methods
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -364,7 +364,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -378,7 +378,7 @@ Methods
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -392,7 +392,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 ##### Arguments
@@ -409,7 +409,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -423,7 +423,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 ##### Arguments
@@ -440,7 +440,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -454,7 +454,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 ##### Arguments
@@ -471,7 +471,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -485,7 +485,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 ##### Arguments
@@ -502,7 +502,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -516,7 +516,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 ##### Arguments
@@ -533,7 +533,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -547,7 +547,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 ##### Arguments
@@ -564,7 +564,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -578,7 +578,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 ##### Arguments
@@ -595,7 +595,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -609,7 +609,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 ##### Arguments
@@ -626,7 +626,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -640,7 +640,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -654,7 +654,7 @@ Methods
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -676,7 +676,7 @@ In case of record:
   (cluster-position:long)(record-version:int)(record-content:bytes)
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -690,7 +690,7 @@ In case of record:
 
 
 * Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -704,7 +704,7 @@ In case of record:
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 
@@ -718,7 +718,7 @@ In case of record:
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface.md)
+* This method is defined by [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface)
 
 
 ##### Arguments
@@ -736,7 +736,7 @@ In case of record:
 
 * Visibility: **public**
 * This method is **static**.
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
 
 
 ##### Arguments

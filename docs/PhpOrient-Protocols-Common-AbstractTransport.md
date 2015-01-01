@@ -9,7 +9,7 @@ PhpOrient\Protocols\Common\AbstractTransport
 * Class name: AbstractTransport
 * Namespace: PhpOrient\Protocols\Common
 * This is an **abstract** class
-* This class implements: [PhpOrient\Protocols\Common\TransportInterface](PhpOrient-Protocols-Common-TransportInterface.md)
+* This class implements: [PhpOrient\Protocols\Common\TransportInterface](PhpOrient-Protocols-Common-TransportInterface)
 
 
 
@@ -143,7 +143,7 @@ Methods
 
 
 ##### Arguments
-* $clusterList **[PhpOrient\Protocols\Common\ClusterMap](PhpOrient-Protocols-Common-ClusterMap.md)**
+* $clusterList **[PhpOrient\Protocols\Common\ClusterMap](PhpOrient-Protocols-Common-ClusterMap)**
 
 
 
@@ -169,7 +169,7 @@ Methods
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface.md)
+* This method is defined by [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface)
 
 
 ##### Arguments
@@ -203,7 +203,7 @@ Methods
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Common\TransportInterface](PhpOrient-Protocols-Common-TransportInterface.md)
+* This method is defined by [PhpOrient\Protocols\Common\TransportInterface](PhpOrient-Protocols-Common-TransportInterface)
 
 
 ##### Arguments

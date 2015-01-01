@@ -8,7 +8,7 @@ Class PhpOrient
 
 * Class name: PhpOrient
 * Namespace: PhpOrient
-* This class implements: [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface.md)
+* This class implements: [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface)
 
 
 Constants
@@ -212,7 +212,7 @@ or a flag to set a new token instance initialization
 
 
 ##### Arguments
-* $transport **[PhpOrient\Protocols\Common\TransportInterface](PhpOrient-Protocols-Common-TransportInterface.md)**
+* $transport **[PhpOrient\Protocols\Common\TransportInterface](PhpOrient-Protocols-Common-TransportInterface)**
 
 
 
@@ -254,7 +254,7 @@ or a flag to set a new token instance initialization
 
 
 ##### Arguments
-* $transport **[PhpOrient\Protocols\Common\TransportInterface](PhpOrient-Protocols-Common-TransportInterface.md)|null**
+* $transport **[PhpOrient\Protocols\Common\TransportInterface](PhpOrient-Protocols-Common-TransportInterface)|null**
 
 
 
@@ -393,7 +393,7 @@ A callback function is needed
 
 
 ##### Arguments
-* $record **[PhpOrient\Protocols\Binary\Data\Record](PhpOrient-Protocols-Binary-Data-Record.md)**
+* $record **[PhpOrient\Protocols\Binary\Data\Record](PhpOrient-Protocols-Binary-Data-Record)**
 
 
 
@@ -409,7 +409,7 @@ A callback function is needed
 
 
 ##### Arguments
-* $record **[PhpOrient\Protocols\Binary\Data\Record](PhpOrient-Protocols-Binary-Data-Record.md)**
+* $record **[PhpOrient\Protocols\Binary\Data\Record](PhpOrient-Protocols-Binary-Data-Record)**
 
 
 
@@ -425,7 +425,7 @@ A callback function is needed
 
 
 ##### Arguments
-* $rid **[PhpOrient\Protocols\Binary\Data\ID](PhpOrient-Protocols-Binary-Data-ID.md)**
+* $rid **[PhpOrient\Protocols\Binary\Data\ID](PhpOrient-Protocols-Binary-Data-ID)**
 
 
 
@@ -441,7 +441,7 @@ A callback function is needed
 
 
 ##### Arguments
-* $rid **[PhpOrient\Protocols\Binary\Data\ID](PhpOrient-Protocols-Binary-Data-ID.md)**
+* $rid **[PhpOrient\Protocols\Binary\Data\ID](PhpOrient-Protocols-Binary-Data-ID)**
 * $params **array**
 
 
@@ -695,7 +695,7 @@ Flushes all cached content to the disk storage and allows to perform only read c
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface.md)
+* This method is defined by [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface)
 
 
 ##### Arguments

@@ -8,7 +8,7 @@ PhpOrient\Protocols\Binary\SocketTransport
 
 * Class name: SocketTransport
 * Namespace: PhpOrient\Protocols\Binary
-* Parent class: [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport.md)
+* Parent class: [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
 
 
 
@@ -315,7 +315,7 @@ Methods
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Common\TransportInterface](PhpOrient-Protocols-Common-TransportInterface.md)
+* This method is defined by [PhpOrient\Protocols\Common\TransportInterface](PhpOrient-Protocols-Common-TransportInterface)
 
 
 ##### Arguments
@@ -336,7 +336,7 @@ Methods
 
 
 ##### Arguments
-* $operation **[PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation.md)|string** <p>The operation name or instance.</p>
+* $operation **[PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)|string** <p>The operation name or instance.</p>
 * $params **array** <p>The parameters for the operation.</p>
 
 
@@ -387,7 +387,7 @@ with non-viewable characters.
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport.md)
+* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
 
 
 
@@ -401,7 +401,7 @@ with non-viewable characters.
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport.md)
+* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
 
 
 ##### Arguments
@@ -418,7 +418,7 @@ with non-viewable characters.
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport.md)
+* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
 
 
 
@@ -432,11 +432,11 @@ with non-viewable characters.
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport.md)
+* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
 
 
 ##### Arguments
-* $clusterList **[PhpOrient\Protocols\Common\ClusterMap](PhpOrient-Protocols-Common-ClusterMap.md)**
+* $clusterList **[PhpOrient\Protocols\Common\ClusterMap](PhpOrient-Protocols-Common-ClusterMap)**
 
 
 
@@ -449,7 +449,7 @@ with non-viewable characters.
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport.md)
+* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
 
 
 
@@ -463,7 +463,7 @@ with non-viewable characters.
 
 
 * Visibility: **public**
-* This method is defined by [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface.md)
+* This method is defined by [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface)
 
 
 ##### Arguments
@@ -481,7 +481,7 @@ with non-viewable characters.
 
 * Visibility: **public**
 * This method is **static**.
-* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport.md)
+* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
 
 
 ##### Arguments
