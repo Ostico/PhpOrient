@@ -16,4 +16,4 @@ limitations under the License.
 
 ***Copyright Note:***
 
-Some parts of PhpOrient are originally derived from [php-orientdb](https://github.com/codemix/php-orientdb), which is licensed under the [MIT](https://github.com/codemix/php-orientdb/blob/master/LICENSE.md) license
+Some parts of PhpOrient are originally derived from [php-orientdb](https://github.com/codemix/php-orientdb), which is licensed under the [MIT License](https://github.com/codemix/php-orientdb/blob/master/LICENSE.md)
