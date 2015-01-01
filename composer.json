@@ -4,9 +4,10 @@
     "version": "v1.1.0",
     "keywords": [
         "orientdb",
-        "orient db"
+        "orient db",
+        "orientechnologies"
     ],
-    "homepage": "https://github.com/Ostico/phpOrient",
+    "homepage": "https://github.com/Ostico/PhpOrient",
     "type": "library",
     "license": "Apache License v2.0",
     "authors": [
