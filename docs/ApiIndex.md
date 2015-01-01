@@ -1,0 +1,61 @@
+API Index
+=========
+
+* PhpOrient
+    * PhpOrient\Exceptions
+        * [PhpOrientBadMethodCallException](PhpOrient-Exceptions-PhpOrientBadMethodCallException)
+        * [PhpOrientException](PhpOrient-Exceptions-PhpOrientException)
+        * [PhpOrientWrongProtocolVersionException](PhpOrient-Exceptions-PhpOrientWrongProtocolVersionException)
+        * [TransportException](PhpOrient-Exceptions-TransportException)
+        * [SocketException](PhpOrient-Exceptions-SocketException)
+    * PhpOrient\Configuration
+        * [Constants](PhpOrient-Configuration-Constants)
+    * PhpOrient\Protocols
+        * PhpOrient\Protocols\Binary
+            * PhpOrient\Protocols\Binary\Stream
+                * [Reader](PhpOrient-Protocols-Binary-Stream-Reader)
+                * [Writer](PhpOrient-Protocols-Binary-Stream-Writer)
+            * PhpOrient\Protocols\Binary\Serialization
+                * [CSV](PhpOrient-Protocols-Binary-Serialization-CSV)
+            * PhpOrient\Protocols\Binary\Operations
+                * [DbRelease](PhpOrient-Protocols-Binary-Operations-DbRelease)
+                * [ShutDown](PhpOrient-Protocols-Binary-Operations-ShutDown)
+                * [DataClusterDrop](PhpOrient-Protocols-Binary-Operations-DataClusterDrop)
+                * [DbCountRecords](PhpOrient-Protocols-Binary-Operations-DbCountRecords)
+                * [DbExists](PhpOrient-Protocols-Binary-Operations-DbExists)
+                * [DbSize](PhpOrient-Protocols-Binary-Operations-DbSize)
+                * [RecordCreate](PhpOrient-Protocols-Binary-Operations-RecordCreate)
+                * [DataClusterCount](PhpOrient-Protocols-Binary-Operations-DataClusterCount)
+                * [DbFreeze](PhpOrient-Protocols-Binary-Operations-DbFreeze)
+                * [DataClusterAdd](PhpOrient-Protocols-Binary-Operations-DataClusterAdd)
+                * [RecordUpdate](PhpOrient-Protocols-Binary-Operations-RecordUpdate)
+                * [RecordLoad](PhpOrient-Protocols-Binary-Operations-RecordLoad)
+                * [RecordDelete](PhpOrient-Protocols-Binary-Operations-RecordDelete)
+                * [Command](PhpOrient-Protocols-Binary-Operations-Command)
+                * [DbReload](PhpOrient-Protocols-Binary-Operations-DbReload)
+                * [Connect](PhpOrient-Protocols-Binary-Operations-Connect)
+                * [DataClusterDataRange](PhpOrient-Protocols-Binary-Operations-DataClusterDataRange)
+                * [DbOpen](PhpOrient-Protocols-Binary-Operations-DbOpen)
+                * [DbList](PhpOrient-Protocols-Binary-Operations-DbList)
+                * [DbDrop](PhpOrient-Protocols-Binary-Operations-DbDrop)
+                * [DbClose](PhpOrient-Protocols-Binary-Operations-DbClose)
+                * [DbCreate](PhpOrient-Protocols-Binary-Operations-DbCreate)
+            * [OrientSocket](PhpOrient-Protocols-Binary-OrientSocket)
+            * [SocketTransport](PhpOrient-Protocols-Binary-SocketTransport)
+            * PhpOrient\Protocols\Binary\Data
+                * [ID](PhpOrient-Protocols-Binary-Data-ID)
+                * [Bag](PhpOrient-Protocols-Binary-Data-Bag)
+                * [Record](PhpOrient-Protocols-Binary-Data-Record)
+            * PhpOrient\Protocols\Binary\Abstracts
+                * [SerializableInterface](PhpOrient-Protocols-Binary-Abstracts-SerializableInterface)
+                * [Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
+            * PhpOrient\Protocols\Binary\Transaction
+                * [TxCommit](PhpOrient-Protocols-Binary-Transaction-TxCommit)
+        * PhpOrient\Protocols\Common
+            * [AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
+            * [ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface)
+            * [ClusterMap](PhpOrient-Protocols-Common-ClusterMap)
+            * [TransportInterface](PhpOrient-Protocols-Common-TransportInterface)
+            * [Constants](PhpOrient-Protocols-Common-Constants)
+    * [PhpOrient](PhpOrient-PhpOrient)
+
