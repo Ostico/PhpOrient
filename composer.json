@@ -1,5 +1,5 @@
 {
-    "name": "Ostico/orientdb",
+    "name": "phporient",
     "description": "PHP driver for the OrientDB binary protocol.",
     "version": "v1.1.0",
     "keywords": [
