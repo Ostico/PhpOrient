@@ -310,9 +310,9 @@ $client->dataClusterDrop( 11 );
 ### Persistent Connections ( Session Token )
 Since version 27 is introduced an extension to allow use a token based session. This functionality must be enabled on the server config.
 
-- In the first negotiation the client can ask for a token based authentication using the token-auth flag
-- The server will reply with a token or an empty string meaning that it not support token based session and is using a old style session.
-- For each request the client send the token 
+- In the first negotiation the client can ask for a token based authentication using the ```PhpOrient::setSessionToken``` method.
+- The server will reply with a token or with an empty string meaning that it not support token based session and is using an old style session.
+- For each request, the client will send the token and eventually it will get a new one if token lifetime ends.
 
 When using the token based authentication, the connections can be shared between users of the same server.
 ```php
