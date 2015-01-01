@@ -35,10 +35,10 @@ Now get the required libraries to work with PhpOrient:
 ```bash
 php composer.phar --no-dev install
 ```
-
-If you already have a composer installed or your existing project use it, you can install/add PhpOrient via Composer [https://packagist.org/packages/ostico/phporient](https://packagist.org/packages/ostico/phporient), it is linked to this GitHub repository, so it is everityme updated. and add it library to your project.
+###### Note:
+> If you already have a composer installed or your existing project use it, you can install/add PhpOrient via Composer [https://packagist.org/packages/ostico/phporient](https://packagist.org/packages/ostico/phporient), it is linked to this GitHub repository, so it is everityme updated and add it as dependecy to your project.
     
-    composer require "ostico/phporient" "dev-master" --update-no-dev
+    php composer.phar require "ostico/phporient" "dev-master" --update-no-dev
 
 ## Usage
 PhpOrient specify autoload information, Composer generates a vendor/autoload.php file. You can simply include this file and you will get autoloading for free and declare the use of PhpOrient Client with fully qualified name.
