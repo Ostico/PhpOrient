@@ -36,7 +36,7 @@ Now get the required libraries to work with PhpOrient:
 php composer.phar --no-dev install
 ```
 ###### Note:
-> If you already have a composer installed or your existing project use it, you can install/add PhpOrient via Composer [https://packagist.org/packages/ostico/phporient](https://packagist.org/packages/ostico/phporient), it is linked to this GitHub repository, so it is everityme updated and add it as dependecy to your project.
+> If you already have a composer installed or your existing project use it, you can install/add PhpOrient via Composer [https://packagist.org/packages/ostico/phporient](https://packagist.org/packages/ostico/phporient), it is linked to this GitHub repository ( so it is everityme updated ), and add it as dependecy to your project.
     
     php composer.phar require "ostico/phporient:dev-master" --update-no-dev
 
