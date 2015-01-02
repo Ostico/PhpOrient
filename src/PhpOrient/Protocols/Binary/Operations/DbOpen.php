@@ -145,7 +145,7 @@ class DbOpen extends Operation {
         $cluster_list = [
             'sessionId'    => $sessionId,
             'dataClusters' => $dataClusters,
-            'servers'      => $this->_readInt(),
+            'servers'      => $this->_readString(),
             'release'      => $this->_readString()
         ];
 

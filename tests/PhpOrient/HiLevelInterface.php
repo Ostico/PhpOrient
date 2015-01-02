@@ -62,7 +62,7 @@ class HiLevelInterface extends TestCase {
         $client = new PhpOrient( 'localhost', 2424 );
         $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
         $myFunction = function( Record $record) {
-            var_dump( $record );
+//            var_dump( $record );
             $this->assertInstanceOf( '\PhpOrient\Protocols\Binary\Data\Record', $record );
         };
         $client->queryAsync( 'select from followed_by', [ 'fetch_plan' => '*:1', '_callback' => $myFunction ] );
