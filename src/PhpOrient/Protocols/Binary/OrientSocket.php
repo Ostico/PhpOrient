@@ -77,8 +77,8 @@ class OrientSocket {
 
             $this->_socket = @socket_create( AF_INET, SOCK_STREAM, getprotobyname('tcp') );
             socket_set_block( $this->_socket );
-            socket_set_option( $this->_socket, SOCK_STREAM, SO_RCVTIMEO, array( 'sec' => self::READ_TIMEOUT, 'usec' => 0 ) );
-            socket_set_option( $this->_socket, SOCK_STREAM, SO_SNDTIMEO, array( 'sec' => self::WRITE_TIMEOUT, 'usec' => 0 ) );
+            socket_set_option( $this->_socket, SOL_SOCKET, SO_RCVTIMEO, array( 'sec' => self::READ_TIMEOUT, 'usec' => 0 ) );
+            socket_set_option( $this->_socket, SOL_SOCKET, SO_SNDTIMEO, array( 'sec' => self::WRITE_TIMEOUT, 'usec' => 0 ) );
 
             $x = @socket_connect( $this->_socket, $this->hostname, $this->port );
 

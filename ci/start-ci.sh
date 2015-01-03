@@ -46,14 +46,15 @@ if [ ! -d "$ODB_DIR" ]; then
   chmod +x ${ODB_LAUNCHER}
   chmod -R +rw "${ODB_DIR}/config/"
 
-  if [[ "${ODB_VERSION}" != *"2.0"* ]]; then
+  if [[ "${ODB_VERSION}" == "1.7.10" ]]; then
+    cp ${PARENT_DIR}/ci/orientdb-server-config_1.7.10.xml "${ODB_DIR}/config/config/orientdb-server-config.xml"
+  elif [[ "${ODB_VERSION}" != *"2.0"* ]]; then
     cp ${PARENT_DIR}/ci/orientdb-server-config.xml "${ODB_DIR}/config/"
-    cp ${PARENT_DIR}/ci/orientdb-server-log.properties "${ODB_DIR}/config/"
   else
     cp ${PARENT_DIR}/ci/orientdb-server-config_2.0.xml "${ODB_DIR}/config/orientdb-server-config.xml"
-    cp ${PARENT_DIR}/ci/orientdb-server-log.properties "${ODB_DIR}/config/"
   fi
 
+  cp ${PARENT_DIR}/ci/orientdb-server-log.properties "${ODB_DIR}/config/"
 
   if [ ! -d "${ODB_DIR}/databases" ]; then
     mkdir ${ODB_DIR}/databases
