@@ -118,7 +118,7 @@ $client->dbList();
 
 ### Open a Database
 ```php
-$ClusterMap = $client->dbOpen( 'GratefulDeadConcerts, 'admin', 'admin' );
+$ClusterMap = $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
 ```
 
 ### Send a command
