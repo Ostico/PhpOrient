@@ -281,7 +281,7 @@ class PhpOrient implements ConfigurableInterface {
         $params                 = [ ];
         $params[ 'command' ]    = Constants::QUERY_SYNC;
         $params[ 'query' ]      = $query;
-        $params[ 'limit' ]      = $limit;
+        $params[ 'limit' ]      = ( !stripos( $query, ' limit ' ) ? $limit : -1 );
         $params[ 'fetch_plan' ] = $fetchPlan;
 
         return $this->getTransport()->execute( 'command', $params );

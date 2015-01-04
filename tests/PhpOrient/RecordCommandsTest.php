@@ -234,4 +234,25 @@ class RecordCommandsTest extends TestCase {
 
     }
 
+    public function testLimit() {
+
+        $this->cluster_struct = $this->client->execute( 'dbOpen', [
+                'database' => 'GratefulDeadConcerts'
+        ] );
+
+        $response = $this->client->query( 'select from V limit 4' );
+        $this->assertCount( 4, $response );
+        $response = $this->client->query( 'select from V limit 29' );
+        $this->assertCount( 29, $response );
+
+        $response = $this->client->query( 'select from V limit 4', 40 );
+        $this->assertCount( 4, $response );
+        $response = $this->client->query( 'select from V limit 29', 40 );
+        $this->assertCount( 29, $response );
+
+        $response = $this->client->query( 'select from V', 40 );
+        $this->assertCount( 40, $response );
+
+    }
+
 } 
