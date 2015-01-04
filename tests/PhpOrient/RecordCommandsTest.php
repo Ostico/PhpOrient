@@ -253,6 +253,9 @@ class RecordCommandsTest extends TestCase {
         $response = $this->client->query( 'select from V', 40 );
         $this->assertCount( 40, $response );
 
+        $response = $this->client->query( 'select from V' );
+        $this->assertCount( 20, $response );
+
     }
 
 } 

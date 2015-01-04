@@ -47,7 +47,22 @@ class Reader {
      * @return int the integer unpacked
      */
     public static function unpackInt( $value ) {
-        return current( unpack( 'N', $value ) );
+        $signed = current( unpack( 'N', $value ) );
+        if (PHP_INT_SIZE === 8) {
+            /**
+             * If the bit sign is set,
+             * because unpack treat all as unsigned, -1 equals to 2147483647 .
+             * So, remove the sign and subtract -1
+             * Ex:
+             *    -1 equals 4294967295 as unsigned int
+             *    4294967295 ^ 0x80000000 = 2147483647
+             *    2147483647 - 0x80000000 = -1
+             */
+            if ( $signed & 0x80000000 ){
+                $signed = ( $signed ^ 0x80000000 ) - 0x80000000;
+            }
+        }
+        return $signed;
     }
 
     /**
