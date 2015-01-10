@@ -397,3 +397,4 @@ foreach ( $animal_foods as $food ) {
 # License
 
 Apache License, Version 2.0, see [LICENSE.md](./LICENSE.md).
+
