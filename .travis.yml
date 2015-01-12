@@ -9,7 +9,12 @@ before_script:
   - ./ci/start-ci.sh $ORIENTDB_VERSION
   - composer install --prefer-source
 
-script: ./vendor/bin/phpunit
+script:
+ - mkdir -p build/logs
+ - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+
+after_script:
+ - php ./vendor/bin/coveralls -v
 
 env:
   - ORIENTDB_VERSION=2.0-rc1

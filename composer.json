@@ -33,7 +33,8 @@
         "monolog/monolog": "1.11.*",
         "phpdocumentor/template-zend": "1.3.0",
         "phpdocumentor/phpdocumentor": "dev-master",
-        "Ostico/phpdoc-md": "dev-master"
+        "Ostico/phpdoc-md": "dev-master",
+        "satooshi/php-coveralls": "dev-master"
     },
     "autoload": {
         "psr-4": {"PhpOrient\\": "src/PhpOrient"}
