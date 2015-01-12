@@ -3,11 +3,9 @@
 namespace PhpOrient\Protocols\Common;
 
 use PhpOrient\Configuration\Constants as ClientConstants;
+use PhpOrient\Exceptions\PhpOrientException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
-use Monolog\Formatter\LineFormatter;
 
 abstract class AbstractTransport implements TransportInterface {
     use ConfigurableTrait;
@@ -50,14 +48,22 @@ abstract class AbstractTransport implements TransportInterface {
         if ( ClientConstants::$LOGGING ) {
 
             if ( self::$_logger === null ) {
-                self::$_logger = new Logger( get_class( $this ) );
-                $file_path = "php://stdout";
+
+                if( !class_exists( '\Monolog\Logger', true ) ){
+                    throw new PhpOrientException( "No development environment installed from composer. Try 'composer update' or remove logging from client constants ( \\PhpOrient\\Configuration\\Constants::\$LOGGING )" );
+                }
+
+                self::$_logger = new \Monolog\Logger( get_class( $this ) );
+                $file_path     = "php://stdout";
+
                 if ( ClientConstants::$LOG_FILE_PATH ) {
                     $file_path = ClientConstants::$LOG_FILE_PATH;
                 }
-                $handler = new StreamHandler( $file_path, Logger::DEBUG );
-                $handler->setFormatter( new LineFormatter( null, null, false, true ) );
+
+                $handler = new \Monolog\Handler\StreamHandler( $file_path, \Monolog\Logger::DEBUG );
+                $handler->setFormatter( new \Monolog\Formatter\LineFormatter( null, null, false, true ) );
                 self::$_logger->pushHandler( $handler );
+
             }
 
         } else {
