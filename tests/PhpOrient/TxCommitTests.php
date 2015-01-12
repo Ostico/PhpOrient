@@ -69,6 +69,17 @@ class TxCommitTests extends TestCase {
 
     }
 
+    public function testWrongOperation(){
+
+        $tx = $this->client->getTransactionStatement();
+        $this->assertInstanceOf( 'PhpOrient\Protocols\Binary\Transaction\TxCommit', $tx );
+        $tx = $tx->begin();
+        $this->assertInstanceOf( 'PhpOrient\Protocols\Binary\Transaction\TxCommit', $tx );
+        $this->setExpectedException( '\PhpOrient\Exceptions\PhpOrientBadMethodCallException' );
+        $tx->attach( $this->client->command( 'select from V limit 1' ) );
+
+    }
+
     public function testUpdate(){
 
 //        $recUp = [ 'alloggio' => 'home' ];

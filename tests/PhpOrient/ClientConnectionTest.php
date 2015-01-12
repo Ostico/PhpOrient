@@ -2,8 +2,17 @@
 
 namespace PhpOrient;
 use PhpOrient\Abstracts\EmptyTestCase;
+use PhpOrient\Configuration\Constants;
 
 class ClientConnectionTest extends EmptyTestCase {
+
+    public function testLogging(){
+        Constants::$LOGGING = true;
+        Constants::$LOG_FILE_PATH = '/dev/null';
+        $result = $this->client->execute( 'dbOpen', [ 'database' => 'GratefulDeadConcerts' ] );
+        $this->assertNotEquals( -1, $result['sessionId'] );
+        $this->assertNotEmpty( count( $result ) );
+    }
 
     public function testSelfCreation() {
         $client = $this->createClient();
