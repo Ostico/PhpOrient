@@ -128,16 +128,20 @@ class Writer {
      */
     protected static function sub_1( $x ) {
 
-        $res = '0';
+        if( strlen( $x ) == 1 ) return (string)( $x - 1 );
+
         for( $idx = 1; $idx <= strlen($x); $idx++ ){
             $res = $x{ strlen($x) - $idx } - 1;
             if ( $res < 0 ){
                 $x{ strlen($x) - $idx } = '9';
             } else {
+                $x{ strlen($x) - $idx } = $res;
                 break;
             }
         }
-        return (string)$res;
+
+        $x = ltrim( $x, '-0' );
+        return $x;
 
     }
 
@@ -154,7 +158,6 @@ class Writer {
     protected static function str2bin( $value ) {
 
         if( $value{0} == '-' ){
-            $value = substr( $value, 1 );
             //add 1 ( so subtract to the number modulus )
             //for the first phase of two's complement
             $value = self::sub_1( $value );
