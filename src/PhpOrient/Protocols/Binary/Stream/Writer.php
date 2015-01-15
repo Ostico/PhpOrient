@@ -2,6 +2,8 @@
 
 namespace PhpOrient\Protocols\Binary\Stream;
 
+use PhpOrient\Protocols\Binary\SocketTransport;
+
 class Writer {
 
     /**
@@ -51,18 +53,38 @@ class Writer {
 
         } else {
 
+            /*
+             * To get the two's complement of a binary number,
+             * the bits are inverted, or "flipped",
+             * by using the bitwise NOT operation;
+             * the value of 1 is then added to the resulting value
+             */
             $bitString  = '';
+            $isNegative = $value{0} == '-';
             if ( function_exists( "bcmod" ) ) {
-                while ( $value !== '0' ) {
-                    $bitString = bcmod( $value, '2' ) . $bitString;
-                    $value     = bcdiv( $value, '2' );
+
+                //add 1 for the two's complement
+                if( $isNegative ){
+                    $value = bcadd( $value, '1' );
                 }
-            } elseif ( function_exists( "gmp_mod" ) ) {
+
                 while ( $value !== '0' ) {
-                    list( $value, $remainder ) = gmp_div_qr( $value, '2' );
-                    $value = gmp_strval( $value );
-                    $bitString = gmp_strval( $remainder ) . $bitString;
+                    $bitString = (string)abs( (int)bcmod( $value, '2' ) ) . $bitString;
+                    $value     = bcdiv( $value, '2' );
                 };
+
+            } elseif ( function_exists( "gmp_mod" ) ) {
+
+                //add 1 for the two's complement
+                if( $isNegative ){
+                    $value = gmp_strval( gmp_add( $value, '1' ) );
+                }
+
+                while ( $value !== '0' ) {
+                    $bitString = gmp_strval( gmp_abs( gmp_mod( $value, '2' ) ) ) . $bitString;
+                    $value = gmp_strval( gmp_div_q( $value, '2' ) );
+                };
+
             } else {
                 while ( $value != 0 ) {
                     list( $value, $remainder ) = self::str2bin( (string)$value );
@@ -70,8 +92,17 @@ class Writer {
                 } ;
             }
 
-            if( $bitString != '' && $bitString{0} == '-' ){
-                $bitString = str_pad( substr( $bitString, 1 ), 64, '1', STR_PAD_LEFT );
+            //Now do the logical not for the two's complement last phase
+            if( $isNegative ){
+                $len = strlen( $bitString );
+                for( $x = 0; $x < $len; $x++ ){
+                    $bitString{$x} = ( $bitString{$x} == '1' ? '0' : '1' );
+                }
+            }
+
+            //pad to have 64 bit
+            if( $bitString != '' && $isNegative ){
+                $bitString = str_pad( $bitString, 64, '1', STR_PAD_LEFT );
             } else {
                 $bitString = str_pad( $bitString, 64, '0', STR_PAD_LEFT );
             }
@@ -89,6 +120,28 @@ class Writer {
     }
 
     /**
+     * String subtraction, subtract 1 from numeric string
+     *
+     * @param $x
+     *
+     * @return string
+     */
+    protected static function sub_1( $x ) {
+
+        $res = '0';
+        for( $idx = 1; $idx <= strlen($x); $idx++ ){
+            $res = $x{ strlen($x) - $idx } - 1;
+            if ( $res < 0 ){
+                $x{ strlen($x) - $idx } = '9';
+            } else {
+                break;
+            }
+        }
+        return (string)$res;
+
+    }
+
+    /**
      * Transform an arbitrary precision number ( string )
      * to a binary string of bits and take the remainder also
      *
@@ -100,10 +153,11 @@ class Writer {
      */
     protected static function str2bin( $value ) {
 
-        $isNegative = false;
         if( $value{0} == '-' ){
-            $isNegative = true;
             $value = substr( $value, 1 );
+            //add 1 ( so subtract to the number modulus )
+            //for the first phase of two's complement
+            $value = self::sub_1( $value );
         }
 
         $valueLen      = strlen( $value );
@@ -117,7 +171,7 @@ class Writer {
                 $idx++;
 
                 if( $idx == $valueLen ){
-                    $lastRemainder = (!$isNegative ? '' : '-' ) . $actualDividend;
+                    $lastRemainder = $actualDividend;
                     break;
                 }
 
@@ -134,7 +188,7 @@ class Writer {
             $totalQuotient = substr( $totalQuotient, 1 );
         }
 
-        return [ (!$isNegative ? '' : '-' ) . (string)$totalQuotient, (string)$lastRemainder ];
+        return [ (string)$totalQuotient, (string)$lastRemainder ];
     }
 
     /**

@@ -295,7 +295,7 @@ class TxCommit extends Operation {
              $operationPayload = [
                     [ '_writeByte', 1 ],
                     [ '_writeShort', $operation->cluster_id ],
-                    [ '_writeLong', $operation->cluster_position ],
+                    [ '_writeLong', (string)$operation->cluster_position ],
                     [ '_writeChar', $operation->record_type ],
                     [ '_writeInt', $operation->record_version ],
                     [ '_writeString', CSV::serialize( $operation->record ) ]
@@ -309,7 +309,7 @@ class TxCommit extends Operation {
             $this->_operation_stack[ ] = [
                     [ '_writeByte', 2 ],
                     [ '_writeShort', $operation->cluster_id ],
-                    [ '_writeLong', $operation->cluster_position ],
+                    [ '_writeLong', (string)$operation->cluster_position ],
                     [ '_writeChar', $operation->record_type ],
                     [ '_writeInt', $operation->record_version ]
             ];
@@ -317,7 +317,7 @@ class TxCommit extends Operation {
             $this->_operation_stack[ ] = [
                     [ '_writeByte', 3 ],
                     [ '_writeShort', -1 ],
-                    [ '_writeLong', $this->_temp_cluster_position_seq ],
+                    [ '_writeLong', (string)$this->_temp_cluster_position_seq ],
                     [ '_writeChar', $operation->record_type ],
                     [ '_writeString', CSV::serialize( $operation->record ) ]
             ];

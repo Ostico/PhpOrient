@@ -358,7 +358,7 @@ class PhpOrient implements ConfigurableInterface {
      *
      * @param ID $rid
      *
-     * @return RecordDelete|Record
+     * @return RecordDelete|bool
      */
     public function recordDelete( ID $rid ) {
         return $this->getTransport()->execute( 'recordDelete', [

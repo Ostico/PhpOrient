@@ -258,4 +258,51 @@ class RecordCommandsTest extends TestCase {
 
     }
 
+    public function testHiLevelCreateDelete(){
+
+        $config = static::getConfig();
+        $this->client = new PhpOrient();
+        $this->client->configure( array(
+            'username' => $config[ 'username' ],
+            'password' => $config[ 'password' ],
+            'hostname' => $config[ 'hostname' ],
+            'port'     => $config[ 'port' ],
+        ) );
+
+        $this->client->dbOpen( $this->db_name, 'admin', 'admin' );
+
+        $recOrig = [ 'accommodation' => 'case', 'work' => 'mercato', 'holiday' => 'mare' ];
+        $rec = new Record();
+        $rec->setOData( $recOrig );
+        $rec->setOClass( 'V' );
+        $rec->setRid( new ID(9) );
+        $result = $this->client->recordCreate( $rec );
+
+        $this->assertInstanceOf( '\PhpOrient\Protocols\Binary\Data\Record', $result );
+        $this->assertEquals( '#9:0', (string)$result->getRid() );
+        $this->assertEquals( '9', $result->getRid()->cluster );
+        $this->assertEquals( '0', $result->getRid()->position );
+
+        $load = $this->client->recordLoad( $result->getRid() );
+        $this->assertInstanceOf( '\PhpOrient\Protocols\Binary\Data\Record', $load[0] );
+        $this->assertEquals( (string)$result->getRid(), (string)$load[0]->getRid() );
+        $this->assertEquals( (string)$result, (string)$load[0] );
+
+        $_recUp = [ 'accommodation' => 'hotel', 'work' => 'office', 'holiday' => 'mountain' ];
+        $recUp = ( new Record() )->setOData( $_recUp )->setOClass( 'V' )->setRid( $result->getRid() );
+        $updated0 = $this->client->recordUpdate( $recUp );
+        $this->assertInstanceOf( '\PhpOrient\Protocols\Binary\Data\Record', $updated0 );
+
+        $delete = $this->client->recordDelete( $load[0]->getRid() );
+        $this->assertTrue( $delete );
+
+        //try load again, this should be empty
+        $reLoad = $this->client->recordLoad( $result->getRid() );
+        $this->assertEmpty( $reLoad );
+
+        $result = $this->client->dataClusterCount( [ 9 ] );
+
+        $this->assertEmpty( $result );
+    }
+
 } 
