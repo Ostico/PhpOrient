@@ -91,18 +91,26 @@ class RecordLoad extends Operation {
             if( $this->_transport->getProtocolVersion() > 27 ){
                 $type    = $this->_readChar();
                 $version = $this->_readInt();
-                $data    = CSV::unserialize( $this->_readString() );
+                if( $type == 'b' ){
+                    $data[] = $this->_readString();
+                } else {
+                    $data    = CSV::unserialize( $this->_readString() );
+                }
             } else {
-                $data    = CSV::unserialize( $this->_readString() );
+                $string  = $this->_readString();
+                $data    = CSV::unserialize( $string );
                 $version = $this->_readInt();
                 $type    = $this->_readChar();
+                if( $type == 'b' ) $data = $string;
             }
 
             $payload[ 'rid' ]      = new ID( $this->cluster_id, $this->cluster_position );
             $payload[ 'type' ]     = $type;
             $payload[ 'version' ]  = $version;
-            $payload[ 'oClass' ]   = $data[ 'oClass' ];
-            unset( $data[ 'oClass' ] );
+            if ( isset( $data[ 'oClass' ] ) ) {
+                $payload[ 'oClass' ]   = $data[ 'oClass' ];
+                unset( $data[ 'oClass' ] );
+            }
             $payload[ 'oData' ]    = $data;
 
             $record = Record::fromConfig( $payload );
