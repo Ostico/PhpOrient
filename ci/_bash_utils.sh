@@ -148,6 +148,7 @@ build_via_mvn () {
     fi
 
     if command_exists "mvn" ; then
+        echo "org.apache.maven.plugins:maven-dependency-plugin:2.8:get -Dartifact=com.orientechnologies:orientdb-community:\"${ODB_VERSION}\":\"${ODB_PACKAGE_EXT}\":distribution -DremoteRepositories=https://oss.sonatype.org/content/repositories/snapshots/ -Ddest=\"$OUTPUT_DIR/$ODB_COMPRESSED\""
         mvn org.apache.maven.plugins:maven-dependency-plugin:2.8:get -Dartifact=com.orientechnologies:orientdb-community:"${ODB_VERSION}":"${ODB_PACKAGE_EXT}":distribution -DremoteRepositories=https://oss.sonatype.org/content/repositories/snapshots/ -Ddest="$OUTPUT_DIR/$ODB_COMPRESSED"
     else
         echo "Cannot download $1 [maven is not installed]"
