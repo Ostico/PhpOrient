@@ -71,6 +71,23 @@ TODO 32bit
 
 
 
+### sub_1
+```php
+    string PhpOrient\Protocols\Binary\Stream\Writer::sub_1($x)
+```
+##### String subtraction, subtract 1 from numeric string
+
+
+
+* Visibility: **protected**
+* This method is **static**.
+
+
+##### Arguments
+* $x **mixed**
+
+
+
 ### str2bin
 ```php
     array PhpOrient\Protocols\Binary\Stream\Writer::str2bin($value)

@@ -89,9 +89,9 @@ Specify data which should be serialized to JSON
 
 ### parseString
 ```php
-    mixed PhpOrient\Protocols\Binary\Data\ID::parseString($input)
+    array PhpOrient\Protocols\Binary\Data\ID::parseString($input)
 ```
-##### 
+##### Transform a rid string format ( '#1:2' ) to array [ cluster, position ]
 
 
 
@@ -100,6 +100,6 @@ Specify data which should be serialized to JSON
 
 
 ##### Arguments
-* $input **mixed**
+* $input **mixed** <p>string</p>
 
 

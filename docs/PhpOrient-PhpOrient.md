@@ -415,7 +415,7 @@ A callback function is needed
 
 ### recordDelete
 ```php
-    \PhpOrient\Protocols\Binary\Operations\RecordDelete|\PhpOrient\Protocols\Binary\Data\Record PhpOrient\PhpOrient::recordDelete(\PhpOrient\Protocols\Binary\Data\ID $rid)
+    \PhpOrient\Protocols\Binary\Operations\RecordDelete|boolean PhpOrient\PhpOrient::recordDelete(\PhpOrient\Protocols\Binary\Data\ID $rid)
 ```
 ##### Delete a Record
 
