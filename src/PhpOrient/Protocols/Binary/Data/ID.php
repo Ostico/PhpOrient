@@ -70,7 +70,13 @@ class ID implements \JsonSerializable{
         return '#' . $this->cluster . ':' . $this->position;
     }
 
-
+    /**
+     * Transform a rid string format ( '#1:2' ) to array [ cluster, position ]
+     *
+     * @param $input string
+     *
+     * @return array
+     */
     public static function parseString( $input ) {
         return explode( ':', substr( $input, 1 ) );
     }

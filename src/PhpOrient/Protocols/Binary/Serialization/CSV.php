@@ -512,6 +512,8 @@ class CSV {
             return self::serializeDocument( $value, $embedded );
         } elseif ( $value instanceof \DateTime ) {
             return $value->getTimestamp() . 't';
+        } elseif ( $value instanceof ID ) {
+            return $value->__toString();
         } else {
             return '';
         }
