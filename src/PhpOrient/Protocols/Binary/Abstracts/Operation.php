@@ -142,7 +142,11 @@ abstract class Operation implements ConfigurableInterface {
             $error = $this->_readError();
             $this->_dump_streams();
             throw $error;
+        } elseif( $status === 3 ){
+            // server push data for nodes up/down update info,
+            // needed for failover on cluster
         }
+
     }
 
     /**

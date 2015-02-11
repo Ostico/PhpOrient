@@ -122,4 +122,15 @@ class SQLCommandsTest extends TestCase {
 
     }
 
+    public function testDateDeserialization(){
+        $client = new PhpOrient('localhost',2424);
+        $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
+
+        $dateToTest = \DateTime::createFromFormat( 'U', time() )->format( 'Y-m-d H:i:s' );
+
+        $result = $client->query("SELECT DATE( SYSDATE('yyy-MM-dd HH:mm:ss') ) FROM V LIMIT 1");
+        $this->assertEquals( $dateToTest, $result[0]->getOData()['DATE']->format('Y-m-d H:i:s') );
+
+    }
+
 }

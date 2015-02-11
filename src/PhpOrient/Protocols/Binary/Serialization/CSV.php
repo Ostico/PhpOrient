@@ -230,8 +230,8 @@ class CSV {
         $useStrings = ( PHP_INT_SIZE == 4 );
 
         if ( $c === 'a' || $c === 't' ) {
-            // date
-            $collected = \DateTime::createFromFormat( 'U', $collected );
+            # date / 1000
+            $collected = \DateTime::createFromFormat( 'U', substr( $collected, 0, -3 ) );
             $input     = substr( $input, 1 );
         } elseif ( $c === 'f' ) {
             // float

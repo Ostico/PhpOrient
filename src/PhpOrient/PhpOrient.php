@@ -101,7 +101,7 @@ class PhpOrient implements ConfigurableInterface {
      *
      * @param string|bool $token
      *
-*@return PhpOrient
+     * @return PhpOrient
      */
     public function setSessionToken( $token = '' ){
         if ( !empty( $token ) ){

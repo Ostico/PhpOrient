@@ -55,7 +55,7 @@ class ConnectionTokenTest extends EmptyTestCase {
         //this because the connection credentials
         // are not correct for Orient root access
         $this->setExpectedException( '\PhpOrient\Exceptions\PhpOrientException' );
-        $res = $this->client->setSessionToken( $old_token )->connect();
+        $res = $this->client->setSessionToken( $old_token )->dbExists("GratefulDeadConcerts");
 
     }
 

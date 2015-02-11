@@ -12,7 +12,7 @@ use PhpOrient\Abstracts\TestCase;
 use PhpOrient\Protocols\Common\ClusterMap;
 use PhpOrient\Protocols\Common\Constants;
 
-class DatabaseListTest extends TestCase {
+class ClusterMapTest extends TestCase {
 
     protected $db_name = 'db_list_test';
 
