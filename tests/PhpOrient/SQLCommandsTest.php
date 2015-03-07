@@ -141,24 +141,31 @@ class SQLCommandsTest extends TestCase {
             $client->username = 'root';
             $client->password = 'root';
             $client->connect();
-            $doCreate = false;
-            if (!$client->dbExists('temp')) {
-                $client->dbCreate('temp',
+
+            try {
+                $client->dbDrop( 'temp',
                     Constants::STORAGE_TYPE_MEMORY,
-                    Constants::DATABASE_TYPE_DOCUMENT);
-                $doCreate = true;
+                    Constants::DATABASE_TYPE_DOCUMENT
+                );
+            } catch ( \Exception $e ) {
+//            echo $e->getMessage();
+                $client->getTransport()->debug( $e->getMessage() );
             }
+
+            $client->dbCreate( 'temp',
+                Constants::STORAGE_TYPE_MEMORY,
+                Constants::DATABASE_TYPE_GRAPH
+            );
+
             $client->dbOpen('temp');
-            if ($doCreate) {
-                $client->sqlBatch('
-                    create class Prova1;
-                    create property Prova1.aString string;
-                    insert into Prova1 (aString) VALUES ("b"),("c"),("d");
-                    create class Prova2;
-                    create property Prova2.aString string;
-                    create property Prova2.anEmbeddedSetOfString embeddedset string;
-                    create property Prova2.prova1 link Prova1;');
-            }
+            $client->sqlBatch('
+                create class Prova1;
+                create property Prova1.aString string;
+                insert into Prova1 (aString) VALUES ("b"),("c"),("d");
+                create class Prova2;
+                create property Prova2.aString string;
+                create property Prova2.anEmbeddedSetOfString embeddedset string;
+                create property Prova2.prova1 link Prova1;');
 
             $clusterProva1 = $client->query("select classes[name='Prova1'].defaultClusterId from 0:1", -1)[0]['classes'];
             $clusterProva2 = $client->query("select classes[name='Prova2'].defaultClusterId from 0:1", -1)[0]['classes'];
@@ -185,6 +192,21 @@ class SQLCommandsTest extends TestCase {
             echo $e . "\n";
         }
 
+    }
+
+    public function testWrongClusterID(){
+        $client = new PhpOrient('localhost', 2424);
+        $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
+
+        $records = $client->query( 'select song_type, name from V ' );
+
+        /**
+         * @var Record[] $records
+         */
+        foreach ($records as $k => $rec) {
+            $this->assertEquals( -2, $rec->getRid()->cluster );
+            $this->assertEquals( $k, $rec->getRid()->position );
+        }
     }
 
 }

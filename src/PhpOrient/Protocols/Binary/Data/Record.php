@@ -103,11 +103,12 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
     /**
      * Sets the Orient Record Content
      *
-     * @param array $oData
+     * @param array|null $oData
      *
      * @return $this the current object
      */
-    public function setOData( Array $oData ) {
+    public function setOData( Array $oData = null ) {
+        if( $oData === null ) $oData = [];
         $this->oData = $oData;
         return $this;
     }
@@ -187,10 +188,10 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
      * @return mixed Can return all value types.
      */
     public function offsetGet( $offset ) {
-        if( array_key_exists( $offset, $this->oData ) ){
+        if( @array_key_exists( $offset, $this->oData ) ){
             return $this->oData[ $offset ];
         } else {
-            throw new \OutOfBoundsException( $offset . ' key does not exists.' );
+            throw new \OutOfBoundsException( 'The searched key ' . $offset . ' does not exists in this record: ' . var_export( $this, true ) );
         }
     }
 
