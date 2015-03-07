@@ -133,4 +133,58 @@ class SQLCommandsTest extends TestCase {
 
     }
 
+    public function testNullValueHandling(){
+
+        try {
+
+            $client = new PhpOrient('localhost', 2424);
+            $client->username = 'root';
+            $client->password = 'root';
+            $client->connect();
+            $doCreate = false;
+            if (!$client->dbExists('temp')) {
+                $client->dbCreate('temp',
+                    Constants::STORAGE_TYPE_MEMORY,
+                    Constants::DATABASE_TYPE_DOCUMENT);
+                $doCreate = true;
+            }
+            $client->dbOpen('temp');
+            if ($doCreate) {
+                $client->sqlBatch('
+                    create class Prova1;
+                    create property Prova1.aString string;
+                    insert into Prova1 (aString) VALUES ("b"),("c"),("d");
+                    create class Prova2;
+                    create property Prova2.aString string;
+                    create property Prova2.anEmbeddedSetOfString embeddedset string;
+                    create property Prova2.prova1 link Prova1;');
+            }
+
+            $clusterProva1 = $client->query("select classes[name='Prova1'].defaultClusterId from 0:1", -1)[0]['classes'];
+            $clusterProva2 = $client->query("select classes[name='Prova2'].defaultClusterId from 0:1", -1)[0]['classes'];
+
+            echo "Default cluster for Prova1: $clusterProva1\n";
+            echo "Default cluster for Prova2: $clusterProva2\n\n";
+
+            $newRecord = ['oClass' => 'Prova2', 'oData' => [
+                'aString'               => 'record di prova',
+                'anEmbeddedSetOfString' => ['qualcosa 1', 'qualcosa 2', 'ancora altro'],
+                'prova1'                => null
+            ]];
+
+            $newRecordObject = Record::fromConfig($newRecord);
+            $newRecordObject->setRid(new ID($clusterProva2) );
+
+            $tmp = $client->recordCreate($newRecordObject);
+
+            $record = $client->recordLoad($tmp->getRid())[0];
+
+            print_r($record->getOData());
+
+        } catch (\Exception $e) {
+            echo $e . "\n";
+        }
+
+    }
+
 }
