@@ -186,7 +186,10 @@ class SQLCommandsTest extends TestCase {
 
             $record = $client->recordLoad($tmp->getRid())[0];
 
-            print_r($record->getOData());
+            $this->assertEquals( 'record di prova', $record->getOData()['aString'] );
+            $this->assertEquals( null, $record->getOData()['prova1'] );
+
+//            print_r($record->getOData());
 
         } catch (\Exception $e) {
             echo $e . "\n";
@@ -204,8 +207,13 @@ class SQLCommandsTest extends TestCase {
          * @var Record[] $records
          */
         foreach ($records as $k => $rec) {
+
+            if ( $client->getTransport()->getProtocolVersion() < 26 )
+                $this->assertEquals( $k +1, $rec->getRid()->position );
+            else
+                $this->assertEquals( $k, $rec->getRid()->position );
+
             $this->assertEquals( -2, $rec->getRid()->cluster );
-            $this->assertEquals( $k, $rec->getRid()->position );
         }
     }
 
