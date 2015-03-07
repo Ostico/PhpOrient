@@ -496,7 +496,7 @@ class CSV {
      */
     public static function serialize( $value, $embedded = false ) {
         if ( $value === null ) {
-            return 'null';
+            return '';
         }
         if ( is_string( $value ) ) {
             return '"' . str_replace( '"', '\\"', str_replace( '\\', '\\\\', $value ) ) . '"';
