@@ -18,7 +18,10 @@ after_script:
  - php ./vendor/bin/coveralls -v
 
 env:
+  - ORIENTDB_VERSION=2.0.4
+  - ORIENTDB_VERSION=2.0.3
   - ORIENTDB_VERSION=2.0.2
+  - ORIENTDB_VERSION=2.0.1
   - ORIENTDB_VERSION=1.7.10
   - ORIENTDB_VERSION=1.7.8
   - ORIENTDB_VERSION=1.7.7
@@ -27,3 +30,6 @@ env:
 matrix:
   allow_failures:
     - ORIENTDB_VERSION=1.7.10
+    - ORIENTDB_VERSION=1.7.8
+    - ORIENTDB_VERSION=1.7.7
+    - ORIENTDB_VERSION=1.7.4
