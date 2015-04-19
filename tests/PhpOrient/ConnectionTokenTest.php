@@ -154,4 +154,32 @@ class ConnectionTokenTest extends EmptyTestCase {
 
     }
 
+    public function testWrongTokenWithNoInitialization(){
+
+//        print_r( new \DateTime() );
+
+        $client = new PhpOrient( 'localhost', 2424 );
+        $client->setSessionToken( true );  // set true to enable the token based authentication
+        $clusterID    = $client->dbOpen( "GratefulDeadConcerts", 'admin', 'admin' );
+        $sessionToken = $client->getSessionToken(); // store this token somewhere
+        file_put_contents( "token.bin", $sessionToken );
+        unset($client);
+
+        $sessionToken = file_get_contents( "token.bin" );
+        unlink( "token.bin" );
+
+        // start a new connection
+        $client = new PhpOrient( 'localhost', 2424 );
+
+        // set the previous received token to re-attach to the old session
+        $client->setSessionToken( $sessionToken . "WRONG_TOKEN" );
+//        $client->setSessionToken( $sessionToken );
+
+        $this->setExpectedException( '\PhpOrient\Exceptions\SocketException' );
+
+        //now the dbOpen is not needed to perform database operations
+        $client->query( 'select * from V limit 10' );
+
+    }
+
 }

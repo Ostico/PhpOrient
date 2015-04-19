@@ -170,8 +170,8 @@ class SQLCommandsTest extends TestCase {
             $clusterProva1 = $client->query("select classes[name='Prova1'].defaultClusterId from 0:1", -1)[0]['classes'];
             $clusterProva2 = $client->query("select classes[name='Prova2'].defaultClusterId from 0:1", -1)[0]['classes'];
 
-            echo "Default cluster for Prova1: $clusterProva1\n";
-            echo "Default cluster for Prova2: $clusterProva2\n\n";
+//            echo "Default cluster for Prova1: $clusterProva1\n";
+//            echo "Default cluster for Prova2: $clusterProva2\n\n";
 
             $newRecord = ['oClass' => 'Prova2', 'oData' => [
                 'aString'               => 'record di prova',
