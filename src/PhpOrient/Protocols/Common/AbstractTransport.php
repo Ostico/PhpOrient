@@ -38,22 +38,33 @@ abstract class AbstractTransport implements TransportInterface {
     /**
      * @var LoggerInterface
      */
-    protected static $_logger;
+    protected $_logger;
 
     /**
      * Class Constructor
+     *
+     * @throws PhpOrientException
      */
     public function __construct() {
+        $this->setLogger();
+    }
+
+    /**
+     * Set the client Logger
+     *
+     * @throws PhpOrientException
+     */
+    public function setLogger(){
 
         if ( ClientConstants::$LOGGING ) {
 
-            if ( self::$_logger === null ) {
+            if ( $this->_logger === null ) {
 
                 if( !class_exists( '\Monolog\Logger', true ) ){
                     throw new PhpOrientException( "No development environment installed from composer. Try 'composer update' or remove logging from client constants ( \\PhpOrient\\Configuration\\Constants::\$LOGGING )" );
                 }
 
-                self::$_logger = new \Monolog\Logger( get_class( $this ) );
+                $this->_logger = new \Monolog\Logger( get_class( $this ) );
                 $file_path     = "php://stdout";
 
                 if ( ClientConstants::$LOG_FILE_PATH ) {
@@ -62,18 +73,36 @@ abstract class AbstractTransport implements TransportInterface {
 
                 $handler = new \Monolog\Handler\StreamHandler( $file_path, \Monolog\Logger::DEBUG );
                 $handler->setFormatter( new \Monolog\Formatter\LineFormatter( null, null, false, true ) );
-                self::$_logger->pushHandler( $handler );
+                $this->_logger->pushHandler( $handler );
 
             }
 
         } else {
-            self::$_logger = new NullLogger();
+            $this->_logger = new NullLogger();
         }
 
     }
 
+    /**
+     * Get the Logger from transport
+     *
+     * @return LoggerInterface
+     * @throws PhpOrientException
+     */
+    public function getLogger(){
+        if( empty( $this->_logger ) ) {
+            $this->setLogger();
+        }
+        return $this->_logger;
+    }
+
+    /**
+     * Debug method
+     *
+     * @param $message
+     */
     public function debug( $message ){
-        self::$_logger->debug( $message );
+        $this->_logger->debug( $message );
     }
 
     /**

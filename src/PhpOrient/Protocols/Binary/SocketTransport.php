@@ -279,9 +279,9 @@ class SocketTransport extends AbstractTransport {
         if( Constants::$LOGGING ){
             $_msg = self::_hexDump( $message );
             $rows = explode( "\n", $_msg );
-            self::$_logger->debug( "\n" );
+            $this->_logger->debug( "\n" );
             foreach( $rows as $row ){
-                self::$_logger->debug( $row );
+                $this->_logger->debug( $row );
             }
         }
     }

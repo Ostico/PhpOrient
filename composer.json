@@ -1,7 +1,7 @@
 {
     "name": "ostico/phporient",
     "description": "Good enough PHP binary client for OrientDB.",
-    "version": "v1.1.7",
+    "version": "v1.1.8",
     "keywords": [
         "orientdb",
         "orient db",

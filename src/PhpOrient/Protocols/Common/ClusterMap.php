@@ -60,10 +60,38 @@ class ClusterMap implements ConfigurableInterface, \ArrayAccess, \Countable, \It
     protected $release;
 
     /**
+     * @var int
+     */
+    protected $majorVersion;
+
+    /**
+     * @var int
+     */
+    protected $minorVersion;
+
+    /**
+     * @var string
+     */
+    protected $buildNumber;
+
+    /**
      * @return int
      */
     public function getServers() {
         return $this->servers;
+    }
+
+    protected function _parseRelease(){
+        @list(
+            $this->majorVersion,
+            $this->minorVersion,
+            $this->buildNumber
+        ) = @explode( ".", $this->release );
+
+        if ( stripos( $this->minorVersion, "-" ) !== false ){
+            @list( $this->minorVersion, $this->buildNumber ) = explode( "-", $this->minorVersion );
+        }
+        @list( $this->buildNumber, ) = explode( " ", $this->buildNumber );
     }
 
     /**
@@ -73,7 +101,26 @@ class ClusterMap implements ConfigurableInterface, \ArrayAccess, \Countable, \It
         return $this->release;
     }
 
+    /**
+     * @return int
+     */
+    public function getMajorVersion() {
+        return (int)$this->majorVersion;
+    }
 
+    /**
+     * @return int
+     */
+    public function getMinorVersion() {
+        return (int)$this->minorVersion;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBuildNumber() {
+        return $this->buildNumber;
+    }
 
     /**
      * Expected ClusterMap
@@ -99,6 +146,7 @@ class ClusterMap implements ConfigurableInterface, \ArrayAccess, \Countable, \It
     public function configure( Array $options = array() ) {
 
         $this->config( $options );
+        $this->_parseRelease();
         if ( !empty( $this->dataClusters ) ) {
             $this->reverseMap = array();
             $this->reverseIDMap = array();

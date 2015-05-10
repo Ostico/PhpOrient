@@ -139,7 +139,6 @@ class DbOpen extends Operation {
 
         }
 
-        //TODO: Try with a cluster instance
         # cluster config string ( -1 )
         # cluster release
         $cluster_list = [

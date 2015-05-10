@@ -8,7 +8,9 @@
 
 namespace PhpOrient;
 use PhpOrient\Abstracts\TestCase;
-
+use PhpOrient\Configuration\Constants as ClientConstants;
+use PhpOrient\Protocols\Common\AbstractTransport;
+use PhpOrient\Protocols\Common\Constants;
 use PhpOrient\Protocols\Binary\Data\ID;
 use PhpOrient\Protocols\Binary\Data\Record;
 
@@ -303,6 +305,73 @@ class RecordCommandsTest extends TestCase {
         $result = $this->client->dataClusterCount( [ 9 ] );
 
         $this->assertEmpty( $result );
+    }
+
+    public function testUpdateEdges(){
+
+//        ClientConstants::$LOGGING = true;
+//        ClientConstants::$LOG_FILE_PATH = "php://stdout";
+
+        $client = PhpOrient::fromConfig(
+            array(
+                'username' => 'admin',
+                'password' => 'admin',
+                'hostname' => 'localhost',
+                'port'     => 2424
+            )
+        );
+
+        $res = $client->execute('connect');
+
+        try {
+            $client->dbDrop( "db_test_edges", Constants::STORAGE_TYPE_MEMORY );
+        } catch ( \Exception $e ) {
+            echo $e->getMessage();
+            $client->getTransport()->debug( $e->getMessage() );
+        }
+
+        $client->dbCreate( "db_test_edges",
+            Constants::STORAGE_TYPE_MEMORY,
+            Constants::DATABASE_TYPE_GRAPH
+        );
+
+        $orientInfo = $client->dbOpen( "db_test_edges", 'admin', 'admin' );
+
+        $cmd = 'begin;' .
+            'let a = create vertex set script = true;' .
+            'let b = select from v limit 1;' .
+            'let e = create edge from $a to $b;' .
+            'commit retry 100;';
+
+        $lastRecord = $client->sqlBatch( $cmd );
+        $lastRecord = $client->sqlBatch( $cmd );
+        $lastRecord = $client->sqlBatch( $cmd );
+        $lastRecord = $client->sqlBatch( $cmd );
+        $lastRecord = $client->sqlBatch( $cmd );
+
+        $rec = $client->recordLoad( new ID("#9:0") )[0];
+
+        /**
+         * @var $bag \PhpOrient\Protocols\Binary\Data\Bag
+         */
+        $bag = $rec->getOData()['in_'];
+        $this->assertNotEmpty( $bag->getRawBagContent() );
+        $client->recordUpdate($rec);
+
+        /**
+         * @var $bag2 \PhpOrient\Protocols\Binary\Data\Bag
+         */
+        $rec = $client->recordLoad( new ID("#9:0") )[0];
+        $bag2 = $rec->getOData()['in_'];
+        $this->assertNotEmpty( $bag2->getRawBagContent() );
+
+        if( $orientInfo->getMajorVersion() >= 2
+            && $orientInfo->getMinorVersion() >= 0
+            && ( $orientInfo->getBuildNumber() >= 7 || !is_numeric( $orientInfo->getBuildNumber() ) )
+        ) {
+            $this->assertEquals( $bag->getRawBagContent(), $bag2->getRawBagContent() );
+        }
+
     }
 
 } 

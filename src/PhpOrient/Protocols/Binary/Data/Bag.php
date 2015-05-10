@@ -11,7 +11,7 @@ use PhpOrient\Protocols\Binary\Stream\Reader;
  *
  * @package OrientDB\Records
  */
-class Bag implements \Countable, \ArrayAccess, \Iterator {
+class Bag implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable {
 
     const EMBEDDED = 0;
     const TREE = 1;
@@ -19,12 +19,12 @@ class Bag implements \Countable, \ArrayAccess, \Iterator {
     /**
      * @var string The base64 encoded representation of the bag.
      */
-    protected $serialized;
+    protected $base64Content;
 
     /**
      * @var string The base64 decoded stream of bytes.
      */
-    protected $deserialized;
+    protected $binaryContent;
 
     /**
      * @var int The bag type, either embedded or tree.
@@ -84,10 +84,10 @@ class Bag implements \Countable, \ArrayAccess, \Iterator {
     /**
      * # RIDBag Constructor
      *
-     * @param string $serialized the base64 encoded bag
+     * @param string $base64Content the base64 encoded bag
      */
-    public function __construct( $serialized ) {
-        $this->serialized = $serialized;
+    public function __construct( $base64Content ) {
+        $this->base64Content = $base64Content;
     }
 
     /**
@@ -115,11 +115,51 @@ class Bag implements \Countable, \ArrayAccess, \Iterator {
     }
 
     /**
+     * Get the list of contained RIDs
+     * @return array
+     */
+    public function getRids(){
+        if( empty( $this->items ) ){
+            foreach ( $this as $idx => $rid ){
+                //NOP
+                //Call this cycle to decode the bag
+            }
+        }
+        return $this->items;
+    }
+
+    /**
+     * Get the original raw content for the Bag
+     *
+     * @return string
+     */
+    public function getRawBagContent(){
+        return "%" . $this->base64Content . ";";
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.4.0)<br/>
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     */
+    public function jsonSerialize(){
+        return $this->getRids();
+    }
+
+    /**
      * Parse the bag header.
      */
     protected function parse() {
-        $this->deserialized = base64_decode( $this->serialized );
-        $mode               = ord( $this->deserialized[ 0 ] );
+
+        if( !empty( $this->binaryContent ) ){
+            //Already parsed
+            return;
+        }
+
+        $this->binaryContent = base64_decode( $this->base64Content );
+        $mode               = ord( $this->binaryContent[ 0 ] );
 
         if ( ( $mode & 1 ) === 1 ) {
             $this->type = self::EMBEDDED;
@@ -128,7 +168,7 @@ class Bag implements \Countable, \ArrayAccess, \Iterator {
         }
 
         if ( ( $mode & 2 ) === 2 ) {
-            $this->uuid         = substr( $this->deserialized, 1, 16 );
+            $this->uuid         = substr( $this->binaryContent, 1, 16 );
             $this->ReaderOffset = 17;
         } else {
             $this->ReaderOffset = 1;
@@ -145,7 +185,7 @@ class Bag implements \Countable, \ArrayAccess, \Iterator {
      * Parse the header for an embedded bag.
      */
     protected function parseEmbedded() {
-        $this->size = Reader::unpackInt( substr( $this->deserialized, $this->ReaderOffset, 4 ) );
+        $this->size = Reader::unpackInt( substr( $this->binaryContent, $this->ReaderOffset, 4 ) );
         $this->ReaderOffset += 4;
         $this->baseOffset = $this->ReaderOffset;
     }
@@ -154,19 +194,19 @@ class Bag implements \Countable, \ArrayAccess, \Iterator {
      * Parse the header for a tree bag.
      */
     protected function parseTree() {
-        $this->fileId = Reader::unpackLong( substr( $this->deserialized, $this->ReaderOffset, 8 ) );
+        $this->fileId = Reader::unpackLong( substr( $this->binaryContent, $this->ReaderOffset, 8 ) );
         $this->ReaderOffset += 8;
 
-        $this->pageIndex = Reader::unpackLong( substr( $this->deserialized, $this->ReaderOffset, 8 ) );
+        $this->pageIndex = Reader::unpackLong( substr( $this->binaryContent, $this->ReaderOffset, 8 ) );
         $this->ReaderOffset += 8;
 
-        $this->pageOffset = Reader::unpackInt( substr( $this->deserialized, $this->ReaderOffset, 4 ) );
+        $this->pageOffset = Reader::unpackInt( substr( $this->binaryContent, $this->ReaderOffset, 4 ) );
         $this->ReaderOffset += 4;
 
-        $this->size = Reader::unpackInt( substr( $this->deserialized, $this->ReaderOffset, 4 ) );
+        $this->size = Reader::unpackInt( substr( $this->binaryContent, $this->ReaderOffset, 4 ) );
         $this->ReaderOffset += 4;
 
-        $this->changeSize = Reader::unpackInt( substr( $this->deserialized, $this->ReaderOffset, 4 ) );
+        $this->changeSize = Reader::unpackInt( substr( $this->binaryContent, $this->ReaderOffset, 4 ) );
         $this->ReaderOffset += 4;
     }
 
@@ -259,14 +299,14 @@ class Bag implements \Countable, \ArrayAccess, \Iterator {
         if ( $this->type === self::EMBEDDED ) {
             $start = $this->baseOffset + ( $offset * 10 );
 
-            $chunk = substr( $this->deserialized, $start, 2 );
+            $chunk = substr( $this->binaryContent, $start, 2 );
             if( $chunk === false ){
                 $this->items[ $offset ] = false;
                 return $this->items[ $offset ];
             }
 
-            $cluster                = Reader::unpackShort( substr( $this->deserialized, $start, 2 ) );
-            $position               = Reader::unpackLong( substr( $this->deserialized, $start + 2, 8 ) );
+            $cluster                = Reader::unpackShort( substr( $this->binaryContent, $start, 2 ) );
+            $position               = Reader::unpackLong( substr( $this->binaryContent, $start + 2, 8 ) );
             $this->items[ $offset ] = new ID( $cluster, $position );
         } else {
             $this->items[ $offset ] = false;

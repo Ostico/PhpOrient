@@ -2,6 +2,7 @@
 
 namespace PhpOrient\Protocols\Binary\Serialization;
 
+use PhpOrient\Configuration\Constants;
 use PhpOrient\Protocols\Binary\Abstracts\SerializableInterface;
 use PhpOrient\Protocols\Binary\Data\Bag;
 use PhpOrient\Protocols\Binary\Data\ID;
@@ -514,6 +515,29 @@ class CSV {
             return $value->getTimestamp() . 't';
         } elseif ( $value instanceof ID ) {
             return $value->__toString();
+        } elseif ( $value instanceof Bag ){
+            /*
+             * This line works the same, but transforms the edges list to a linkSet
+             * //    return self::serializeArray( $value->getRids() );
+             *
+             * From:
+             *
+             * ----+-----+------+------+--------+---------
+             * #   |@RID |@CLASS|script|out_    |in_
+             * ----+-----+------+------+--------+---------
+             * 0   |#9:0 |V     |true  |[size=1]|[size=1]
+             * ----+-----+------+------+--------+---------
+             *
+             * To:
+             *
+             * ----+-----+------+------+--------+---------
+             * #   |@RID |@CLASS|script|out_    |in_
+             * ----+-----+------+------+--------+---------
+             * 0   |#9:0 |V     |true  |[1]     |[1]
+             * ----+-----+------+------+--------+---------
+             *
+             */
+            return $value->getRawBagContent();
         } else {
             return '';
         }
