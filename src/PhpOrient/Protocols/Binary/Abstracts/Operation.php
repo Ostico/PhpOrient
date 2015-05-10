@@ -541,7 +541,9 @@ abstract class Operation implements ConfigurableInterface {
 
         switch( $response_type ){
             case 'n':
-                $res = null;
+                # get end Line \x00
+                $this->_readChar();
+                $res = array( null );
                 break;
             case 'r':
                 $res = [ Record::fromConfig( $this->_readRecord() ) ];

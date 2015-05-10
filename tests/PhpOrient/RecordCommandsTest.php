@@ -309,13 +309,10 @@ class RecordCommandsTest extends TestCase {
 
     public function testUpdateEdges(){
 
-//        ClientConstants::$LOGGING = true;
-//        ClientConstants::$LOG_FILE_PATH = "php://stdout";
-
         $client = PhpOrient::fromConfig(
             array(
-                'username' => 'admin',
-                'password' => 'admin',
+                'username' => 'root',
+                'password' => 'root',
                 'hostname' => 'localhost',
                 'port'     => 2424
             )
