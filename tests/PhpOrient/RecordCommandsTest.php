@@ -371,4 +371,49 @@ class RecordCommandsTest extends TestCase {
 
     }
 
+    public function testRecordEmbedded(){
+
+        $client = PhpOrient::fromConfig(
+            array(
+                'username' => 'root',
+                'password' => 'root',
+                'hostname' => 'localhost',
+                'port'     => 2424
+            )
+        );
+
+        $res = $client->execute('connect');
+
+        try {
+            $client->dbDrop( "db_test_embed", Constants::STORAGE_TYPE_MEMORY );
+        } catch ( \Exception $e ) {
+            echo $e->getMessage();
+            $client->getTransport()->debug( $e->getMessage() );
+        }
+
+        $client->dbCreate( "db_test_embed",
+            Constants::STORAGE_TYPE_MEMORY,
+            Constants::DATABASE_TYPE_GRAPH
+        );
+
+        $orientInfo = $client->dbOpen( "db_test_embed", 'admin', 'admin' );
+
+        $client->command( "create class Test extends V" );
+        $client->command( "create class TestInfo" );
+        $client->command( "create property Test.attr1 string" );
+        $client->command( "create property Test.attr2 embedded TestInfo" );
+        $recID = $client->command( 'insert into Test set attr1 = "test", attr2 = {"@class": "TestInfo", "subAttr1": "sub test"}' );
+
+        $this->assertNotEmpty( $recID->getRid() );
+
+        $record = $client->recordLoad( $recID->getRid() )[0];
+
+        $this->assertEquals( $recID, $record );
+
+        $updatedRecord = $client->recordUpdate( $record );
+
+        $this->assertEquals( $record, $updatedRecord );
+
+    }
+
 } 

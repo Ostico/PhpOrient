@@ -4,6 +4,7 @@ namespace PhpOrient\Serialization;
 
 use PhpOrient\Abstracts\EmptyTestCase;
 use PhpOrient\Protocols\Binary\Data\ID;
+use PhpOrient\Protocols\Binary\Data\Record;
 use PhpOrient\Protocols\Binary\Serialization\CSV;
 
 class DecoderTest extends EmptyTestCase {
@@ -49,27 +50,38 @@ class DecoderTest extends EmptyTestCase {
     }
 
     public function testDeserializeEmbeddedRecord() {
-        $result = CSV::unserialize( 'foo:(a: 1, b:2, c: #12:10)' );
-        $this->assertEquals( [
-                'foo' => [
-                        'a' => 1,
-                        'b' => 2,
-                        'c' => new ID( 12, 10 )
-                ]
-        ], $result );
-    }
 
+        $result = CSV::unserialize( 'Test@attr1:"test",attr2:(TestInfo@subAttr1:"sub test",subAttr2:123)' );
+        $payload = [ ];
+        if ( isset( $result[ 'oClass' ] ) ) {
+            $payload[ 'oClass' ] = $result[ 'oClass' ];
+            unset( $result[ 'oClass' ] );
+        }
+        $payload[ 'oData' ] = $result;
+        $result             = Record::fromConfig( $payload );
 
-    public function testDeserializeEmbeddedRecordWithClass() {
-        $result = CSV::unserialize( 'foo:(bar@a: 1, b:2, c: #12:10)' );
-        $this->assertEquals( [
-                'foo' => [
-                        'oClass' => 'bar',
-                        'a'      => 1,
-                        'b'      => 2,
-                        'c'      => new ID( 12, 10 )
-                ]
-        ], $result );
+        $testRecord = Record::fromConfig(
+            [
+                'oClass' => 'Test',
+                'oData'  =>
+                    array(
+                        'attr1' => 'test',
+                        'attr2' =>
+                            Record::fromConfig( [
+                                'oClass'  => 'TestInfo',
+                                'version' => 0,
+                                'oData'   =>
+                                    array(
+                                        'subAttr1' => 'sub test',
+                                        'subAttr2' => '123',
+                                    ),
+                            ] ),
+                    ),
+            ]
+        );
+
+        $this->assertEquals( $testRecord, $result );
+
     }
 
     /**

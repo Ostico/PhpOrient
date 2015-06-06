@@ -438,6 +438,20 @@ class CSV {
             }
         }
 
+        $payload = [ ];
+        if ( isset( $record[ 'oClass' ] ) ) {
+            $payload[ 'oClass' ] = $record[ 'oClass' ];
+            unset( $record[ 'oClass' ] );
+        }
+
+        if ( isset( $record[ '@type' ] ) ) {
+            $payload[ 'type' ] = $record[ '@type' ];
+            unset( $record[ '@type' ] );
+        }
+
+        $payload[ 'oData' ] = $record;
+        $record             = \PhpOrient\Protocols\Binary\Data\Record::fromConfig( $payload );
+
         return [ $record, $input ];
     }
 
