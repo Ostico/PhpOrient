@@ -323,7 +323,7 @@ class RecordCommandsTest extends TestCase {
         try {
             $client->dbDrop( "db_test_edges", Constants::STORAGE_TYPE_MEMORY );
         } catch ( \Exception $e ) {
-            echo $e->getMessage();
+//            echo $e->getMessage();
             $client->getTransport()->debug( $e->getMessage() );
         }
 
@@ -387,7 +387,7 @@ class RecordCommandsTest extends TestCase {
         try {
             $client->dbDrop( "db_test_embed", Constants::STORAGE_TYPE_MEMORY );
         } catch ( \Exception $e ) {
-            echo $e->getMessage();
+//            echo $e->getMessage();
             $client->getTransport()->debug( $e->getMessage() );
         }
 
