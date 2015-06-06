@@ -402,7 +402,7 @@ class RecordCommandsTest extends TestCase {
         $client->command( "create class TestInfo" );
         $client->command( "create property Test.attr1 string" );
         $client->command( "create property Test.attr2 embedded TestInfo" );
-        $recID = $client->command( 'insert into Test set attr1 = "test", attr2 = {"@class": "TestInfo", "subAttr1": "sub test"}' );
+        $recID = $client->command( 'insert into Test set attr1 = "test", attr2 = {"@class": "TestInfo", "@type": "d", "subAttr1": "sub test"}' );
 
         $this->assertNotEmpty( $recID->getRid() );
 
