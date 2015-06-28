@@ -190,7 +190,7 @@ class Command extends Operation {
         } else {
             $res = $this->_read_sync();
             if( $this->command == Constants::QUERY_CMD ){
-                return $res[0];
+                if (isset($res[0])) return $res[0];
             }
             return $res;
         }
