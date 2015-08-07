@@ -8,7 +8,7 @@ A PHP driver good enough for OrientDB that uses binary protocol.
 > Please [report any bugs](https://github.com/Ostico/PhpOrient/issues) you find so that we can improve the library for everyone.
 
 #### Requires
-- PHP Version >= 5.4
+- PHP Version >= 5.4 ( Socket extension enabled )
 - Orientdb version 1.7.4 or later.
 
 ##### PhpOrient works even on 32bit and 64bit platforms.
