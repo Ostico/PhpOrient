@@ -526,7 +526,7 @@ class CSV {
         } elseif ( $value instanceof SerializableInterface ) {
             return self::serializeDocument( $value, $embedded );
         } elseif ( $value instanceof \DateTime ) {
-            return $value->getTimestamp() . 't';
+            return $value->getTimestamp() . '000t';
         } elseif ( $value instanceof ID ) {
             return $value->__toString();
         } elseif ( $value instanceof Bag ){
