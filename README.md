@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Ostico/PhpOrient.svg?branch=master)](https://travis-ci.org/Ostico/PhpOrient) [![Coverage Status](https://coveralls.io/repos/Ostico/PhpOrient/badge.svg?branch=master)](https://coveralls.io/r/Ostico/PhpOrient)
 
-PHPOrient is a good php driver based on the binary protocol of OrientDB.
+PHPOrient is a php driver based on the binary protocol of OrientDB.
 
 > **status: Stable**
 > Please [report any bugs](https://github.com/Ostico/PhpOrient/issues) you find so that we can improve the library for everyone.
