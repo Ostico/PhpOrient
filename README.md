@@ -16,6 +16,7 @@ PHPOrient is a good php driver based on the binary protocol of OrientDB.
 ###### Warning, if you use a 32bit platform, you must use one of these libraries into YOUR application to avoid the loss of significant digits with Java long integers. Furthermore, these php modules should be loaded to achieve better driver performances on these systems.
 - [BCMath Arbitrary Precision Mathematics](http://php.net/manual/en/refs.math.php) (Faster, recommended)
 - [GNU Multiple Precision](http://php.net/manual/en/book.gmp.php)
+###### In PhpOrient, by design, numbers are always treated as strings because of the platform dependant nature of PHP. In 32bit platform numbers must be treated as string because values greater than 2^32 would be lost and the BCMath/GMP modules must be used to avoid this. To make the results consistent for all platforms ( 32 and 64bit ) and leave to the user/developer the decision on how to use it's own data ( by manual cast ) strings are used for all numeric data types.
 
 ## Installation
 
