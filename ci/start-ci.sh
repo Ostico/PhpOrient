@@ -35,7 +35,7 @@ cd "$PARENT_DIR"
 
 . "$PARENT_DIR/ci/_bash_utils.sh"
 
-if [ ! -d "$ODB_DIR" ]; then
+if [ ! -d "$ODB_DIR/bin" ]; then
   # Download and extract OrientDB server
   echo "--- Downloading OrientDB v${ODB_VERSION} ---"
   build ${ODB_VERSION} ${CI_DIR}
