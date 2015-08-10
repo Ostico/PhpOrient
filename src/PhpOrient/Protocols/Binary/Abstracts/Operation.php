@@ -150,6 +150,24 @@ abstract class Operation implements ConfigurableInterface {
     }
 
     /**
+     * Read an error from the remote server and turn it into an exception.
+     *
+     * @return PhpOrientException the wrapped exception object.
+     */
+    protected function _readError() {
+        $type    = $this->_readString();
+        $message = $this->_readString();
+        $hasMore = $this->_readByte();
+        if ( $hasMore === 1 ) {
+            $next = $this->_readError();
+        } else {
+            $javaStackTrace = $this->_readBytes();
+        }
+
+        return new PhpOrientException( $type . ': ' . $message );
+    }
+
+    /**
      * Build the operation payload
      *
      * @return $this
@@ -392,24 +410,6 @@ abstract class Operation implements ConfigurableInterface {
                 return $string;
             }
         }
-    }
-
-    /**
-     * Read an error from the remote server and turn it into an exception.
-     *
-     * @return PhpOrientException the wrapped exception object.
-     */
-    protected function _readError() {
-        $type    = $this->_readString();
-        $message = $this->_readString();
-        $hasMore = $this->_readByte();
-        if ( $hasMore === 1 ) {
-            $next = $this->_readError();
-        } else {
-            $javaStackTrace = $this->_readBytes();
-        }
-
-        return new PhpOrientException( $type . ': ' . $message );
     }
 
     /**

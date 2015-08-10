@@ -221,6 +221,7 @@ class ClusterMap implements ConfigurableInterface, \ArrayAccess, \Countable, \It
      * @return int|null Can return all value types.
      */
     public function offsetGet( $name ) {
+        $name = strtolower( $name );
         if( array_key_exists( $name, $this->reverseMap ) ){
             return $this->reverseMap[ $name ][ 1 ];
         }

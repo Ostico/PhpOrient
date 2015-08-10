@@ -158,6 +158,8 @@ class ConnectionTokenTest extends EmptyTestCase {
 
 //        print_r( new \DateTime() );
 
+        $this->markTestSkipped( 'OrientDB Bug https://github.com/orientechnologies/orientdb/issues/4764' );
+
         $client = new PhpOrient( 'localhost', 2424 );
         $client->setSessionToken( true );  // set true to enable the token based authentication
         $clusterID    = $client->dbOpen( "GratefulDeadConcerts", 'admin', 'admin' );

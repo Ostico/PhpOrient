@@ -41,6 +41,7 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
      * @return ID
      */
     public function getRid() {
+        if( !$this->rid instanceof ID ) $this->rid = new ID();
         return $this->rid;
     }
 
