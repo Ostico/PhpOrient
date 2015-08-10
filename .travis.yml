@@ -1,9 +1,15 @@
+sudo: false
+
 language: php
 
 php:
   - 5.4
   - 5.5
   - hhvm
+
+cache:
+  directories:
+  - ./ci/environment/orientdb-community-$ORIENTDB_VERSION
 
 before_script:
   - ./ci/start-ci.sh $ORIENTDB_VERSION
@@ -32,6 +38,7 @@ env:
 
 matrix:
   allow_failures:
+    - ORIENTDB_VERSION=2.0.10
     - ORIENTDB_VERSION=2.0.9
     - ORIENTDB_VERSION=2.0.8
     - ORIENTDB_VERSION=1.7.10

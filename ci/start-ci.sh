@@ -47,6 +47,8 @@ if [ ! -d "$ODB_DIR" ]; then
 
   if [[ "${ODB_VERSION}" == "1.7.10" ]]; then
     cp ${PARENT_DIR}/ci/orientdb-server-config_1.7.10.xml "${ODB_DIR}/config/orientdb-server-config.xml"
+  elif [[ "${ODB_VERSION}" == *"2.1"* ]]; then
+    cp ${PARENT_DIR}/ci/orientdb-server-config_2.0.xml "${ODB_DIR}/config/orientdb-server-config.xml"
   elif [[ "${ODB_VERSION}" != *"2.0"* ]]; then
     cp ${PARENT_DIR}/ci/orientdb-server-config.xml "${ODB_DIR}/config/orientdb-server-config.xml"
   else
