@@ -38,7 +38,7 @@ env:
 
 matrix:
   allow_failures:
-#    - ORIENTDB_VERSION=2.0.10
+#    - ORIENTDB_VERSION=2.0.10 
     - ORIENTDB_VERSION=2.0.9
     - ORIENTDB_VERSION=2.0.8
     - ORIENTDB_VERSION=1.7.10
