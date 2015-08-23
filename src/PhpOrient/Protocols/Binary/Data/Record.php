@@ -11,6 +11,7 @@ namespace PhpOrient\Protocols\Binary\Data;
 
 use PhpOrient\Protocols\Binary\Abstracts\SerializableInterface;
 use PhpOrient\Protocols\Common\ConfigurableTrait;
+use PhpOrient\PhpOrient;
 
 class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
     use ConfigurableTrait;
@@ -41,7 +42,6 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
      * @return ID
      */
     public function getRid() {
-        if( !$this->rid instanceof ID ) $this->rid = new ID();
         return $this->rid;
     }
 
@@ -257,6 +257,28 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
      */
     public function __set( $name, $value ) {
         $this->offsetSet( $name, $value );
+    }
+
+    /**
+     * Override the ConfigurableTrait fromConfig method to handle custom classes for records
+     *
+     * @param array $options
+     *
+     * @return mixed
+     */
+    public static function fromConfig( Array $options = array() ) {
+
+        // Get the custom fetch class name if available
+        $fetchClass = PhpOrient::getFetchClass();
+
+        if($fetchClass) {
+            $object = new $fetchClass();
+        } else {
+            $object = new self();
+        }
+
+        return $object->configure( $options );
+
     }
 
 }
