@@ -42,6 +42,7 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
      * @return ID
      */
     public function getRid() {
+        if( !$this->rid instanceof ID ) $this->rid = new ID();
         return $this->rid;
     }
 
@@ -271,7 +272,7 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
         // Get the custom fetch class name if available
         $fetchClass = PhpOrient::getFetchClass();
 
-        if($fetchClass) {
+        if ( $fetchClass ) {
             $object = new $fetchClass();
         } else {
             $object = new self();

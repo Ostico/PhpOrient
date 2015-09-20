@@ -122,20 +122,20 @@ class SQLCommandsTest extends TestCase {
 
     }
 
-    public function testDateDeserialization(){
-        $client = new PhpOrient('localhost',2424);
+    public function testDateDeserialization() {
+        $client = new PhpOrient( 'localhost', 2424 );
         $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
 
         $dateToTest = \DateTime::createFromFormat( 'U', time() )->format( 'Y-m-d H:i:s' );
 
-        $result = $client->query("SELECT DATE( SYSDATE('yyy-MM-dd HH:mm:ss') ) FROM V LIMIT 1");
-        if(is_a($result[0]->getOData()['DATE'], '/DateTime')) {
-            $date = $result[0]->getOData()['DATE']->format('Y-m-d H:i:s');
+        $result = $client->query( "SELECT DATE( SYSDATE('yyy-MM-dd HH:mm:ss') ) FROM V LIMIT 1" );
+        if ( $result[ 0 ]->getOData()[ 'DATE' ] instanceof \DateTime ) {
+            $date = $result[ 0 ]->getOData()[ 'DATE' ]->format( 'Y-m-d H:i:s' );
         } else {
             $date = '"Not a DateTime instance"';
         }
 
-        $this->assertEquals( $dateToTest,  $date);
+        $this->assertEquals( $dateToTest, $date );
 
     }
 

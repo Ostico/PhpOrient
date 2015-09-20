@@ -625,9 +625,9 @@ class PhpOrient implements ConfigurableInterface {
      *
      * @return $this
      */
-    public function setFetchClass($className) {
+    public function setFetchClass( $className ) {
 
-        if(class_exists($className) && is_subclass_of(new $className, 'PhpOrient\Protocols\Binary\Data\Record')) {
+        if ( class_exists( $className ) && is_subclass_of( new $className, 'PhpOrient\Protocols\Binary\Data\Record' ) ) {
             self::$fetchClass = $className;
         } else {
             self::$fetchClass = false;
