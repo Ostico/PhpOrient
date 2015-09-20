@@ -36,6 +36,7 @@ cd "$PARENT_DIR"
 . "$PARENT_DIR/ci/_bash_utils.sh"
 
 if [ ! -d "$ODB_DIR/bin" ]; then
+
   # Download and extract OrientDB server
   echo "--- Downloading OrientDB v${ODB_VERSION} ---"
   build ${ODB_VERSION} ${CI_DIR}
@@ -61,11 +62,16 @@ if [ ! -d "$ODB_DIR/bin" ]; then
     mkdir ${ODB_DIR}/databases
   fi
 
-  cp -a ${PARENT_DIR}/tests/default_databases/GratefulDeadConcerts "${ODB_DIR}/databases/"
-  cp -a ${PARENT_DIR}/tests/default_databases/VehicleHistoryGraph "${ODB_DIR}/databases/"
 else
   echo "!!! Found OrientDB v${ODB_VERSION} in ${ODB_DIR} !!!"
 fi
+
+echo "Installing databases: "
+echo "cp -a ${PARENT_DIR}/tests/default_databases/GratefulDeadConcerts \"${ODB_DIR}/databases/\""
+cp -a ${PARENT_DIR}/tests/default_databases/GratefulDeadConcerts "${ODB_DIR}/databases/"
+
+echo "cp -a ${PARENT_DIR}/tests/default_databases/VehicleHistoryGraph \"${ODB_DIR}/databases/\""
+cp -a ${PARENT_DIR}/tests/default_databases/VehicleHistoryGraph "${ODB_DIR}/databases/"
 
 # Start OrientDB in background.
 echo "--- Starting an instance of OrientDB ---"
