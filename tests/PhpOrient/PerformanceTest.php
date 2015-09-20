@@ -54,7 +54,7 @@ class PerformanceTest extends TestCase {
 
     public function testRestrictedProperties() {
 
-//        $this->markTestSkipped('Pupù');
+        $this->markTestSkipped('Pupù');
         $client = new PhpOrient( 'localhost', 2424 );
         $client->dbOpen( "GratefulDeadConcerts", 'admin', 'admin' );
         $result = $client->query('SELECT @rid, @class, @version FROM #11:0');
