@@ -154,7 +154,7 @@ Methods
 
 ### setOData
 ```php
-    \PhpOrient\Protocols\Binary\Data\Record PhpOrient\Protocols\Binary\Data\Record::setOData(array $oData)
+    \PhpOrient\Protocols\Binary\Data\Record PhpOrient\Protocols\Binary\Data\Record::setOData(array|null $oData)
 ```
 ##### Sets the Orient Record Content
 
@@ -164,7 +164,7 @@ Methods
 
 
 ##### Arguments
-* $oData **array**
+* $oData **array|null**
 
 
 
@@ -337,22 +337,6 @@ content as property
 
 
 
-### configure
-```php
-    \PhpOrient\Protocols\Binary\Data\Record PhpOrient\Protocols\Binary\Data\Record::configure(array $options)
-```
-##### Configure the object.
-
-
-
-* Visibility: **public**
-
-
-##### Arguments
-* $options **array** <p>The options for the object.</p>
-
-
-
 ### fromConfig
 ```php
     static PhpOrient\Protocols\Binary\Data\Record::fromConfig(array $options)
@@ -367,5 +351,21 @@ content as property
 
 ##### Arguments
 * $options **array** <p>The options for the newly created class instance.</p>
+
+
+
+### configure
+```php
+    \PhpOrient\Protocols\Binary\Data\Record PhpOrient\Protocols\Binary\Data\Record::configure(array $options)
+```
+##### Configure the object.
+
+
+
+* Visibility: **public**
+
+
+##### Arguments
+* $options **array** <p>The options for the object.</p>
 
 

@@ -5,9 +5,12 @@ namespace PhpOrient\Protocols\Binary\Operations;
 use PhpOrient\Exceptions\PhpOrientBadMethodCallException;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Configuration\Constants as ClientConstants;
-use PhpOrient\Protocols\Common\ClusterMap;
+use PhpOrient\Protocols\Binary\Serialization\CSV;
+use PhpOrient\Protocols\Common\ClustersMap;
+use PhpOrient\Protocols\Common\OrientNode;
 use PhpOrient\Protocols\Common\Constants;
 use PhpOrient\Exceptions\PhpOrientWrongProtocolVersionException;
+use PhpOrient\Protocols\Common\OrientVersion;
 
 class DbOpen extends Operation {
 
@@ -106,6 +109,7 @@ class DbOpen extends Operation {
         $sessionId = $this->_readInt();
         $this->_transport->setSessionId( $sessionId );
         $this->_transport->databaseOpened = true;
+        $this->_transport->databaseName = $this->database;
         $this->_transport->connected = false;
 
         if ( $this->_transport->getProtocolVersion() > 26 ) {
@@ -144,11 +148,21 @@ class DbOpen extends Operation {
         $cluster_list = [
             'sessionId'    => $sessionId,
             'dataClusters' => $dataClusters,
-            'servers'      => $this->_readString(),
+            'servers'      => CSV::unserialize( $this->_readString() ),
             'release'      => $this->_readString()
         ];
 
-        $this->_transport->setClusterMap( ClusterMap::fromConfig( $cluster_list ) );
+        $this->_transport->setClustersMap( ClustersMap::fromConfig( $cluster_list ) );
+
+        if( !empty( $cluster_list[ 'servers' ] ) ){
+            $list = [];
+            foreach( $cluster_list['servers']['members'] as $node ){
+                $list[] = new OrientNode( $node );
+            }
+            $this->_transport->setNodesList( $list ); # LIST WITH THE NEW CLUSTER CFG
+        }
+
+        $this->_transport->setOrientVersion( OrientVersion::fromConfig( $cluster_list ) );
 
         return $this->_transport->getClusterMap();
 

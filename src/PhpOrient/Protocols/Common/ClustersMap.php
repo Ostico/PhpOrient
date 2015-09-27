@@ -9,7 +9,7 @@
 namespace PhpOrient\Protocols\Common;
 
 /**
- * Class ClusterMap
+ * Class ClustersMap
  * @package PhpOrient\Protocols\Common
  *
  * When you create a new record specifying its Class,
@@ -28,10 +28,9 @@ namespace PhpOrient\Protocols\Common;
  * //TODO only default strategy is supported
  *
  */
-class ClusterMap implements ConfigurableInterface, \ArrayAccess, \Countable, \Iterator {
+class ClustersMap implements ConfigurableInterface, \ArrayAccess, \Countable, \Iterator {
     use ConfigurableTrait {
         configure as config;
-        fromConfig as fromConf;
     }
 
     /**
@@ -55,75 +54,14 @@ class ClusterMap implements ConfigurableInterface, \ArrayAccess, \Countable, \It
     protected $servers;
 
     /**
-     * @var string
-     */
-    protected $release;
-
-    /**
-     * @var int
-     */
-    protected $majorVersion;
-
-    /**
-     * @var int
-     */
-    protected $minorVersion;
-
-    /**
-     * @var string
-     */
-    protected $buildNumber;
-
-    /**
      * @return int
      */
     public function getServers() {
         return $this->servers;
     }
 
-    protected function _parseRelease(){
-        @list(
-            $this->majorVersion,
-            $this->minorVersion,
-            $this->buildNumber
-        ) = @explode( ".", $this->release );
-
-        if ( stripos( $this->minorVersion, "-" ) !== false ){
-            @list( $this->minorVersion, $this->buildNumber ) = explode( "-", $this->minorVersion );
-        }
-        @list( $this->buildNumber, ) = explode( " ", $this->buildNumber );
-    }
-
     /**
-     * @return string
-     */
-    public function getRelease() {
-        return $this->release;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMajorVersion() {
-        return (int)$this->majorVersion;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMinorVersion() {
-        return (int)$this->minorVersion;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBuildNumber() {
-        return $this->buildNumber;
-    }
-
-    /**
-     * Expected ClusterMap
+     * Expected ClustersMap
      * <pre>
      * array (
      *      0 =>
@@ -146,7 +84,6 @@ class ClusterMap implements ConfigurableInterface, \ArrayAccess, \Countable, \It
     public function configure( Array $options = array() ) {
 
         $this->config( $options );
-        $this->_parseRelease();
         if ( !empty( $this->dataClusters ) ) {
             $this->reverseMap = array();
             $this->reverseIDMap = array();
@@ -170,7 +107,7 @@ class ClusterMap implements ConfigurableInterface, \ArrayAccess, \Countable, \It
     }
 
     /**
-     * Alias for @see ClusterList::offsetGet
+     * Alias for @see NodesMap::offsetGet
      * @param $name
      *
      * @return int|null

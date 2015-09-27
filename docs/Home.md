@@ -52,10 +52,12 @@ API Index
             * PhpOrient\Protocols\Binary\Transaction
                 * [TxCommit](PhpOrient-Protocols-Binary-Transaction-TxCommit)
         * PhpOrient\Protocols\Common
+            * [OrientVersion](PhpOrient-Protocols-Common-OrientVersion)
             * [AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
             * [ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface)
-            * [ClusterMap](PhpOrient-Protocols-Common-ClusterMap)
+            * [OrientNode](PhpOrient-Protocols-Common-OrientNode)
             * [TransportInterface](PhpOrient-Protocols-Common-TransportInterface)
+            * [ClustersMap](PhpOrient-Protocols-Common-ClustersMap)
             * [Constants](PhpOrient-Protocols-Common-Constants)
     * [PhpOrient](PhpOrient-PhpOrient)
 

@@ -3,6 +3,7 @@
 namespace PhpOrient\Protocols\Binary;
 
 use PhpOrient\Configuration\Constants;
+use PhpOrient\Exceptions\SocketException;
 use PhpOrient\Exceptions\TransportException;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
 use PhpOrient\Protocols\Binary\Operations\Connect;
@@ -24,6 +25,13 @@ class SocketTransport extends AbstractTransport {
      * @var boolean
      */
     public $databaseOpened = false;
+
+    /**
+     * The database actually open
+     *
+     * @var string
+     */
+    public $databaseName;
 
     /**
      * Flag needed to know if connected to the server
@@ -151,7 +159,50 @@ class SocketTransport extends AbstractTransport {
     public function execute( $operation, array $params = array() ) {
 
         $op = $this->operationFactory( $operation, $params );
-        $result = $op->prepare()->send()->getResponse();
+        try {
+            $result = $op->prepare()->send()->getResponse();
+        } catch( SocketException $e ){
+            //try another node from the list
+            $list = $this->getNodesList( true );
+            if ( !empty( $list ) ) {
+                foreach ( $list as $newNode ) {
+                    $this->port     = $newNode->port;
+                    $this->hostname = $newNode->host;
+                    $this->_socket  = null;
+                    try {
+                        $this->getSocket();
+                        break; //break because we found an available node
+                    } catch ( SocketException $e ) {
+                        if( Constants::$LOGGING ){
+                            $this->_logger->debug( $e );
+                        }
+                    }
+                }
+            }
+
+            //reconnect || reopen DB
+            if( $this->databaseOpened ){
+                $_op = $this->operationFactory(
+                    'PhpOrient\Protocols\Binary\Operations\DbOpen',
+                    array( 'database' => $this->databaseName )
+                );
+            } else {
+                $_op = $this->operationFactory(
+                    'PhpOrient\Protocols\Binary\Operations\Connect',
+                    array()
+                );
+            }
+
+            //reconnect || reopen DB
+            $this->setSessionId( -1 );
+            $_op->prepare()->send()->getResponse();
+
+            //repeat last command
+            $op = $this->operationFactory( $operation, $params );
+            $result = $op->prepare()->send()->getResponse();
+
+        }
+
         return $result;
 
     }
@@ -182,10 +233,14 @@ class SocketTransport extends AbstractTransport {
 
                 if( empty( $params[ 'username' ] ) ){
                     $params[ 'username' ] = $this->username;
+                } else{
+                    $this->username = $params[ 'username' ];
                 }
 
                 if( empty( $params[ 'password' ] ) ){
                     $params[ 'password' ] = $this->password;
+                } else {
+                    $this->password = $params[ 'password' ];
                 }
 
             }

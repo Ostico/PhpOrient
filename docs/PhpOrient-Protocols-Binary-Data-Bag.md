@@ -8,7 +8,7 @@ PhpOrient\Protocols\Binary\Data\Bag
 
 * Class name: Bag
 * Namespace: PhpOrient\Protocols\Binary\Data
-* This class implements: Countable, ArrayAccess, Iterator
+* This class implements: Countable, ArrayAccess, Iterator, JsonSerializable
 
 
 Constants
@@ -35,9 +35,9 @@ Properties
 ----------
 
 
-#### $serialized
+#### $base64Content
 ```php
-    protected string $serialized
+    protected string $base64Content
 ```
  
 
@@ -46,9 +46,9 @@ Properties
 * Visibility: **protected**
 
 
-#### $deserialized
+#### $binaryContent
 ```php
-    protected string $deserialized
+    protected string $binaryContent
 ```
  
 
@@ -184,7 +184,7 @@ Methods
 
 ### __construct
 ```php
-    mixed PhpOrient\Protocols\Binary\Data\Bag::__construct(string $serialized)
+    mixed PhpOrient\Protocols\Binary\Data\Bag::__construct(string $base64Content)
 ```
 ##### # RIDBag Constructor
 
@@ -194,7 +194,7 @@ Methods
 
 
 ##### Arguments
-* $serialized **string** <p>the base64 encoded bag</p>
+* $base64Content **string** <p>the base64 encoded bag</p>
 
 
 
@@ -216,6 +216,46 @@ Methods
     integer PhpOrient\Protocols\Binary\Data\Bag::getSize()
 ```
 ##### Gets the Size
+
+
+
+* Visibility: **public**
+
+
+
+
+### getRids
+```php
+    array PhpOrient\Protocols\Binary\Data\Bag::getRids()
+```
+##### Get the list of contained RIDs
+
+
+
+* Visibility: **public**
+
+
+
+
+### getRawBagContent
+```php
+    string PhpOrient\Protocols\Binary\Data\Bag::getRawBagContent()
+```
+##### Get the original raw content for the Bag
+
+
+
+* Visibility: **public**
+
+
+
+
+### jsonSerialize
+```php
+    mixed PhpOrient\Protocols\Binary\Data\Bag::jsonSerialize()
+```
+##### (PHP 5 &gt;= 5.4.0)<br/>
+Specify data which should be serialized to JSON
 
 
 

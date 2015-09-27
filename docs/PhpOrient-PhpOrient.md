@@ -146,6 +146,18 @@ Properties
 * Visibility: **protected**
 
 
+#### $fetchClass
+```php
+    protected boolean $fetchClass = null
+```
+ 
+
+
+
+* Visibility: **protected**
+* This property is **static**.
+
+
 Methods
 -------
 
@@ -461,7 +473,7 @@ A callback function is needed
 
 ### dbReload
 ```php
-    \PhpOrient\Protocols\Common\ClusterMap PhpOrient\PhpOrient::dbReload()
+    \PhpOrient\Protocols\Common\ClustersMap PhpOrient\PhpOrient::dbReload()
 ```
 ##### Reload the structure of a Database
 
@@ -491,7 +503,7 @@ A callback function is needed
 
 ### dbOpen
 ```php
-    \PhpOrient\Protocols\Common\ClusterMap PhpOrient\PhpOrient::dbOpen(string $database, string $username, string $password, array $params)
+    \PhpOrient\Protocols\Common\ClustersMap PhpOrient\PhpOrient::dbOpen(string $database, string $username, string $password, array $params)
 ```
 ##### Open a Database and perform a connection<br />
 if it is not established before
@@ -683,6 +695,36 @@ Flushes all cached content to the disk storage and allows to perform only read c
 ##### Arguments
 * $cluster_name **mixed**
 * $cluster_type **string**
+
+
+
+### setFetchClass
+```php
+    \PhpOrient\PhpOrient PhpOrient\PhpOrient::setFetchClass(boolean|string $className)
+```
+##### Allow the next query to be fetched in a custom class
+
+
+
+* Visibility: **public**
+
+
+##### Arguments
+* $className **boolean|string**
+
+
+
+### getFetchClass
+```php
+    string|boolean PhpOrient\PhpOrient::getFetchClass()
+```
+##### Get the current value of the fetch custom class name
+
+
+
+* Visibility: **public**
+* This method is **static**.
+
 
 
 

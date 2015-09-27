@@ -152,7 +152,7 @@ Properties
 
 #### $clusterList
 ```php
-    protected \PhpOrient\Protocols\Common\ClusterMap $clusterList
+    protected \PhpOrient\Protocols\Common\ClustersMap $clusterList
 ```
  
 
@@ -411,7 +411,7 @@ with non-viewable characters.
 
 ### getClusterMap
 ```php
-    \PhpOrient\Protocols\Common\ClusterMap PhpOrient\Protocols\Common\AbstractTransport::getClusterMap()
+    \PhpOrient\Protocols\Common\ClustersMap PhpOrient\Protocols\Common\AbstractTransport::getClusterMap()
 ```
 ##### 
 
@@ -423,9 +423,9 @@ with non-viewable characters.
 
 
 
-### setClusterMap
+### setClustersMap
 ```php
-    mixed PhpOrient\Protocols\Common\AbstractTransport::setClusterMap(\PhpOrient\Protocols\Common\ClusterMap $clusterList)
+    mixed PhpOrient\Protocols\Common\AbstractTransport::setClustersMap(\PhpOrient\Protocols\Common\ClustersMap $clusterList)
 ```
 ##### 
 
@@ -436,7 +436,7 @@ with non-viewable characters.
 
 
 ##### Arguments
-* $clusterList **[PhpOrient\Protocols\Common\ClusterMap](PhpOrient-Protocols-Common-ClusterMap)**
+* $clusterList **[PhpOrient\Protocols\Common\ClustersMap](PhpOrient-Protocols-Common-ClustersMap)**
 
 
 

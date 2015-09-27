@@ -40,6 +40,17 @@ Properties
 * Visibility: **public**
 
 
+#### $databaseName
+```php
+    public string $databaseName
+```
+ The database actually open
+
+
+
+* Visibility: **public**
+
+
 #### $connected
 ```php
     public boolean $connected = false
@@ -150,9 +161,20 @@ Properties
 * Visibility: **protected**
 
 
-#### $clusterList
+#### $clusterMap
 ```php
-    protected \PhpOrient\Protocols\Common\ClusterMap $clusterList
+    protected \PhpOrient\Protocols\Common\ClustersMap $clusterMap
+```
+ 
+
+
+
+* Visibility: **protected**
+
+
+#### $nodesList
+```php
+    protected array<mixed,\PhpOrient\Protocols\Common\OrientNode> $nodesList
 ```
  
 
@@ -170,7 +192,17 @@ Properties
 
 
 * Visibility: **protected**
-* This property is **static**.
+
+
+#### $orientVersion
+```php
+    protected \PhpOrient\Protocols\Common\OrientVersion $orientVersion
+```
+ 
+
+
+
+* Visibility: **protected**
 
 
 Methods
@@ -392,11 +424,39 @@ with non-viewable characters.
 
 
 
+### setLogger
+```php
+    mixed PhpOrient\Protocols\Common\AbstractTransport::setLogger()
+```
+##### Set the client Logger
+
+
+
+* Visibility: **public**
+* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
+
+
+
+
+### getLogger
+```php
+    \Psr\Log\LoggerInterface PhpOrient\Protocols\Common\AbstractTransport::getLogger()
+```
+##### Get the Logger from transport
+
+
+
+* Visibility: **public**
+* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
+
+
+
+
 ### debug
 ```php
     mixed PhpOrient\Protocols\Common\AbstractTransport::debug($message)
 ```
-##### 
+##### Debug method
 
 
 
@@ -411,7 +471,7 @@ with non-viewable characters.
 
 ### getClusterMap
 ```php
-    \PhpOrient\Protocols\Common\ClusterMap PhpOrient\Protocols\Common\AbstractTransport::getClusterMap()
+    \PhpOrient\Protocols\Common\ClustersMap PhpOrient\Protocols\Common\AbstractTransport::getClusterMap()
 ```
 ##### 
 
@@ -423,9 +483,9 @@ with non-viewable characters.
 
 
 
-### setClusterMap
+### setClustersMap
 ```php
-    mixed PhpOrient\Protocols\Common\AbstractTransport::setClusterMap(\PhpOrient\Protocols\Common\ClusterMap $clusterList)
+    mixed PhpOrient\Protocols\Common\AbstractTransport::setClustersMap(\PhpOrient\Protocols\Common\ClustersMap $clusterList)
 ```
 ##### 
 
@@ -436,7 +496,7 @@ with non-viewable characters.
 
 
 ##### Arguments
-* $clusterList **[PhpOrient\Protocols\Common\ClusterMap](PhpOrient-Protocols-Common-ClusterMap)**
+* $clusterList **[PhpOrient\Protocols\Common\ClustersMap](PhpOrient-Protocols-Common-ClustersMap)**
 
 
 
@@ -451,6 +511,71 @@ with non-viewable characters.
 * Visibility: **public**
 * This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
 
+
+
+
+### getNodesList
+```php
+    array<mixed,\PhpOrient\Protocols\Common\OrientNode> PhpOrient\Protocols\Common\AbstractTransport::getNodesList(boolean|false $filterActualNode)
+```
+##### Retrieve the nodes list, optionally filter excluding the actual one
+
+//TODO Improve with different protocol types handler if another transport protocol are implemented
+
+* Visibility: **public**
+* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
+
+
+##### Arguments
+* $filterActualNode **boolean|false**
+
+
+
+### setNodesList
+```php
+    mixed PhpOrient\Protocols\Common\AbstractTransport::setNodesList(array<mixed,\PhpOrient\Protocols\Common\OrientNode> $nodesList)
+```
+##### 
+
+
+
+* Visibility: **public**
+* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
+
+
+##### Arguments
+* $nodesList **array&lt;mixed,\PhpOrient\Protocols\Common\OrientNode&gt;**
+
+
+
+### getOrientVersion
+```php
+    \PhpOrient\Protocols\Common\OrientVersion PhpOrient\Protocols\Common\AbstractTransport::getOrientVersion()
+```
+##### 
+
+
+
+* Visibility: **public**
+* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
+
+
+
+
+### setOrientVersion
+```php
+    mixed PhpOrient\Protocols\Common\AbstractTransport::setOrientVersion(\PhpOrient\Protocols\Common\OrientVersion $orientVersion)
+```
+##### 
+
+
+
+* Visibility: **public**
+* This method is defined by [PhpOrient\Protocols\Common\AbstractTransport](PhpOrient-Protocols-Common-AbstractTransport)
+
+
+##### Arguments
+* $orientVersion **[PhpOrient\Protocols\Common\OrientVersion](PhpOrient-Protocols-Common-OrientVersion)**
 
 
 

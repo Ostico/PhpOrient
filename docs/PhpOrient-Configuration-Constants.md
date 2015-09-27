@@ -17,7 +17,7 @@ Constants
 
 ### VERSION
 ```php
-    const VERSION = "v1.1.2"
+    const VERSION = "v1.2.1"
 ```
 
 
@@ -33,7 +33,7 @@ Constants
 
 ### NAME
 ```php
-    const NAME = "PhpOrient - PHP binary client for OrientDB"
+    const NAME = "PhpOrient - Php driver based on the binary protocol of OrientDB."
 ```
 
 
@@ -41,7 +41,7 @@ Constants
 
 ### SUPPORTED_PROTOCOL
 ```php
-    const SUPPORTED_PROTOCOL = 28
+    const SUPPORTED_PROTOCOL = 32
 ```
 
 

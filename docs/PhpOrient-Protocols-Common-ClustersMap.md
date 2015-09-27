@@ -1,12 +1,12 @@
-PhpOrient\Protocols\Common\ClusterMap
+PhpOrient\Protocols\Common\ClustersMap
 ===============
 
-Class ClusterMap
+Class ClustersMap
 
 
 
 
-* Class name: ClusterMap
+* Class name: ClustersMap
 * Namespace: PhpOrient\Protocols\Common
 * This class implements: [PhpOrient\Protocols\Common\ConfigurableInterface](PhpOrient-Protocols-Common-ConfigurableInterface), ArrayAccess, Countable, Iterator
 
@@ -61,17 +61,6 @@ Properties
 * Visibility: **protected**
 
 
-#### $release
-```php
-    protected string $release
-```
- 
-
-
-
-* Visibility: **protected**
-
-
 #### $internal_position
 ```php
     protected mixed $internal_position
@@ -89,20 +78,7 @@ Methods
 
 ### getServers
 ```php
-    integer PhpOrient\Protocols\Common\ClusterMap::getServers()
-```
-##### 
-
-
-
-* Visibility: **public**
-
-
-
-
-### getRelease
-```php
-    string PhpOrient\Protocols\Common\ClusterMap::getRelease()
+    integer PhpOrient\Protocols\Common\ClustersMap::getServers()
 ```
 ##### 
 
@@ -132,7 +108,7 @@ Methods
 
 ### getIdList
 ```php
-    array<mixed,integer>|array<mixed,string> PhpOrient\Protocols\Common\ClusterMap::getIdList()
+    array<mixed,integer>|array<mixed,string> PhpOrient\Protocols\Common\ClustersMap::getIdList()
 ```
 ##### Return the list of cluster IDs
 
@@ -145,9 +121,9 @@ Methods
 
 ### getClusterID
 ```php
-    integer|null PhpOrient\Protocols\Common\ClusterMap::getClusterID($name)
+    integer|null PhpOrient\Protocols\Common\ClustersMap::getClusterID($name)
 ```
-##### Alias for @see ClusterList::offsetGet
+##### Alias for @see NodesMap::offsetGet
 
 
 
@@ -161,7 +137,7 @@ Methods
 
 ### dropClusterID
 ```php
-    mixed PhpOrient\Protocols\Common\ClusterMap::dropClusterID($ID)
+    mixed PhpOrient\Protocols\Common\ClustersMap::dropClusterID($ID)
 ```
 ##### Remove a cluster by ID
 
@@ -177,7 +153,7 @@ Methods
 
 ### offsetExists
 ```php
-    boolean PhpOrient\Protocols\Common\ClusterMap::offsetExists(mixed $name)
+    boolean PhpOrient\Protocols\Common\ClustersMap::offsetExists(mixed $name)
 ```
 ##### (PHP 5 &gt;= 5.0.0)<br/>
 Whether a offset exists
@@ -196,7 +172,7 @@ Whether a offset exists
 
 ### offsetGet
 ```php
-    integer|null PhpOrient\Protocols\Common\ClusterMap::offsetGet(mixed $name)
+    integer|null PhpOrient\Protocols\Common\ClustersMap::offsetGet(mixed $name)
 ```
 ##### (PHP 5 &gt;= 5.0.0)<br/>
 Offset to retrieve
@@ -215,7 +191,7 @@ Offset to retrieve
 
 ### offsetSet
 ```php
-    void PhpOrient\Protocols\Common\ClusterMap::offsetSet(mixed $name, mixed $value)
+    void PhpOrient\Protocols\Common\ClustersMap::offsetSet(mixed $name, mixed $value)
 ```
 ##### (PHP 5 &gt;= 5.0.0)<br/>
 Offset to set
@@ -237,7 +213,7 @@ Offset to set
 
 ### offsetUnset
 ```php
-    void PhpOrient\Protocols\Common\ClusterMap::offsetUnset(mixed $name)
+    void PhpOrient\Protocols\Common\ClustersMap::offsetUnset(mixed $name)
 ```
 ##### (PHP 5 &gt;= 5.0.0)<br/>
 Offset to unset
@@ -256,7 +232,7 @@ Offset to unset
 
 ### count
 ```php
-    integer PhpOrient\Protocols\Common\ClusterMap::count()
+    integer PhpOrient\Protocols\Common\ClustersMap::count()
 ```
 ##### (PHP 5 &gt;= 5.1.0)<br/>
 Count elements of an object
@@ -270,7 +246,7 @@ Count elements of an object
 
 ### next
 ```php
-    void PhpOrient\Protocols\Common\ClusterMap::next()
+    void PhpOrient\Protocols\Common\ClustersMap::next()
 ```
 ##### (PHP 5 &gt;= 5.0.0)<br/>
 Move forward to next element
@@ -284,7 +260,7 @@ Move forward to next element
 
 ### key
 ```php
-    mixed PhpOrient\Protocols\Common\ClusterMap::key()
+    mixed PhpOrient\Protocols\Common\ClustersMap::key()
 ```
 ##### (PHP 5 &gt;= 5.0.0)<br/>
 Return the key of the current element
@@ -298,7 +274,7 @@ Return the key of the current element
 
 ### valid
 ```php
-    boolean PhpOrient\Protocols\Common\ClusterMap::valid()
+    boolean PhpOrient\Protocols\Common\ClustersMap::valid()
 ```
 ##### (PHP 5 &gt;= 5.0.0)<br/>
 Checks if current position is valid
@@ -312,7 +288,7 @@ Checks if current position is valid
 
 ### rewind
 ```php
-    void PhpOrient\Protocols\Common\ClusterMap::rewind()
+    void PhpOrient\Protocols\Common\ClustersMap::rewind()
 ```
 ##### (PHP 5 &gt;= 5.0.0)<br/>
 Rewind the Iterator to the first element
@@ -326,7 +302,7 @@ Rewind the Iterator to the first element
 
 ### current
 ```php
-    mixed PhpOrient\Protocols\Common\ClusterMap::current()
+    mixed PhpOrient\Protocols\Common\ClustersMap::current()
 ```
 ##### (PHP 5 &gt;= 5.0.0)<br/>
 Return the current element
@@ -340,7 +316,7 @@ Return the current element
 
 ### fromConfig
 ```php
-    static PhpOrient\Protocols\Common\ClusterMap::fromConfig(array $options)
+    static PhpOrient\Protocols\Common\ClustersMap::fromConfig(array $options)
 ```
 ##### Return a new class instance configured from the given options.
 

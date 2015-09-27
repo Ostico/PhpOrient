@@ -133,9 +133,10 @@ class OrientSocket {
         $remaining = $size;
 
         do {
-            $data .= socket_read( $this->_socket, $remaining, PHP_BINARY_READ );
+            $_data = socket_read( $this->_socket, $remaining, PHP_BINARY_READ );
+            $data .= $_data;
             $remaining = $size - strlen( $data );
-            if( $data === false || $data === '' ) {
+            if( $_data === false || $_data === '' ) {
                 //https://bugs.php.net/bug.php?id=69008
                 //I must hard-code the error because of a bug in PHP
                 throw new SocketException( "socket_read(): unable to read from socket [104]: Connection reset by peer" );

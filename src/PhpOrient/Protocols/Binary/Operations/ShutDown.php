@@ -11,7 +11,7 @@ namespace PhpOrient\Protocols\Binary\Operations;
 
 use PhpOrient\Protocols\Binary\Abstracts\NeedConnectedTrait;
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
-use PhpOrient\Protocols\Common\ClusterMap;
+use PhpOrient\Protocols\Common\ClustersMap;
 use PhpOrient\Protocols\Common\Constants;
 
 class ShutDown extends Operation {
@@ -47,7 +47,7 @@ class ShutDown extends Operation {
      */
     protected function _read() {
         $clusters = $this->_transport->getClusterMap();
-        $clusters = new ClusterMap();
+        $clusters = new ClustersMap();
         $this->_socket->__destruct();
         $this->_transport->debug("Database ShutDown");
         return 0;

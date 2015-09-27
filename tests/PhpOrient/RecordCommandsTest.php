@@ -332,7 +332,8 @@ class RecordCommandsTest extends TestCase {
             Constants::DATABASE_TYPE_GRAPH
         );
 
-        $orientInfo = $client->dbOpen( "db_test_edges", 'admin', 'admin' );
+        $orientClustersInfo = $client->dbOpen( "db_test_edges", 'admin', 'admin' );
+        $orientVersion = $client->getTransport()->getOrientVersion();
 
         $cmd = 'begin;' .
             'let a = create vertex set script = true;' .
@@ -349,6 +350,7 @@ class RecordCommandsTest extends TestCase {
         $rec = $client->recordLoad( new ID("#9:0") )[0];
 
         /**
+         * @var $rec Record
          * @var $bag \PhpOrient\Protocols\Binary\Data\Bag
          */
         $bag = $rec->getOData()['in_'];
@@ -356,15 +358,16 @@ class RecordCommandsTest extends TestCase {
         $client->recordUpdate($rec);
 
         /**
+         * @var $rec Record
          * @var $bag2 \PhpOrient\Protocols\Binary\Data\Bag
          */
         $rec = $client->recordLoad( new ID("#9:0") )[0];
         $bag2 = $rec->getOData()['in_'];
         $this->assertNotEmpty( $bag2->getRawBagContent() );
 
-        if( $orientInfo->getMajorVersion() >= 2
-            && $orientInfo->getMinorVersion() >= 0
-            && ( $orientInfo->getBuildNumber() >= 7 || !is_numeric( $orientInfo->getBuildNumber() ) )
+        if( $orientVersion->getMajorVersion() >= 2
+            && $orientVersion->getMinorVersion() >= 0
+            && ( $orientVersion->getBuildNumber() >= 7 || !is_numeric( $orientVersion->getBuildNumber() ) )
         ) {
             $this->assertEquals( $bag->getRawBagContent(), $bag2->getRawBagContent() );
         }

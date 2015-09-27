@@ -2,7 +2,7 @@
 
 namespace PhpOrient\Abstracts;
 use PhpOrient\PhpOrient;
-use PhpOrient\Protocols\Common\ClusterMap;
+use PhpOrient\Protocols\Common\ClustersMap;
 use PhpOrient\Protocols\Common\Constants;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase {
@@ -17,7 +17,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
     protected $db_name;
 
     /**
-     * @var ClusterMap
+     * @var ClustersMap
      */
     protected $cluster_struct;
 

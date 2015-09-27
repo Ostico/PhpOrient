@@ -3,7 +3,7 @@
 namespace PhpOrient\Protocols\Binary\Operations;
 
 use PhpOrient\Protocols\Binary\Abstracts\Operation;
-use PhpOrient\Protocols\Common\ClusterMap;
+use PhpOrient\Protocols\Common\ClustersMap;
 use PhpOrient\Protocols\Common\Constants;
 use PhpOrient\Protocols\Binary\Abstracts\NeedDBOpenedTrait;
 
@@ -23,7 +23,7 @@ class DbReload extends Operation {
     /**
      * Read the response from the socket.
      *
-     * @return ClusterMap
+     * @return ClustersMap
      */
     protected function _read() {
 

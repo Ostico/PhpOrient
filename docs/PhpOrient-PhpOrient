@@ -461,7 +461,7 @@ A callback function is needed
 
 ### dbReload
 ```php
-    \PhpOrient\Protocols\Common\ClusterMap PhpOrient\PhpOrient::dbReload()
+    \PhpOrient\Protocols\Common\ClustersMap PhpOrient\PhpOrient::dbReload()
 ```
 ##### Reload the structure of a Database
 
@@ -491,7 +491,7 @@ A callback function is needed
 
 ### dbOpen
 ```php
-    \PhpOrient\Protocols\Common\ClusterMap PhpOrient\PhpOrient::dbOpen(string $database, string $username, string $password, array $params)
+    \PhpOrient\Protocols\Common\ClustersMap PhpOrient\PhpOrient::dbOpen(string $database, string $username, string $password, array $params)
 ```
 ##### Open a Database and perform a connection<br />
 if it is not established before

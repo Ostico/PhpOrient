@@ -12,7 +12,7 @@ use PhpOrient\Protocols\Binary\Operations\RecordCreate;
 use PhpOrient\Protocols\Binary\Operations\RecordDelete;
 use PhpOrient\Protocols\Binary\Operations\RecordLoad;
 use PhpOrient\Protocols\Binary\Operations\RecordUpdate;
-use PhpOrient\Protocols\Common\ClusterMap;
+use PhpOrient\Protocols\Common\ClustersMap;
 use PhpOrient\Protocols\Common\ConfigurableInterface;
 use PhpOrient\Protocols\Common\ConfigurableTrait;
 use PhpOrient\Protocols\Common\Constants;
@@ -88,6 +88,7 @@ class PhpOrient implements ConfigurableInterface {
      */
     public function __construct( $hostname = '', $port = '', $token = '' ) {
         if ( !empty( $hostname ) ) {
+            if( $hostname == 'localhost' ) $hostname = '127.0.0.1';
             $this->hostname = $hostname;
         }
 
@@ -414,7 +415,7 @@ class PhpOrient implements ConfigurableInterface {
     /**
      * Reload the structure of a Database
      *
-     * @return ClusterMap
+     * @return ClustersMap
      */
     public function dbReload() {
         return $this->getTransport()->execute( 'dbReload', [] );
@@ -446,7 +447,8 @@ class PhpOrient implements ConfigurableInterface {
      *    'serializationType' => PhpOrient::SERIALIZATION_DOCUMENT2CSV,
      *    'databaseType'      => PhpOrient::DATABASE_TYPE_GRAPH
      * }</code>
-     * @return ClusterMap
+     *
+     * @return ClustersMap
      */
     public function dbOpen( $database, $username = '', $password = '', Array $params = [] ) {
 

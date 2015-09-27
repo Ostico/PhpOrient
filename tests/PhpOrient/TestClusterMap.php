@@ -9,7 +9,6 @@
 namespace PhpOrient;
 
 use PhpOrient\Abstracts\TestCase;
-use PhpOrient\Protocols\Common\ClusterMap;
 use PhpOrient\Protocols\Common\Constants;
 
 class ClusterMapTest extends TestCase {

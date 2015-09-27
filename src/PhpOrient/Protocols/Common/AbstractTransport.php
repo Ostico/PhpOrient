@@ -31,14 +31,24 @@ abstract class AbstractTransport implements TransportInterface {
     protected $password;
 
     /**
-     * @var ClusterMap This Handle the actual Cluster List of Current Database
+     * @var ClustersMap This Handle the actual Cluster List of Current Database
      */
-    protected $clusterList;
+    protected $clusterMap;
+
+    /**
+     * @var OrientNode[] This is the list of OrientDB Nodes when distributed
+     */
+    protected $nodesList;
 
     /**
      * @var LoggerInterface
      */
     protected $_logger;
+
+    /**
+     * @var OrientVersion
+     */
+    protected $orientVersion;
 
     /**
      * Class Constructor
@@ -106,17 +116,17 @@ abstract class AbstractTransport implements TransportInterface {
     }
 
     /**
-     * @return ClusterMap
+     * @return ClustersMap
      */
     public function getClusterMap() {
-        return $this->clusterList;
+        return $this->clusterMap;
     }
 
     /**
-     * @param ClusterMap $clusterList
+     * @param ClustersMap $clusterList
      */
-    public function setClusterMap( ClusterMap $clusterList ) {
-        $this->clusterList = $clusterList;
+    public function setClustersMap( ClustersMap $clusterList ) {
+        $this->clusterMap = $clusterList;
     }
 
     /**
@@ -126,6 +136,49 @@ abstract class AbstractTransport implements TransportInterface {
      */
     public function getTransaction(){
         return new \PhpOrient\Protocols\Binary\Transaction\TxCommit( $this );
+    }
+
+    /**
+     * Retrieve the nodes list, optionally filter excluding the actual one
+     *
+     * //TODO Improve with different protocol types handler if another transport protocol are implemented
+     *
+     * @param bool|false $filterActualNode
+     *
+     * @return OrientNode[]
+     */
+    public function getNodesList( $filterActualNode = false ) {
+
+        $list = $this->nodesList;
+        if( $filterActualNode ){
+            foreach( $list as $pos => $node ){
+                if( $node->host == $this->hostname && $node->port == $this->port ){
+                    unset( $list[$pos] );
+                }
+            }
+        }
+        return $list;
+    }
+
+    /**
+     * @param OrientNode[] $nodesList
+     */
+    public function setNodesList( $nodesList ) {
+        $this->nodesList = $nodesList;
+    }
+
+    /**
+     * @return OrientVersion
+     */
+    public function getOrientVersion() {
+        return $this->orientVersion;
+    }
+
+    /**
+     * @param OrientVersion $orientVersion
+     */
+    public function setOrientVersion( $orientVersion ) {
+        $this->orientVersion = $orientVersion;
     }
 
 }

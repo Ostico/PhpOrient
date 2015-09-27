@@ -152,13 +152,13 @@ Properties
 
 #### $_callback
 ```php
-    public \Closure $_callback
+    protected \Closure $_callback
 ```
- 
+ Callback function to apply on Async records when they are fetched
 
 
 
-* Visibility: **public**
+* Visibility: **protected**
 
 
 Methods
@@ -248,6 +248,38 @@ Methods
     mixed PhpOrient\Protocols\Binary\Abstracts\Operation::_readHeader()
 ```
 ##### Read the response header.
+
+
+
+* Visibility: **protected**
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
+
+
+
+
+### _pushReceived
+```php
+    mixed PhpOrient\Protocols\Binary\Abstracts\Operation::_pushReceived($command_id, $payload)
+```
+##### Default callback for received push Notices
+
+
+
+* Visibility: **protected**
+* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
+
+
+##### Arguments
+* $command_id **mixed**
+* $payload **mixed**
+
+
+
+### _readError
+```php
+    \PhpOrient\Exceptions\PhpOrientException PhpOrient\Protocols\Binary\Abstracts\Operation::_readError()
+```
+##### Read an error from the remote server and turn it into an exception.
 
 
 
@@ -552,20 +584,6 @@ Methods
     string|null PhpOrient\Protocols\Binary\Abstracts\Operation::_readBytes()
 ```
 ##### Read bytes from the socket.
-
-
-
-* Visibility: **protected**
-* This method is defined by [PhpOrient\Protocols\Binary\Abstracts\Operation](PhpOrient-Protocols-Binary-Abstracts-Operation)
-
-
-
-
-### _readError
-```php
-    \PhpOrient\Exceptions\PhpOrientException PhpOrient\Protocols\Binary\Abstracts\Operation::_readError()
-```
-##### Read an error from the remote server and turn it into an exception.
 
 
 
