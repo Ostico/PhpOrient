@@ -17,12 +17,12 @@ use PhpOrient\Protocols\Common\Constants;
 
 class PerformanceTest extends TestCase {
 
-    protected $db_name = 'stocazzo';
+    protected $db_name = 'emptiness_from_which_i_fed';
 
 
     public function testDateDeserialization() {
 
-        $this->markTestSkipped('Pupù');
+        $this->markTestSkipped('Nothing to do');
 
         $client = new PhpOrient( 'localhost', 2424 );
         $client->dbOpen( "GratefulDeadConcerts", 'admin', 'admin' );
@@ -36,7 +36,7 @@ class PerformanceTest extends TestCase {
 
     public function testVersionProperty() {
 
-        $this->markTestSkipped('Pupù');
+        $this->markTestSkipped('Nothing to do');
 
         $recOrig = [ 'name' => 'foo', 'version' => '1.0.0' ];
         $rec = new Record();
@@ -54,7 +54,7 @@ class PerformanceTest extends TestCase {
 
     public function testRestrictedProperties() {
 
-        $this->markTestSkipped('Pupù');
+        $this->markTestSkipped('Nothing to do');
         $client = new PhpOrient( 'localhost', 2424 );
         $client->dbOpen( "GratefulDeadConcerts", 'admin', 'admin' );
         $result = $client->query('SELECT @rid, @class, @version FROM #11:0');

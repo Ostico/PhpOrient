@@ -17,6 +17,7 @@ use PhpOrient\Exceptions\SocketException;
 use PhpOrient\Exceptions\PhpOrientException;
 use PhpOrient\Exceptions\PhpOrientBadMethodCallException;
 use PhpOrient\Protocols\Binary\OrientSocket;
+use PhpOrient\Protocols\Common\ClusterMap;
 use Closure;
 
 abstract class Operation implements ConfigurableInterface {
@@ -55,9 +56,18 @@ abstract class Operation implements ConfigurableInterface {
     protected $_transport;
 
     /**
+     * Callback function to apply on Async records when they are fetched
+     *
      * @var Closure|string
      */
-    public $_callback;
+    protected $_callback;
+
+    /**
+     * Callback function to apply on push request when they are received
+     *
+     * @var Closure|string
+     */
+    protected $_pushRequestCallback;
 
     /**
      * Class constructor
@@ -72,6 +82,7 @@ abstract class Operation implements ConfigurableInterface {
         $this->_transport = $_transport;
         $this->_socket    = $_transport->getSocket();
 
+        $this->_pushRequestCallback = 'Operation::_pushReceived';
         $this->_callback = function(){};
 
     }
@@ -145,6 +156,50 @@ abstract class Operation implements ConfigurableInterface {
         } elseif( $status === 3 ){
             // server push data for nodes up/down update info,
             // needed for failover on cluster
+
+            # Push notification, Node cluster changed
+            #
+            # FIELD_BYTE (OChannelBinaryProtocol.PUSH_DATA);  # WRITE 3
+            # FIELD_INT (Integer.MIN_VALUE);  # SESSION ID = 2^-31
+            # 80: \x50 Request Push 1 byte: Push command id
+            $push_command_id = $this->_readByte();
+            list( , $payload ) = CSV::unserialize( $this->_readString() );
+            if ( !empty( $this->_pushRequestCallback ) && is_callable( $this->_pushRequestCallback ) ){
+                $this->{$this->_pushRequestCallback}( $push_command_id, $payload );
+            }
+
+            $end_flag = $this->_readByte();
+            # this flag can be set more than once
+            while ( $end_flag == 3 ) {
+                $this->_readInt();  # FAKE SESSION ID = 2^-31
+                $this->_readByte();  # 80: 0x50 Request Push
+                if ( !empty( $this->_pushRequestCallback ) && is_callable( $this->_pushRequestCallback ) ){
+                    $this->{$this->_pushRequestCallback}( $push_command_id, $payload );
+                }
+                $end_flag = $this->_readByte();
+            }
+
+        }
+
+    }
+
+    /**
+     * Default callback for received push Notices
+     *
+     * @param $command_id
+     * @param $payload
+     */
+    protected function _pushReceived( $command_id, $payload ){
+        # REQUEST_PUSH_RECORD	        79
+        # REQUEST_PUSH_DISTRIB_CONFIG	80
+        # REQUEST_PUSH_LIVE_QUERY	    81
+        # TODO: this logic must stay within Messages class here I just want to receive
+        # an object of something, like a new array of cluster.
+        # We should register a callback and then execute it
+        if ( $command_id == 80 && $payload ){
+            $this->_transport->setClusterMap(
+                ClusterMap::fromConfig( $this->_readString() )
+            ); # JSON WITH THE NEW CLUSTER CFG
         }
 
     }

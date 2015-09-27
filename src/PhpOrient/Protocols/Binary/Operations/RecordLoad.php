@@ -8,15 +8,9 @@ use PhpOrient\Protocols\Binary\Serialization\CSV;
 use PhpOrient\Protocols\Common\Constants;
 use PhpOrient\Protocols\Binary\Data\ID;
 use PhpOrient\Protocols\Binary\Abstracts\NeedDBOpenedTrait;
-use Closure;
 
 class RecordLoad extends Operation {
     use NeedDBOpenedTrait;
-
-    /**
-     * @var Closure|string
-     */
-    public $_callback;
 
     /**
      * @var int The op code.
