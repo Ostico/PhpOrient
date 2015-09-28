@@ -8,8 +8,7 @@ php:
   - hhvm
 
 install:
-  - php -r "readfile('https://getcomposer.org/installer');" | php
-  - php composer.phar install --prefer-source
+  - "./ci/_composer_install.sh"
   - mkdir -p build/logs
   - "./ci/start-ci.sh $ORIENTDB_VERSION"
 
