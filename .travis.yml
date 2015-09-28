@@ -16,6 +16,7 @@ install:
 cache:
   directories:
   - ./ci/environment/orientdb-community-$ORIENTDB_VERSION
+  - ./vendor
 
 before_cache:
 - ls -la ./ci/environment/
