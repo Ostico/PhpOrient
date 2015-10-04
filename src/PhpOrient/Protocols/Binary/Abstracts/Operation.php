@@ -496,30 +496,26 @@ abstract class Operation implements ConfigurableInterface {
 
         if ( $classId === -1 ) {
             throw new SocketException( 'No class for record, cannot proceed!' );
+        } elseif ( $classId === -2 ) {
+            // null record
+            $record[ 'bytes' ] = null;
+        } elseif ( $classId === -3 ) {
+            // reference
+            $record[ 'type' ] = 'd';
+            $cluster          = $this->_readShort();
+            $position         = $this->_readLong();
+            $record[ 'rid' ]  = new ID( $cluster, $position );
         } else {
-            if ( $classId === -2 ) {
-                // null record
-                $record[ 'bytes' ] = null;
-            } else {
-                if ( $classId === -3 ) {
-                    // reference
-                    $record[ 'type' ]     = 'd';
-                    $cluster             = $this->_readShort();
-                    $position            = $this->_readLong();
-                    $record[ 'rid' ]      = new ID( $cluster, $position );
-                } else {
-                    $record[ 'type' ]    = $this->_readChar();
-                    $cluster             = $this->_readShort();
-                    $position            = $this->_readLong();
-                    $record[ 'version' ] = $this->_readInt();
+            $record[ 'type' ]    = $this->_readChar();
+            $cluster             = $this->_readShort();
+            $position            = $this->_readLong();
+            $record[ 'version' ] = $this->_readInt();
 
-                    $data                 = CSV::unserialize( $this->_readBytes() );
-                    $record[ 'oClass' ]   = @$data[ 'oClass' ];
-                    $record[ 'rid' ]      = new ID( $cluster, $position );
-                    unset( $data[ 'oClass' ] );
-                    $record[ 'oData' ]    = $data;
-                }
-            }
+            $data               = CSV::unserialize( $this->_readBytes() );
+            $record[ 'oClass' ] = @$data[ 'oClass' ];
+            $record[ 'rid' ]    = new ID( $cluster, $position );
+            unset( $data[ 'oClass' ] );
+            $record[ 'oData' ] = $data;
         }
 
         return $record;
