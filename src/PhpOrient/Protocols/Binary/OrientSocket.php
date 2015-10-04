@@ -75,6 +75,11 @@ class OrientSocket {
                         'without connection parameters');
             }
 
+            if( !extension_loaded( "sockets" ) ){
+                throw new SocketException('Can not initialize a connection ' .
+                        'without socket extension enabled. Please check you php.ini');
+            }
+
             $this->_socket = @socket_create( AF_INET, SOCK_STREAM, getprotobyname('tcp') );
             socket_set_block( $this->_socket );
             socket_set_option( $this->_socket, SOL_SOCKET, SO_RCVTIMEO, array( 'sec' => self::READ_TIMEOUT, 'usec' => 0 ) );
