@@ -214,7 +214,7 @@ class CSV {
         $isFloat   = false;
         for ( $i = 0; $i < $length; $i++ ) {
             $c = $input[ $i ];
-            if ( $c === '-' || is_numeric( $c ) ) {
+            if ( $c === '-' || is_numeric( $c ) || $c == 'E' ) {
                 $collected .= $c;
             } elseif ( $c === '.' ) {
                 $isFloat = true;
