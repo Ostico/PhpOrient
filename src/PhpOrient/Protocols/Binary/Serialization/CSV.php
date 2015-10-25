@@ -516,7 +516,10 @@ class CSV {
         if ( is_string( $value ) ) {
             return '"' . str_replace( '"', '\\"', str_replace( '\\', '\\\\', $value ) ) . '"';
         } elseif ( is_float( $value ) ) {
-            return $value . 'f';
+            //this because float suffix "f"
+            // cut the numbers to the second decimal number
+            // if the field in OrientDB is set as double
+            return $value . 'd';
         } elseif ( is_int( $value ) ) {
             return $value;
         } elseif ( is_bool( $value ) ) {
