@@ -164,18 +164,16 @@ class SocketTransport extends AbstractTransport {
         } catch( SocketException $e ){
             //try another node from the list
             $list = $this->getNodesList( true );
-            if ( !empty( $list ) ) {
-                foreach ( $list as $newNode ) {
-                    $this->port     = $newNode->port;
-                    $this->hostname = $newNode->host;
-                    $this->_socket  = null;
-                    try {
-                        $this->getSocket();
-                        break; //break because we found an available node
-                    } catch ( SocketException $e ) {
-                        if( Constants::$LOGGING ){
-                            $this->_logger->debug( $e );
-                        }
+            foreach ( $list as $newNode ) {
+                $this->port     = $newNode->port;
+                $this->hostname = $newNode->host;
+                $this->_socket  = null;
+                try {
+                    $this->getSocket();
+                    break; //break because we found an available node
+                } catch ( SocketException $e ) {
+                    if ( Constants::$LOGGING ) {
+                        $this->_logger->debug( $e );
                     }
                 }
             }

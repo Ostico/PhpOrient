@@ -148,9 +148,9 @@ abstract class AbstractTransport implements TransportInterface {
      * @return OrientNode[]
      */
     public function getNodesList( $filterActualNode = false ) {
-
-        $list = $this->nodesList;
-        if( $filterActualNode ){
+        $list = [];
+        if( $filterActualNode && !empty( $this->nodesList ) ){
+            $list = $this->nodesList;
             foreach( $list as $pos => $node ){
                 if( $node->host == $this->hostname && $node->port == $this->port ){
                     unset( $list[$pos] );
