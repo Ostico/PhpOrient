@@ -110,11 +110,13 @@ class SQLCommandsTest extends TestCase {
 
     public function testSQLBatch(){
 
-        $cmd = 'begin;' .
-               'let a = create vertex set script = true;' .
-               'let b = select from v limit 1;' .
-               'let e = create edge from $a to $b;' .
-               'commit retry 100;';
+        $this->skipTestByOrientDBVersion([ '2.1.3', '2.0.13', '1.7.10' ]);
+
+        $cmd = 'begin; ' .
+               'let a = create vertex set script = true; ' .
+               'let b = select from v limit 1; ' .
+               'let e = create edge from $a to $b; ' .
+               'commit retry 100; ';
 
         $result = $this->client->sqlBatch( $cmd );
 
@@ -147,6 +149,8 @@ class SQLCommandsTest extends TestCase {
             $client->username = 'root';
             $client->password = 'root';
             $client->connect();
+
+            $this->skipTestByOrientDBVersion([ '2.1.3', '2.0.13', '1.7.10' ]);
 
             try {
                 $client->dbDrop( 'temp',

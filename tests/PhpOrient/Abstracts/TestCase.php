@@ -57,4 +57,17 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
             ) . " - Did in " . $resultTime . " seconds.\n";
     }
 
+    public function skipTestByOrientDBVersion( Array $skipVersions ){
+
+        $orientVersion = $this->client->getTransport()->getOrientVersion();
+        $vString = $orientVersion->getRelease();
+
+        foreach ( $skipVersions as $version ) {
+            if ( stripos( $vString, $version ) !== false ) {
+                $this->markTestSkipped( 'OrientDB version ' . $vString );
+            }
+        }
+
+    }
+
 }

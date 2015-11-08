@@ -111,6 +111,8 @@ class TestSetsAndRidBags extends TestCase {
 
         $client->connect();
 
+        $this->skipTestByOrientDBVersion([ '2.1.3', '2.0.13', '1.7.10' ]);
+
         try {
             $client->dbDrop( 'temp', Constants::STORAGE_TYPE_MEMORY );
         } catch ( \Exception $e ) {
