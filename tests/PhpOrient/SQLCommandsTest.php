@@ -112,11 +112,11 @@ class SQLCommandsTest extends TestCase {
 
         $this->skipTestByOrientDBVersion([ '2.1.3', '2.0.13', '1.7.10' ]);
 
-        $cmd = 'begin; ' .
-               'let a = create vertex set script = true; ' .
-               'let b = select from v limit 1; ' .
-               'let e = create edge from $a to $b; ' .
-               'commit retry 100; ';
+        $cmd = 'begin;' .
+               'let a = create vertex set script = true;' .
+               'let b = select from v limit 1;' .
+               'let e = create edge from $a to $b;' .
+               'commit retry 100;';
 
         $result = $this->client->sqlBatch( $cmd );
 
@@ -168,14 +168,15 @@ class SQLCommandsTest extends TestCase {
             );
 
             $client->dbOpen('temp');
-            $client->sqlBatch('
-                create class Prova1;
-                create property Prova1.aString string;
-                insert into Prova1 (aString) VALUES ("b"),("c"),("d");
-                create class Prova2;
-                create property Prova2.aString string;
-                create property Prova2.anEmbeddedSetOfString embeddedset string;
-                create property Prova2.prova1 link Prova1;');
+            $client->sqlBatch(
+                'create class Prova1;' .
+                'create property Prova1.aString string;' .
+                'insert into Prova1 (aString) VALUES ("b"),("c"),("d");' .
+                'create class Prova2;' .
+                'create property Prova2.aString string;' .
+                'create property Prova2.anEmbeddedSetOfString embeddedset string;' .
+                'create property Prova2.prova1 link Prova1;'
+            );
 
             $clusterProva1 = $client->query("select classes[name='Prova1'].defaultClusterId from 0:1", -1)[0]['classes'];
             $clusterProva2 = $client->query("select classes[name='Prova2'].defaultClusterId from 0:1", -1)[0]['classes'];
@@ -202,7 +203,7 @@ class SQLCommandsTest extends TestCase {
 //            print_r($record->getOData());
 
         } catch (\Exception $e) {
-            echo $e . "\n";
+//            echo $e . "\n";
         }
 
     }

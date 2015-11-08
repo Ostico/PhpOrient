@@ -64,7 +64,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
         foreach ( $skipVersions as $version ) {
             if ( stripos( $vString, $version ) !== false ) {
-                $this->markTestSkipped( 'OrientDB version ' . $vString );
+                $this->markTestSkipped( 'Bug sqlBatch on OrientDB version ' . $vString );
             }
         }
 

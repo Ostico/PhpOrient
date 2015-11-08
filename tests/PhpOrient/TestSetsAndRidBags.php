@@ -127,14 +127,14 @@ class TestSetsAndRidBags extends TestCase {
 
         $client->dbOpen('temp');
 
-        $client->sqlBatch('
-            create class Test1;
-            create property Test1.aString string;
-            insert into Test1 (aString) VALUES ("b"),("c"),("d");
-            create class Test2;
-            create property Test2.aString string;
-            create property Test2.anEmbeddedSetOfString embeddedset string;
-            create property Test2.aLinkedSetOfTest1 linkset Test1;'
+        $client->sqlBatch(
+            'create class Test1;' .
+            'create property Test1.aString string;' .
+            'insert into Test1 (aString) VALUES ("b"),("c"),("d");' .
+            'create class Test2;' .
+            'create property Test2.aString string;' .
+            'create property Test2.anEmbeddedSetOfString embeddedset string;' .
+            'create property Test2.aLinkedSetOfTest1 linkset Test1;'
         );
 
 
