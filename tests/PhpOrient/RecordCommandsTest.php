@@ -428,6 +428,8 @@ class RecordCommandsTest extends TestCase {
         $client = new PhpOrient( 'localhost', 2424 );
         $client->connect( 'root', 'root' );
 
+        $this->skipTestByOrientDBVersion( [ '2.0.13', '1.7.10' ] );
+
         try {
             $client->dbDrop( $db_name, Constants::STORAGE_TYPE_MEMORY );
         } catch ( \Exception $e ) {
@@ -444,7 +446,7 @@ class RecordCommandsTest extends TestCase {
 
         $client->command( "create class Test extends V" );
         $client->command( "create property Test.id string" );
-        $client->command( "alter property Test.id default uuid()" );
+        $client->command( "alter property Test.id DEFAULT uuid()" );
 
         $rec = ( new Record() )->setOData( [] )->setRid( new ID( 11 ) );
         $record = $client->recordCreate( $rec );

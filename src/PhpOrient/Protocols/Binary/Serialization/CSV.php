@@ -246,7 +246,10 @@ class CSV {
             }
             $input     = substr( $input, 1 );
         } elseif ( $c === 'c' || $c === 'd' ) {
-            $input = substr( $input, 1 );
+            if( !$useStrings ){
+                $collected = (double)$collected;
+            }
+            $input     = substr( $input, 1 );
         } elseif ( $isFloat ) {
             if( !$useStrings ){
                 $collected = (float)$collected;
