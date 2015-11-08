@@ -107,6 +107,19 @@ class RecordCreate extends Operation {
         $this->record->setRid( new ID( $clusterID, $position ) );
         $this->record->setVersion( $version );
 
+        /**
+         * Do a query to get the new record content
+         * @see: https://github.com/Ostico/PhpOrient/issues/39
+         */
+        $result = $this->_transport->execute( 'recordLoad', [
+            'rid' => $this->record->getRid()
+        ] )[0];
+
+        /**
+         * @var $result Record
+         */
+        $this->record->setOData( $result->getOData() );
+
 //        TODO: decide if useful
 //        return [ 'record' => $this->record, 'changes' => $changes ];
         return $this->record;

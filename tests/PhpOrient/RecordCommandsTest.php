@@ -419,4 +419,37 @@ class RecordCommandsTest extends TestCase {
 
     }
 
+
+    public function testRecordData(){
+
+        $db_name = 'test_record_data';
+        $client = new PhpOrient( 'localhost', 2424 );
+        $client->connect( 'root', 'root' );
+
+        try {
+            $client->dbDrop( $db_name, Constants::STORAGE_TYPE_MEMORY );
+        } catch ( \Exception $e ) {
+//            echo $e->getMessage();
+            $client->getTransport()->debug( $e->getMessage() );
+        }
+
+        $client->dbCreate( $db_name,
+            Constants::STORAGE_TYPE_MEMORY,
+            Constants::DATABASE_TYPE_GRAPH
+        );
+
+        $client->dbOpen( $db_name, 'admin', 'admin' );
+
+        $client->command( "create class Test extends V" );
+        $client->command( "create property Test.id string" );
+        $client->command( "alter property Test.id default uuid()" );
+
+        $rec = ( new Record() )->setOData( [] )->setRid( new ID( 11 ) );
+        $record = $client->recordCreate( $rec );
+
+        $this->assertArrayHasKey( 'id', $record );
+        $this->assertNotEmpty( $record[ 'id' ] );
+
+    }
+
 } 
