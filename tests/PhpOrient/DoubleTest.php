@@ -82,7 +82,7 @@ class DoubleTest extends TestCase {
 //        $this->assertEquals( $odata, $record->getOData() );
 
 //output
-        var_export( $record->getOData() );
+//        var_export( $record->getOData() );
 
     }
 
