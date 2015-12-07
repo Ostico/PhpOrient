@@ -1,3 +1,5 @@
+.DS_Store
+auth.json
 /ci/environment
 coverage
 vendor
@@ -8,3 +10,4 @@ log
 localTestingArea
 composer.phar
 composer.lock
+.vagrant

@@ -1,0 +1,25 @@
+Vagrant.configure(2) do |config|
+
+  # php 5.3
+  config.vm.define "php53" do |cfg|
+    config.vm.box = "hashicorp/precise64"
+    cfg.vm.synced_folder "/Users/Hashashiyyin/PhpstormProjects/PhpOrient/", "/var/www/PhpOrient/",
+                              group: "www-data", owner: "www-data"
+    cfg.vm.network "forwarded_port", guest: 80, host: 8080
+    cfg.vm.network "forwarded_port", guest: 9000, host: 9001
+    cfg.vm.network "forwarded_port", guest: 2424, host: 3424
+    cfg.vm.provision "shell", path: "run.sh"
+  end
+
+  # php 5.5+
+  config.vm.define "php55+" do |cfg|
+    config.vm.box = "ubuntu/trusty64"
+    cfg.vm.synced_folder "/Users/Hashashiyyin/PhpstormProjects/PhpOrient/", "/var/www/PhpOrient/",
+                              group: "www-data", owner: "www-data"
+    cfg.vm.network "forwarded_port", guest: 80, host: 8080
+    cfg.vm.network "forwarded_port", guest: 9000, host: 9001
+    cfg.vm.network "forwarded_port", guest: 2424, host: 3424
+    cfg.vm.provision "shell", path: "run.sh"
+  end
+
+end

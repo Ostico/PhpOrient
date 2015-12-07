@@ -58,8 +58,8 @@ download () {
     elif command_exists "curl" ; then
         echo "cd ${OUTPUT_DIR}"
         cd ${OUTPUT_DIR}
-        echo "curl --silent -LO $1"
-        curl --silent -LO $1
+        echo "curl --silent -L $1 \"$OUTPUT_DIR/$PACKAGE_NAME\""
+        curl --silent -L $1 --output "$OUTPUT_DIR/$PACKAGE_NAME"
     else
         echo "Cannot download $1 [missing wget or curl]"
         exit 1
