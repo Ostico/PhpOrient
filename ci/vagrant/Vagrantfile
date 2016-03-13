@@ -1,17 +1,19 @@
 Vagrant.configure(2) do |config|
 
-    # php 5.3
-#    config.vm.define "php53" do |cfg|
-#      cfg.vm.box = "hashicorp/precise64"
-#      cfg.vm.synced_folder "/Users/Hashashiyyin/PhpstormProjects/PhpOrient/", "/var/www/PhpOrient/",
-#                                group: "www-data", owner: "www-data"
-#      cfg.vm.network "forwarded_port", guest: 80, host: 8080
-#      cfg.vm.network "forwarded_port", guest: 9000, host: 9001
-#      cfg.vm.network "forwarded_port", guest: 2424, host: 3424
-#      cfg.vm.provision "shell", path: "run.sh"
-#      cfg.vm.provision "shell", inline: "export VAGRANT_HOST=192.168.99.1"
-#      cfg.vm.provision "shell", path: "php53.sh"
-#    end
+    config.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
+
+    $before_script = <<-SCRIPT
+      echo # vagrant profile script > /etc/profile.d/vagrant.sh
+      echo export VAGRANT_HOST=192.168.99.1 >> /etc/profile.d/vagrant.sh
+      echo export export ORIENTDB_VERSION=2.1.5 >> /etc/profile.d/vagrant.sh
+      chmod +x /etc/profile.d/vagrant.sh
+    SCRIPT
+
+    $after_script = <<-SCRIPT
+      rm -rf /etc/profile.d/vagrant.sh
+    SCRIPT
 
     # php 5.5.9
     config.vm.define "php55+" do |cfg|
@@ -21,7 +23,9 @@ Vagrant.configure(2) do |config|
       cfg.vm.network "forwarded_port", guest: 80, host: 8080
       cfg.vm.network "forwarded_port", guest: 9000, host: 9001
       cfg.vm.network "forwarded_port", guest: 2424, host: 3424
+      cfg.vm.provision "shell", inline: $before_script
       cfg.vm.provision "shell", path: "run.sh"
+      cfg.vm.provision "shell", inline: $after_script
     end
 
     # php 5.4.45+
@@ -32,9 +36,24 @@ Vagrant.configure(2) do |config|
       cfg.vm.network "forwarded_port", guest: 80, host: 8080
       cfg.vm.network "forwarded_port", guest: 9000, host: 9001
       cfg.vm.network "forwarded_port", guest: 2424, host: 3424
+      cfg.vm.provision "shell", inline: $before_script
       cfg.vm.provision "shell", path: "run.sh"
-      cfg.vm.provision "shell", inline: "export VAGRANT_HOST=192.168.99.1"
+      cfg.vm.provision "shell", inline: $after_script
       cfg.vm.provision "shell", path: "php54.sh", privileged: false
+    end
+
+    # php 7.0.3
+    config.vm.define "php703" do |cfg|
+      cfg.vm.box = "ubuntu/trusty64"
+      cfg.vm.synced_folder "/Users/Hashashiyyin/PhpstormProjects/PhpOrient/", "/var/www/PhpOrient/",
+                                group: "www-data", owner: "www-data"
+      cfg.vm.network "forwarded_port", guest: 80, host: 8080
+      cfg.vm.network "forwarded_port", guest: 9000, host: 9001
+      cfg.vm.network "forwarded_port", guest: 2424, host: 3424
+      cfg.vm.provision "shell", inline: $before_script
+      cfg.vm.provision "shell", path: "run.sh"
+      cfg.vm.provision "shell", inline: $after_script
+      cfg.vm.provision "shell", path: "php703.sh", privileged: false
     end
 
 end
