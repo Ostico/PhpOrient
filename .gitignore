@@ -9,5 +9,4 @@ log
 *.zip
 localTestingArea
 composer.phar
-composer.lock
 .vagrant
