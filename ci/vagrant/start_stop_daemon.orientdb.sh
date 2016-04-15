@@ -12,8 +12,8 @@
 #ref http://unix.stackexchange.com/questions/85033/use-start-stop-daemon-for-a-php-server/85570#85570
 #ref http://serverfault.com/questions/229759/launching-a-php-daemon-from-an-lsb-init-script-w-start-stop-daemon
 
-NAME=fastAnalysis
-ORIENT_ROOT=`readlink -f /var/www/PhpOrient/ci/environment/orientdb-community-2.1.5/bin`
+NAME=OrientDB
+ORIENT_ROOT=`readlink -f /var/www/PhpOrient/ci/environment/orientdb_current/bin`
 
 DESC="Daemon for Fast Analysis PHP CLI script"
 PIDFILE="/var/run/${NAME}.pid"

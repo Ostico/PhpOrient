@@ -8,9 +8,9 @@ php:
   - hhvm
 
 install:
-  - "./ci/_composer_install.sh"
+  - bash ./ci/_composer_install.sh
   - mkdir -p build/logs
-  - "./ci/start-ci.sh $ORIENTDB_VERSION"
+  - bash ./ci/start-ci.sh $ORIENTDB_VERSION
 
 cache:
   directories:

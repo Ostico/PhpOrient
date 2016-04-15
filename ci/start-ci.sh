@@ -28,6 +28,7 @@ fi
 
 ODB_DIR="${CI_DIR}/orientdb-community-${ODB_VERSION}"
 ODB_LAUNCHER="${ODB_DIR}/bin/server.sh"
+ODB_LAUNCHER_SYML="${CI_DIR}/orientdb_current/bin/server.sh"
 
 echo "=== Initializing CI environment ==="
 
@@ -73,13 +74,18 @@ cp -a ${PARENT_DIR}/tests/default_databases/GratefulDeadConcerts "${ODB_DIR}/dat
 echo "cp -a ${PARENT_DIR}/tests/default_databases/VehicleHistoryGraph \"${ODB_DIR}/databases/\""
 cp -a ${PARENT_DIR}/tests/default_databases/VehicleHistoryGraph "${ODB_DIR}/databases/"
 
+# Configure link to the orientdb_current version
+rm -rf ${CI_DIR}/orientdb_current
+ln -s ${ODB_DIR} ${CI_DIR}/orientdb_current
+chmod +x ${ODB_LAUNCHER_SYML}
+
 # Start OrientDB in background.
 echo "--- Starting an instance of OrientDB ---"
 if [ -z "${HANG_UP}" ]; then
-    sh -c ${ODB_LAUNCHER} </dev/null &>/dev/null &
+    sh -c ${ODB_LAUNCHER_SYML} </dev/null &>/dev/null &
     # Wait a bit for OrientDB to finish the initialization phase.
     sleep 5
     printf "\n=== The CI environment has been initialized ===\n"
 else
-    sh -c ${ODB_LAUNCHER}
+    sh -c ${ODB_LAUNCHER_SYML}
 fi

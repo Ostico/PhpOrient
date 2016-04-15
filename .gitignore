@@ -10,3 +10,4 @@ log
 localTestingArea
 composer.phar
 .vagrant
+composer.lock

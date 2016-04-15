@@ -12,5 +12,9 @@ phpbrew install 5.4.45 +cli +json +readline +session +sockets +xml_all \
 phpbrew switch 5.4.45
 phpbrew ext install xdebug 2.3.3
 
-virtphp create php54
+/usr/bin/virtphp create php54 --verbose
+echo "source ~/.phpbrew/bashrc" >> ~/.bashrc
 echo "source ~/.virtphp/envs/php54/bin/activate" >> ~/.bashrc
+source ~/.virtphp/envs/php54/bin/activate
+
+echo "VAGRANT UP COMPLETED."

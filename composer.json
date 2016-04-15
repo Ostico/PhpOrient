@@ -34,7 +34,7 @@
         "phpdocumentor/template-zend": "1.3.0",
         "phpdocumentor/phpdocumentor": "dev-master",
         "Ostico/phpdoc-md": "dev-master",
-        "satooshi/php-coveralls": "dev-master"
+        "satooshi/php-coveralls": "~1.0"
     },
     "autoload": {
         "psr-4": {"PhpOrient\\": "src/PhpOrient"}

@@ -1,18 +1,27 @@
 Vagrant.configure(2) do |config|
 
     config.vm.provider "virtualbox" do |v|
-      v.memory = 1024
+      v.memory = 1536
     end
 
     $before_script = <<-SCRIPT
       echo # vagrant profile script > /etc/profile.d/vagrant.sh
       echo export VAGRANT_HOST=192.168.99.1 >> /etc/profile.d/vagrant.sh
-      echo export export ORIENTDB_VERSION=2.1.5 >> /etc/profile.d/vagrant.sh
+      echo export export ORIENTDB_VERSION=2.1.4 >> /etc/profile.d/vagrant.sh
       chmod +x /etc/profile.d/vagrant.sh
     SCRIPT
 
     $after_script = <<-SCRIPT
       rm -rf /etc/profile.d/vagrant.sh
+    SCRIPT
+
+    $orient_run = <<-SCRIPT
+      orient_running=`ps ax | grep -v grep | grep "orientdb" | awk '{ print $1 }' | wc -l`
+      if [ "$orient_running" -lt 2 ]; then
+        /etc/init.d/orientdb start
+      fi
+      cd /var/www/PhpOrient/
+      php composer.phar update
     SCRIPT
 
     # php 5.5.9
@@ -26,27 +35,29 @@ Vagrant.configure(2) do |config|
       cfg.vm.provision "shell", inline: $before_script
       cfg.vm.provision "shell", path: "run.sh"
       cfg.vm.provision "shell", inline: $after_script
+      cfg.vm.provision "shell", inline: $orient_run, run: "always"
     end
 
     # php 5.4.45+
     config.vm.define "php54" do |cfg|
       cfg.vm.box = "ubuntu/trusty64"
       cfg.vm.synced_folder "/Users/Hashashiyyin/PhpstormProjects/PhpOrient/", "/var/www/PhpOrient/",
-                                group: "www-data", owner: "www-data"
+                                group: "vagrant", owner: "vagrant"
       cfg.vm.network "forwarded_port", guest: 80, host: 8080
       cfg.vm.network "forwarded_port", guest: 9000, host: 9001
       cfg.vm.network "forwarded_port", guest: 2424, host: 3424
       cfg.vm.provision "shell", inline: $before_script
       cfg.vm.provision "shell", path: "run.sh"
-      cfg.vm.provision "shell", inline: $after_script
       cfg.vm.provision "shell", path: "php54.sh", privileged: false
+      cfg.vm.provision "shell", inline: $after_script
+      cfg.vm.provision "shell", inline: $orient_run, run: "always"
     end
 
     # php 7.0.3
     config.vm.define "php703" do |cfg|
       cfg.vm.box = "ubuntu/trusty64"
       cfg.vm.synced_folder "/Users/Hashashiyyin/PhpstormProjects/PhpOrient/", "/var/www/PhpOrient/",
-                                group: "www-data", owner: "www-data"
+                                group: "vagrant", owner: "vagrant"
       cfg.vm.network "forwarded_port", guest: 80, host: 8080
       cfg.vm.network "forwarded_port", guest: 9000, host: 9001
       cfg.vm.network "forwarded_port", guest: 2424, host: 3424
@@ -54,6 +65,7 @@ Vagrant.configure(2) do |config|
       cfg.vm.provision "shell", path: "run.sh"
       cfg.vm.provision "shell", inline: $after_script
       cfg.vm.provision "shell", path: "php703.sh", privileged: false
+      cfg.vm.provision "shell", inline: $orient_run, run: "always"
     end
 
 end
