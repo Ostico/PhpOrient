@@ -16,6 +16,7 @@ PHPOrient is a php driver based on the binary protocol of OrientDB.
 ###### Warning, if you use a 32bit platform, you must use one of these libraries into YOUR application to avoid the loss of significant digits with Java long integers. Furthermore, these php modules should be loaded to achieve better driver performances on these systems.
 - [BCMath Arbitrary Precision Mathematics](http://php.net/manual/en/refs.math.php) (Faster, recommended)
 - [GNU Multiple Precision](http://php.net/manual/en/book.gmp.php)
+
 ###### In PhpOrient, by design, numbers are always treated as strings because of the platform dependant nature of PHP. In 32bit platform numbers must be treated as string because values greater than 2^32 would be lost and the BCMath/GMP modules must be used to avoid this. To make the results consistent for all platforms ( 32 and 64bit ) and leave to the user/developer the decision on how to use it's own data ( by manual cast ) strings are used for all numeric data types.
 
 ## Installation
@@ -40,6 +41,25 @@ php composer.phar --no-dev install
 > If you already have a composer installed or your existing project use it, you can install/add PhpOrient via Composer [https://packagist.org/packages/ostico/phporient](https://packagist.org/packages/ostico/phporient), it is linked to this GitHub repository ( so it is everityme updated ), and add it as dependecy to your project.
     
     php composer.phar require "ostico/phporient:dev-master" --update-no-dev
+
+
+## Contributions
+
+- Fork the project.
+- Make your changes.
+- Add tests for it. This is important so I don’t break it in a future version unintentionally.
+- Send me a pull request (pull request to master will be rejected)
+- ???
+- PROFIT
+
+## How to run tests
+- Get the development libraries with:
+```bash
+php composer.phar install
+```
+- Bootsrap orient by running ./ci/ci-start.sh from project directory
+it will download latest orient and make some change on config and database for the tests
+- Run : ./vendor/bin/phpunit
 
 ## Usage
 PhpOrient specify autoload information, Composer generates a vendor/autoload.php file. You can simply include this file and you will get autoloading for free and declare the use of PhpOrient Client with fully qualified name.
@@ -385,16 +405,6 @@ foreach ( $animal_foods as $food ) {
     $this->assertEquals( 'rat', $animal[ 'name' ] );
 }
 ```
-
-## Contributions
-
-- Fork the project.
-- Make your changes.
-- Add tests for it. This is important so I don’t break it in a future version unintentionally.
-- Send me a pull request.
-- ???
-- PROFIT
-- 
 
 # License
 
