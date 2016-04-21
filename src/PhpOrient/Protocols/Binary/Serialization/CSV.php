@@ -276,10 +276,11 @@ class CSV {
         $cluster   = null;
         for ( $i = 0; $i < $length; $i++ ) {
             $c = $input[ $i ];
+
             if ( $cluster === null && $c === ':' ) {
                 $cluster   = (int)$collected;
                 $collected = '';
-            } elseif ( is_numeric( $c ) ) {
+            } elseif ( $c === '-' || is_numeric( $c ) ) {
                 $collected .= $c;
             } else {
                 break;
