@@ -20,9 +20,11 @@ build(){
     ODB_PACKAGE_EXT="tar.gz"
     ODB_COMPRESSED=${ODB_COMPILED_NAME}.${ODB_PACKAGE_EXT}
     OUTPUT_DIR="${2:-$(pwd)}"
+
+
     download "http://orientdb.com/download.php?email=unknown@unknown.com&file=orientdb-community-${ODB_VERSION}.tar.gz&os=linux" $OUTPUT_DIR ${ODB_COMPRESSED}
 
-    extract $ODB_COMPRESSED $OUTPUT_DIR
+    extract "$OUTPUT_DIR/$ODB_COMPRESSED" $OUTPUT_DIR
 
 
 }
