@@ -26,26 +26,6 @@ build(){
 }
 
 
-downloadFromSite () {
-    ORIENTDB_VERSION=$ODB_VERSION
-    ODB_DOWNLOAD_URL="http://orientdb.com/download.php?email=unknown@unknown.com&file=orientdb-community-${ORIENTDB_VERSION}.tar.gz&os=linux"
-    echo $BUILD_DIR
-
-    mkdir -v -p "$BUILD_DIR"
-    cd "$BUILD_DIR"
-
-    echo "==> Downloading OrientDB version $ORIENTDB_VERSION"
-    wget -q -O "$ORIENTDB_VERSION.tar.gz" "$ODB_DOWNLOAD_URL"
-
-    echo "==> Extracting OrientDB"
-    tar -xzf "$ORIENTDB_VERSION.tar.gz"
-
-    echo "==> Removing archive"
-    rm -v "$ORIENTDB_VERSION.tar.gz"
-
-
-}
-
 command_exists () {
   type "$1" >/dev/null 2>&1 ;
 }
