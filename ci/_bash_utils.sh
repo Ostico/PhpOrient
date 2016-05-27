@@ -6,13 +6,39 @@ build(){
 #        echo "Build started with MAVEN"
 #        build_via_mvn $1 $2
 #    el
-    if [[ "$1" == *"SNAPSHOT"* ]]; then
-        echo "Build by clone/pull github develop branch"
-        build_via_git $1 $2
-    else
-        echo "Build by download from github repository"
-        build_via_github $1 $2
-    fi
+#    if [[ "$1" == *"SNAPSHOT"* ]]; then
+#        echo "Build by clone/pull github develop branch"
+#        build_via_git $1 $2
+#    else
+#        echo "Build by download from github repository"
+#        build_via_github $1 $2
+#    fi
+
+    OUTPUT_DIR="${2:-$(pwd)}"
+    download "http://orientdb.com/download.php?email=unknown@unknown.com&file=orientdb-community-${ODB_VERSION}.tar.gz&os=linux" $OUTPUT_DIR
+
+
+
+}
+
+
+downloadFromSite () {
+    ORIENTDB_VERSION=$ODB_VERSION
+    ODB_DOWNLOAD_URL="http://orientdb.com/download.php?email=unknown@unknown.com&file=orientdb-community-${ORIENTDB_VERSION}.tar.gz&os=linux"
+    echo $BUILD_DIR
+
+    mkdir -v -p "$BUILD_DIR"
+    cd "$BUILD_DIR"
+
+    echo "==> Downloading OrientDB version $ORIENTDB_VERSION"
+    wget -q -O "$ORIENTDB_VERSION.tar.gz" "$ODB_DOWNLOAD_URL"
+
+    echo "==> Extracting OrientDB"
+    tar -xzf "$ORIENTDB_VERSION.tar.gz"
+
+    echo "==> Removing archive"
+    rm -v "$ORIENTDB_VERSION.tar.gz"
+
 
 }
 
