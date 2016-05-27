@@ -14,6 +14,7 @@ build(){
 #        build_via_github $1 $2
 #    fi
 
+    ODB_VERSION=$1
     ODB_COMPILED_NAME="orientdb-community-${ODB_VERSION}"
     ODB_ARCHIVED_NAME="orientdb-${ODB_VERSION}"
     ODB_PACKAGE_EXT="tar.gz"
