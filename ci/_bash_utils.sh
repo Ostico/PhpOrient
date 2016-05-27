@@ -14,8 +14,12 @@ build(){
 #        build_via_github $1 $2
 #    fi
 
+    ODB_COMPILED_NAME="orientdb-community-${ODB_VERSION}"
+    ODB_ARCHIVED_NAME="orientdb-${ODB_VERSION}"
+    ODB_PACKAGE_EXT="tar.gz"
+    ODB_COMPRESSED=${ODB_COMPILED_NAME}.${ODB_PACKAGE_EXT}
     OUTPUT_DIR="${2:-$(pwd)}"
-    download "http://orientdb.com/download.php?email=unknown@unknown.com&file=orientdb-community-${ODB_VERSION}.tar.gz&os=linux" $OUTPUT_DIR
+    download "http://orientdb.com/download.php?email=unknown@unknown.com&file=orientdb-community-${ODB_VERSION}.tar.gz&os=linux" $OUTPUT_DIR ${ODB_COMPRESSED}
 
 
 
