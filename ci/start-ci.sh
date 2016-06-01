@@ -67,11 +67,7 @@ else
   echo "!!! Found OrientDB v${ODB_VERSION} in ${ODB_DIR} !!!"
 fi
 
-
-
 echo "Installing databases: "
-
-ls -la "${ODB_DIR}"
 
 echo "cp -a ${PARENT_DIR}/tests/default_databases/GratefulDeadConcerts \"${ODB_DIR}/databases/\""
 cp -a ${PARENT_DIR}/tests/default_databases/GratefulDeadConcerts "${ODB_DIR}/databases/"
