@@ -29,6 +29,8 @@ after_script:
  - php ./vendor/bin/coveralls -v
 
 env:
+  - ORIENTDB_VERSION=2.2.3
+  - ORIENTDB_VERSION=2.2.0
   - ORIENTDB_VERSION=2.1.5
   - ORIENTDB_VERSION=2.1.4
   - ORIENTDB_VERSION=2.1.3
