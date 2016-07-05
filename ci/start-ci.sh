@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -x
 
 PARENT_DIR=$(dirname $(cd "$(dirname "$0")"; pwd))
 CI_DIR="$PARENT_DIR/ci/environment"
