@@ -5,15 +5,6 @@ apt-get -y install locate php5 php5-dev libxml2-dev libreadline-dev \
                     php5-json php5-curl php5-mysql php5-xsl default-jdk ant \
                     libxslt1-dev super git libssl-dev maven libcurl3-openssl-dev
 
-# Configure XDebug
-XDEBUG='zend_extension='$(find /usr/lib/php5/ -name xdebug.so)'
-xdebug.remote_enable=1
-xdebug.remote_autostart=1
-xdebug.remote_host="'${VAGRANT_HOST}'"
-xdebug.remote_port=9000
-xdebug.idekey="storm"
-'
-
 sed -ri -e "s/^[;]{1}phar.readonly = On/phar.readonly = Off/" /etc/php5/cli/php.ini
 
 #OrientDB init.d and installation
@@ -48,4 +39,14 @@ find . -type f | xargs chmod 664
 
 
 apt-get install -y php5-xdebug
+
+# Configure XDebug
+XDEBUG='zend_extension='$(find /usr/lib/php5/ -name xdebug.so)'
+xdebug.remote_enable=1
+xdebug.remote_autostart=1
+xdebug.remote_host="'${VAGRANT_HOST}'"
+xdebug.remote_port=9000
+xdebug.idekey="storm"
+'
+
 printf "${XDEBUG}" > /etc/php5/mods-available/xdebug.ini

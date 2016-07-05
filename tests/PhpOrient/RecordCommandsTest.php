@@ -448,9 +448,8 @@ class RecordCommandsTest extends TestCase {
         $client->command( "create property Test.id string" );
         $client->command( "alter property Test.id DEFAULT uuid()" );
 
-        $rec = ( new Record() )->setOData( [] )->setRid( new ID( 11 ) );
-        $record = $client->recordCreate( $rec );
-
+        $record = $client->command( "create vertex Test" );
+        
         $this->assertArrayHasKey( 'id', $record );
         $this->assertNotEmpty( $record[ 'id' ] );
 

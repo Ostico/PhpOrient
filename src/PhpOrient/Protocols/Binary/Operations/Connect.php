@@ -70,6 +70,10 @@ class Connect extends Operation {
 
             if( $this->_transport->getProtocolVersion() > 26 ){
                 $this->_writeBoolean( $this->_transport->isRequestToken() ); # token
+                if( $this->_transport->getProtocolVersion() >=36 ){
+                    $this->_writeBoolean( true );  # support-push
+                    $this->_writeBoolean( true );  # collect-stats
+                }
             }
 
             $this->_writeString( $this->username );

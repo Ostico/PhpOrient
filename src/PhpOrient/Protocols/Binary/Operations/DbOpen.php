@@ -84,10 +84,18 @@ class DbOpen extends Operation {
 
             if( $this->_transport->getProtocolVersion() > 26 ){
                 $this->_writeBoolean( $this->_transport->isRequestToken() ); # token
+                if( $this->_transport->getProtocolVersion() >=36 ){
+                    $this->_writeBoolean( true );  # support-push
+                    $this->_writeBoolean( true );  # collect-stats
+                }
             }
 
             $this->_writeString( $this->database );
-            $this->_writeString( $this->type );
+            
+            if( $this->_transport->getProtocolVersion() < 33 ){
+                $this->_writeString( $this->type );
+            }
+
             $this->_writeString( $this->username );
             $this->_writeString( $this->password );
         } else {

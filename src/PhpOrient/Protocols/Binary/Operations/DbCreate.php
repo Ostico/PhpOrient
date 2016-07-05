@@ -10,6 +10,11 @@ class DbCreate extends Operation {
     use NeedConnectedTrait;
 
     /**
+     * @var int
+     */
+    protected $backup_path = -1;
+
+    /**
      * @var int The op code.
      */
     protected $opCode = Constants::DB_CREATE_OP;
@@ -36,6 +41,15 @@ class DbCreate extends Operation {
         $this->_writeString( $this->database );
         $this->_writeString( $this->database_type );
         $this->_writeString( $this->storage_type );
+
+        if( $this->_transport->getProtocolVersion() > 35 ){
+            if ( is_int( $this->backup_path ) ){
+                $this->_writeInt( $this->backup_path );
+            } else {
+                $this->_writeString( $this->backup_path );
+            }
+        }
+        
     }
 
     /**

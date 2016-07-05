@@ -592,7 +592,7 @@ abstract class Operation implements ConfigurableInterface {
                 $this->_readChar();
                 $res = array( null );
                 break;
-            case 'r':
+            case $response_type == 'r' || $response_type == 'w':
                 $res = [ Record::fromConfig( $this->_readRecord() ) ];
                 # get end Line \x00
                 $this->_readChar();

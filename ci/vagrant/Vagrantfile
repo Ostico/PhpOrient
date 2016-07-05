@@ -1,5 +1,5 @@
 Vagrant.configure(2) do |config|
-
+    config.vm.network "forwarded_port", guest: 2424, host: 2424
     config.vm.provider "virtualbox" do |v|
       v.memory = 1536
     end
@@ -7,7 +7,7 @@ Vagrant.configure(2) do |config|
     $before_script = <<-SCRIPT
       echo # vagrant profile script > /etc/profile.d/vagrant.sh
       echo export VAGRANT_HOST=192.168.99.1 >> /etc/profile.d/vagrant.sh
-      echo export export ORIENTDB_VERSION=2.1.4 >> /etc/profile.d/vagrant.sh
+      echo export ORIENTDB_VERSION=2.2.3 >> /etc/profile.d/vagrant.sh
       chmod +x /etc/profile.d/vagrant.sh
     SCRIPT
 
@@ -25,10 +25,10 @@ Vagrant.configure(2) do |config|
     SCRIPT
 
     # php 5.5.9
-    config.vm.define "php55+" do |cfg|
+    config.vm.define "php55" do |cfg|
       cfg.vm.box = "ubuntu/trusty64"
       cfg.vm.synced_folder "/Users/Hashashiyyin/PhpstormProjects/PhpOrient/", "/var/www/PhpOrient/",
-                                group: "www-data", owner: "www-data"
+                                group: "vagrant", owner: "vagrant"
       cfg.vm.network "forwarded_port", guest: 80, host: 8080
       cfg.vm.network "forwarded_port", guest: 9000, host: 9001
       cfg.vm.network "forwarded_port", guest: 2424, host: 3424
