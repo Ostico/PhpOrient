@@ -33,12 +33,14 @@ download () {
 
     if command_exists "wget" ; then
         echo "wget -q -O $OUTPUT_DIR/$PACKAGE_NAME $1"
-        wget -q -O "$OUTPUT_DIR/$PACKAGE_NAME" "$1"
+#        wget -q -O "$OUTPUT_DIR/$PACKAGE_NAME" "$1"
+        wget -O "$OUTPUT_DIR/$PACKAGE_NAME" "$1"
     elif command_exists "curl" ; then
         echo "cd ${OUTPUT_DIR}"
         cd ${OUTPUT_DIR}
         echo "curl --silent -L $1 \"$OUTPUT_DIR/$PACKAGE_NAME\""
-        curl --silent -L $1 --output "$OUTPUT_DIR/$PACKAGE_NAME"
+#        curl --silent -L $1 --output "$OUTPUT_DIR/$PACKAGE_NAME"
+        curl -L $1 --output "$OUTPUT_DIR/$PACKAGE_NAME"
     else
         echo "Cannot download $1 [missing wget or curl]"
         exit 1

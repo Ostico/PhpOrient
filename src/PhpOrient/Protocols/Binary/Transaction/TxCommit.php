@@ -154,7 +154,10 @@ class TxCommit extends Operation {
             /**
              * @var RecordCreate $operation
              */
-            $operation = $this->_pre_operation_records[ $lastCreated[ 'client_c_pos' ] ];
+            $operation = $this->_pre_operation_records[
+                ( new ID( $lastCreated[ 'client_c_id' ], $lastCreated[ 'client_c_pos' ] ) )->__toString()
+            ];
+
             $rid = new ID( $lastCreated[ 'created_c_id' ], $lastCreated[ 'created_c_pos' ] );
             $operation->record->setVersion( 1 )->setRid( $rid );
             $this->_operation_records[ $rid->__toString() ] = $operation->record;
@@ -177,12 +180,19 @@ class TxCommit extends Operation {
 
             # Continue, server send in the updated records
             # even the new the new created ones
-            if( !isset( $this->_pre_operation_records[ $lastUpdated[ 'updated_c_pos' ] ] ) ) continue;
+            if ( !isset( $this->_pre_operation_records[
+                        ( new ID( $lastUpdated[ 'updated_c_id' ], $lastUpdated[ 'updated_c_pos' ] ) )->__toString()
+                    ] ) ) {
+                continue;
+            }
 
             /**
              * @var RecordUpdate $operation
              */
-            $operation = $this->_pre_operation_records[ $lastUpdated[ 'updated_c_pos' ] ];
+            $operation = $this->_pre_operation_records[
+                ( new ID( $lastUpdated[ 'updated_c_id' ], $lastUpdated[ 'updated_c_pos' ] ) )->__toString()
+            ];
+
             $rid = new ID( $lastUpdated[ 'updated_c_id' ], $lastUpdated[ 'updated_c_pos' ] );
             $operation->record
                     ->setVersion( $lastUpdated[ 'new_version' ] )
@@ -273,7 +283,6 @@ class TxCommit extends Operation {
         $result = $this->prepare()->send()->getResponse();
         $this->_pre_operation_records = [];
         $this->_operation_stack = [];
-        $this->_pre_operation_records = [];
         $this->_txId = -1;
         $this->_temp_cluster_position_seq = -2;
         return $result;
@@ -281,7 +290,6 @@ class TxCommit extends Operation {
 
     public function rollback() {
         $this->_operation_stack = [];
-        $this->_pre_operation_records = [];
         $this->_pre_operation_records = [];
         $this->_txId = -1;
         $this->_temp_cluster_position_seq = -2;
@@ -304,7 +312,7 @@ class TxCommit extends Operation {
                 $operationPayload[] = [ '_writeBoolean', $operation->update_content ];
             }
             $this->_operation_stack[ ] = $operationPayload;
-            $this->_pre_operation_records[ $operation->cluster_position ] = $operation;
+            $this->_pre_operation_records[ $operation->record->getRid()->__toString() ] = $operation;
         } elseif( $operation instanceof RecordDelete ){
             $this->_operation_stack[ ] = [
                     [ '_writeByte', 2 ],
@@ -321,7 +329,9 @@ class TxCommit extends Operation {
                     [ '_writeChar', $operation->record_type ],
                     [ '_writeString', CSV::serialize( $operation->record ) ]
             ];
-            $this->_pre_operation_records[ $this->_temp_cluster_position_seq ] = $operation;
+            $this->_pre_operation_records[
+                ( new ID( -1, $this->_temp_cluster_position_seq ) )->__toString()
+            ] = $operation;
             $this->_temp_cluster_position_seq--;
         } else {
             throw new PhpOrientBadMethodCallException(

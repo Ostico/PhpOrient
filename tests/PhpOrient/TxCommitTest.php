@@ -121,7 +121,7 @@ class TxCommitTest extends TestCase {
             ( new Record() )
                 ->setOData( [ 'accommodation' => 'bungalow' ] )
                 ->setOClass( 'V' )
-                ->setRid( new ID( 9 ) )
+                ->setRid( new ID( -1, -1 ) )
         );
 
         //CREATE ANOTHER ONE
@@ -129,7 +129,7 @@ class TxCommitTest extends TestCase {
             ( new Record() )
                 ->setOData( [ 'accommodation' => 'under the sky' ] )
                 ->setOClass( 'V' )
-                ->setRid( new ID( 9 ) )
+                ->setRid( new ID( -1, -1 ) )
         );
 
         $deleteCommand = $this->client->recordDelete( $this->sec_rec->getRid() );
@@ -146,16 +146,20 @@ class TxCommitTest extends TestCase {
          * @var Record $record
          */
         foreach ( $result as $record ){
-            if( $record->getRid() == $this->first_rec->getRid() ){
-                $this->assertEquals( $record->getOData(), [ 'accommodation' => 'mountain cabin 2' ] );
-                $this->assertEquals( $record->getOClass(), $this->first_rec->getOClass() );
-            } elseif( $record->getRid()->__toString() == '#9:2' ) {
+
+            if( $record->getOData() == [ 'accommodation' => 'mountain cabin 2' ] ){
+                $this->assertNotEquals(
+                        $this->first_rec->getOClass(),
+                        [ 'accommodation' => 'mountain cabin 2' ]
+                );
+            } elseif( $record->getOData() == [ 'accommodation' => 'bungalow' ] ) {
                 $this->assertEquals( $record->getOData(), [ 'accommodation' => 'bungalow' ] );
                 $this->assertEquals( $record->getOClass(), 'V' );
-            } elseif( $record->getRid()->__toString() == '#9:3' ) {
+            } elseif( $record->getOData() == [ 'accommodation' => 'under the sky' ] ) {
                 $this->assertEquals( $record->getOData(), [ 'accommodation' => 'under the sky' ] );
                 $this->assertEquals( $record->getOClass(), 'V' );
             }
+
         }
 
         //check for deleted record
