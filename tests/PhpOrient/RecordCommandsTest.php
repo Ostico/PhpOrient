@@ -436,9 +436,6 @@ class RecordCommandsTest extends TestCase {
 //            echo $e->getMessage();
             $client->getTransport()->debug( $e->getMessage() );
         } finally {
-            usleep(1000000);
-            //sleep because sometimes it simply
-            // don't works immediately after the drop
             $client->dbCreate( $db_name,
                     Constants::STORAGE_TYPE_MEMORY,
                     Constants::DATABASE_TYPE_GRAPH
@@ -449,10 +446,11 @@ class RecordCommandsTest extends TestCase {
 
         $client->command( "create class Test extends V" );
         $client->command( "create property Test.id string" );
+        $client->command( "create property Test.name string" );
         $client->command( "alter property Test.id DEFAULT uuid()" );
 
-        $record = $client->command( "create vertex Test set name='This is a test'" );
-        
+        $record = $client->command( "insert into Test set name='This is a test'" );
+
         $this->assertArrayHasKey( 'id', $record );
         $this->assertNotEmpty( $record[ 'id' ] );
 

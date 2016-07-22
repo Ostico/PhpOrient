@@ -25,12 +25,13 @@ class ConnectionTokenTest extends EmptyTestCase {
         parent::setUp();
         $client = $this->createClient('connect');
         $client->connect();
+        $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
 
         if ( $client->getTransport()->getProtocolVersion() < 26 ) {
             $this->markTestSkipped( "Token not supported in OrientDB < 2.0" );
         }
 
-        if ( $client->getTransport()->getProtocolVersion() >= 32 ) {
+        if ( $client->getTransport()->getProtocolVersion() >= 32 && $client->getTransport()->getOrientVersion()->getBuildNumber() < 4 ) {
             $this->markTestSkipped( "Token not well supported in OrientDB >= 2.2.0 and < 2.4.0" );
         }
 
