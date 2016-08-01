@@ -5,8 +5,11 @@ language: php
 php:
   - 5.4
   - 5.5
-  - 7.0.8
+  - 5.6
+  - 7.0
+  - nightly
   - hhvm
+  - hhvm-nightly
 
 install:
   - bash ./ci/_composer_install.sh
