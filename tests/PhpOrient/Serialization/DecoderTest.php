@@ -29,6 +29,11 @@ class DecoderTest extends EmptyTestCase {
         $this->assertEquals( [ 'foo' => 1 ], $result );
     }
 
+    public function testDeserializeNegativeRID() {
+        $result = CSV::unserialize( 'foo:#-12:10' );
+        $this->assertEquals( [ 'foo' => new ID( -12, 10 ) ], $result );
+    }
+
     public function testDeserializeRID() {
         $result = CSV::unserialize( 'foo:#12:10' );
         $this->assertEquals( [ 'foo' => new ID( 12, 10 ) ], $result );
