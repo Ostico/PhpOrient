@@ -226,7 +226,7 @@ class CSV {
 
         $input = substr( $input, $i );
 
-        $c = $input[ 0 ];
+        $c = @$input[ 0 ]; # avoid Notice: Uninitialized string offset: 0
 
         $useStrings = ( PHP_INT_SIZE == 4 );
 
