@@ -193,7 +193,7 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
         if( @array_key_exists( $offset, $this->oData ) ){
             return $this->oData[ $offset ];
         } else {
-			return null;
+            return null;
         }
     }
 
