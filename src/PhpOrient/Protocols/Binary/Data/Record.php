@@ -193,7 +193,7 @@ class Record implements \ArrayAccess, \JsonSerializable, SerializableInterface {
         if( @array_key_exists( $offset, $this->oData ) ){
             return $this->oData[ $offset ];
         } else {
-            throw new \OutOfBoundsException( 'The searched key ' . $offset . ' does not exists in this record: ' . var_export( $this, true ) );
+            return null;
         }
     }
 
