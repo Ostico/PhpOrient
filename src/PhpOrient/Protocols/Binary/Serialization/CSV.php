@@ -225,7 +225,10 @@ class CSV {
         }
 
         $input = substr( $input, $i );
-
+        if(!isset($input[0])) {
+	        return;
+        }
+		
         $c = $input[ 0 ];
 
         $useStrings = ( PHP_INT_SIZE == 4 );
