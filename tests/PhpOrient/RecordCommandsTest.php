@@ -435,12 +435,12 @@ class RecordCommandsTest extends TestCase {
         } catch ( \Exception $e ) {
 //            echo $e->getMessage();
             $client->getTransport()->debug( $e->getMessage() );
-        } finally {
-            $client->dbCreate( $db_name,
-                    Constants::STORAGE_TYPE_MEMORY,
-                    Constants::DATABASE_TYPE_GRAPH
-            );
         }
+
+        $client->dbCreate( $db_name,
+                Constants::STORAGE_TYPE_MEMORY,
+                Constants::DATABASE_TYPE_GRAPH
+        );
 
         $client->dbOpen( $db_name, 'admin', 'admin' );
 
