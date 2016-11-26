@@ -7,7 +7,7 @@ Vagrant.configure(2) do |config|
     $before_script = <<-SCRIPT
       echo # vagrant profile script > /etc/profile.d/vagrant.sh
       echo export VAGRANT_HOST=192.168.99.1 >> /etc/profile.d/vagrant.sh
-      echo export ORIENTDB_VERSION=2.2.3 >> /etc/profile.d/vagrant.sh
+      echo export ORIENTDB_VERSION=2.2.5 >> /etc/profile.d/vagrant.sh
       chmod +x /etc/profile.d/vagrant.sh
     SCRIPT
 
