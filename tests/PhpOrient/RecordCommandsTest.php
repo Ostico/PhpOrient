@@ -428,7 +428,13 @@ class RecordCommandsTest extends TestCase {
         $client = new PhpOrient( 'localhost', 2424 );
         $client->connect( 'root', 'root' );
 
-        $this->skipTestByOrientDBVersion( [ '2.2.3', '2.2.4', '2.0.18', '2.0.13', '1.7.10' ] );
+        $this->skipTestByOrientDBVersion( [
+                '2.2.4',
+                '2.2.2',
+                '2.0.18',
+                '2.0.13',
+                '1.7.10'
+        ] );
 
         try {
             $client->dbDrop( $db_name, Constants::STORAGE_TYPE_MEMORY );
