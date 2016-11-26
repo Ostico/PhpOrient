@@ -225,14 +225,16 @@ class CSV {
         }
 
         $input = substr( $input, $i );
-
+		
         $c = $input[ 0 ];
 
         $useStrings = ( PHP_INT_SIZE == 4 );
 
         if ( $c === 'a' || $c === 't' ) {
             # date / 1000
+            $dt = new \DateTimeZone( date_default_timezone_get() );
             $collected = \DateTime::createFromFormat( 'U', substr( $collected, 0, -3 ) );
+            $collected->setTimeZone( $dt );
             $input     = substr( $input, 1 );
         } elseif ( $c === 'f' ) {
             // float
