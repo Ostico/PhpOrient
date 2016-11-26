@@ -3,6 +3,7 @@ sudo: false
 language: php
 
 php:
+  - 7
   - 5.4
   - 5.5
   - hhvm
