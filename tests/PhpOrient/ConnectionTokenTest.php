@@ -35,6 +35,18 @@ class ConnectionTokenTest extends EmptyTestCase {
             $this->markTestSkipped( "Token not well supported in OrientDB >= 2.2.0 and < 2.4.0" );
         }
 
+        if(
+            (
+                $client->getTransport()->getOrientVersion()->getMinorVersion() >= 0 &&
+                $client->getTransport()->getOrientVersion()->getBuildNumber() >= 18
+            ) && (
+                $client->getTransport()->getOrientVersion()->getMinorVersion() >= 1 &&
+                $client->getTransport()->getOrientVersion()->getBuildNumber() <= 25
+            )
+        ){
+            $this->markTestSkipped( "Token not well supported in OrientDB >= 2.0.18 and < 2.1.25" );
+        }
+
     }
 
     public function tearDown(){
