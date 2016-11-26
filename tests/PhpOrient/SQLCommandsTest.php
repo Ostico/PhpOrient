@@ -146,7 +146,10 @@ class SQLCommandsTest extends TestCase {
             $date = '"Not a DateTime instance"';
         }
 
-        $this->assertEquals( $dateToTest, $date );
+        $this->assertEquals(
+                substr( $dateToTest, 0, strlen($dateToTest) -1 ),
+                substr( $date, 0, strlen($date) -1 )
+        );
 
     }
 
