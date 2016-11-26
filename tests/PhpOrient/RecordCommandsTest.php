@@ -8,8 +8,6 @@
 
 namespace PhpOrient;
 use PhpOrient\Abstracts\TestCase;
-use PhpOrient\Configuration\Constants as ClientConstants;
-use PhpOrient\Protocols\Common\AbstractTransport;
 use PhpOrient\Protocols\Common\Constants;
 use PhpOrient\Protocols\Binary\Data\ID;
 use PhpOrient\Protocols\Binary\Data\Record;
