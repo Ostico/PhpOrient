@@ -111,7 +111,7 @@ class CSV {
     protected static function eatKey( $input ) {
         $length    = strlen( $input );
         $collected = '';
-        if ( $input[ 0 ] === '"' ) {
+        if ( isset( $input[ 0 ]  ) && $input[ 0 ] === '"' ) {
             $result = self::eatString( substr( $input, 1 ) );
 
             return [ $result[ 0 ], substr( $result[ 1 ], 1 ) ];
