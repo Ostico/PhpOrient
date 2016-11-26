@@ -225,8 +225,9 @@ class CSV {
         }
 
         $input = substr( $input, $i );
-        if(!isset($input[0])) {
-	        return;
+
+        if ( !isset( $input[ 0 ] ) ) {
+            return [ $collected, $input ];
         }
 
         $c = $input[ 0 ];
