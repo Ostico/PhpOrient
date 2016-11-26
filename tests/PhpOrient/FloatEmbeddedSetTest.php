@@ -20,13 +20,11 @@ class FloatEmbeddedSetTest extends TestCase {
 
     public function testOrientEmbeddedFloatDeserialization(){
 
-        if (
-                $this->client->getTransport()->getOrientVersion()->getMajorVersion() == 2 &&
-                $this->client->getTransport()->getOrientVersion()->getMinorVersion() <= 2 &&
-                $this->client->getTransport()->getOrientVersion()->getBuildNumber() < 13
-        ) {
-            $this->markTestSkipped( "Bugs on OrientDB version < 2.2.13" );
-        }
+        $this->skipTestByOrientDBVersion( [
+                '2.1.25',
+                '2.1.24',
+                '2.0.18',
+        ] );
 
         $className = "Test";
 
