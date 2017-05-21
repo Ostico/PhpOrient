@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+
+  phporient:
+    build: ./PhpOrient7/
+    container_name: phporient7
+    ## Remove this environment block if you don't need it ##
+    environment:
+      XDEBUG_CONFIG: 192.168.254.1
+    ## Remove this environment block if you don't need it ##
+    volumes:
+      - ~/PhpstormProjects/PhpOrient:/home/PhpOrient:rw
+

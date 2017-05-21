@@ -276,6 +276,10 @@ class RecordCommandsTest extends TestCase {
         $rec->setOData( $recOrig );
         $rec->setOClass( 'V' );
         $rec->setRid( new ID(9) );
+
+        /**
+         * @var $result \PhpOrient\Protocols\Binary\Data\Record
+         */
         $result = $this->client->recordCreate( $rec );
 
         $this->assertInstanceOf( '\PhpOrient\Protocols\Binary\Data\Record', $result );
@@ -289,9 +293,15 @@ class RecordCommandsTest extends TestCase {
         $this->assertEquals( (string)$result, (string)$load[0] );
 
         $_recUp = [ 'accommodation' => 'hotel', 'work' => 'office', 'holiday' => 'mountain' ];
-        $recUp = ( new Record() )->setOData( $_recUp )->setOClass( 'V' )->setRid( $result->getRid() );
+        $recUp = $result->setOData( $_recUp )->setOClass( 'V' )->setRid( $result->getRid() );
         $updated0 = $this->client->recordUpdate( $recUp );
         $this->assertInstanceOf( '\PhpOrient\Protocols\Binary\Data\Record', $updated0 );
+
+        /**
+         * This covers an issue
+         * @see https://github.com/Ostico/PhpOrient/issues/89
+         */
+        $this->assertEquals( 2, $updated0->getVersion() );
 
         $delete = $this->client->recordDelete( $load[0]->getRid() );
         $this->assertTrue( $delete );
@@ -307,14 +317,9 @@ class RecordCommandsTest extends TestCase {
 
     public function testUpdateEdges(){
 
-        $client = PhpOrient::fromConfig(
-            array(
-                'username' => 'root',
-                'password' => 'root',
-                'hostname' => 'localhost',
-                'port'     => 2424
-            )
-        );
+        $config = self::getConfig( 'connect' );
+
+        $client = PhpOrient::fromConfig( $config );
 
         $res = $client->execute('connect');
 
@@ -376,14 +381,9 @@ class RecordCommandsTest extends TestCase {
 
     public function testRecordEmbedded(){
 
-        $client = PhpOrient::fromConfig(
-            array(
-                'username' => 'root',
-                'password' => 'root',
-                'hostname' => 'localhost',
-                'port'     => 2424
-            )
-        );
+        $config = self::getConfig( 'connect' );
+
+        $client = PhpOrient::fromConfig( $config );
 
         $res = $client->execute('connect');
 
@@ -423,8 +423,10 @@ class RecordCommandsTest extends TestCase {
     public function testRecordData(){
 
         $db_name = 'test_record_data';
-        $client = new PhpOrient( 'localhost', 2424 );
-        $client->connect( 'root', 'root' );
+
+        $config = self::getConfig( 'connect' );
+        $client = PhpOrient::fromConfig( $config );
+        $res = $client->connect();
 
         $this->skipTestByOrientDBVersion( [
                 '2.2.4',

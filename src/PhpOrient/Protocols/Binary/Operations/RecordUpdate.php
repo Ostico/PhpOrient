@@ -90,11 +90,6 @@ class RecordUpdate extends Operation {
      */
     public $record_version = -1;
 
-    /**
-     * @var int Document update, version increment, no version control.
-     */
-    public $record_version_policy = -1;
-
     /** True:  content of record has been changed
      *        and content should be updated in storage
      * False: the record was modified but its own
@@ -126,7 +121,7 @@ class RecordUpdate extends Operation {
         }
 
         $this->_writeBytes( CSV::serialize( $this->record ) );
-        $this->_writeInt( $this->record_version_policy );
+        $this->_writeInt( $this->record_version );
         $this->_writeChar( $this->record_type );
         $this->_writeBoolean( $this->mode );
 

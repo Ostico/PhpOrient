@@ -20,8 +20,11 @@ class DateTest extends TestCase {
 
     public function testDoubleDeserialization(){
 
+        $config = self::getConfig( 'connect' );
+
         $db_name = 'test_date';
-        $client = new PhpOrient( 'localhost', 2424 );
+        $client = new PhpOrient();
+        $client->configure( $config );
         $client->connect( 'root', 'root' );
 
         try {
