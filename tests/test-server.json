@@ -1,5 +1,5 @@
 {
-    "hostname": "192.168.254.1",
+    "hostname": "127.0.0.1",
     "port": 2424,
     "httpPort": 2480,
     "connect": { "username": "root", "password": "root" },
