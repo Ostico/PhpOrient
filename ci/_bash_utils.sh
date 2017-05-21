@@ -12,8 +12,7 @@ build(){
     if [[ "${ODB_VERSION}" == *"SNAPSHOT"* ]]; then
         download "https://oss.sonatype.org/service/local/artifact/maven/content?r=snapshots&g=com.orientechnologies&a=orientdb-community&v=${ODB_VERSION}&e=tar.gz" $OUTPUT_DIR ${ODB_COMPRESSED}
     else
-        download "https://github.com/orientechnologies/orientdb/archive/${ODB_VERSION}.tar.gz" $OUTPUT_DIR ${ODB_COMPRESSED}
-#        download "http://central.maven.org/maven2/com/orientechnologies/orientdb-community/${ODB_VERSION}/orientdb-community-${ODB_VERSION}.tar.gz" $OUTPUT_DIR ${ODB_COMPRESSED}
+        download "http://central.maven.org/maven2/com/orientechnologies/orientdb-community/${ODB_VERSION}/orientdb-community-${ODB_VERSION}.tar.gz" $OUTPUT_DIR ${ODB_COMPRESSED}
     fi
     extract "$OUTPUT_DIR/$ODB_COMPRESSED" $OUTPUT_DIR
     clean "$OUTPUT_DIR/$ODB_COMPRESSED"
