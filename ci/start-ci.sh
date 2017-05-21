@@ -52,6 +52,9 @@ if [ ! -d "$ODB_DIR/bin" ]; then
     cp ${PARENT_DIR}/ci/orientdb-server-config_1.7.10.xml "${ODB_DIR}/config/orientdb-server-config.xml"
   elif [[ "${ODB_VERSION}" == *"2.1"* ]]; then
     cp ${PARENT_DIR}/ci/orientdb-server-config_2.0.xml "${ODB_DIR}/config/orientdb-server-config.xml"
+  elif [[ "${ODB_VERSION}" == *"3."* ]]; then
+    export ORIENTDB_ROOT_PASSWORD="root"
+    cp ${PARENT_DIR}/ci/orientdb-server-config_3.xml "${ODB_DIR}/config/orientdb-server-config.xml"
   elif [[ "${ODB_VERSION}" != *"2.0"* ]]; then
     cp ${PARENT_DIR}/ci/orientdb-server-config.xml "${ODB_DIR}/config/orientdb-server-config.xml"
   else

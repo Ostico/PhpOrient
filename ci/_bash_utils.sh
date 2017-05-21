@@ -15,6 +15,7 @@ build(){
         download "http://central.maven.org/maven2/com/orientechnologies/orientdb-community/${ODB_VERSION}/orientdb-community-${ODB_VERSION}.tar.gz" $OUTPUT_DIR ${ODB_COMPRESSED}
     fi
     extract "$OUTPUT_DIR/$ODB_COMPRESSED" $OUTPUT_DIR
+    clean "$OUTPUT_DIR/$ODB_COMPRESSED"
 
 
 }
@@ -67,9 +68,10 @@ extract(){
         exit 1
     fi;
 
-    echo "rm -rf ${ODB_PACKAGE_PATH}"
-    rm -rf ${ODB_PACKAGE_PATH}
-
 }
 
-
+clean(){
+    ODB_PACKAGE_PATH=$1
+    echo "rm -rf ${ODB_PACKAGE_PATH}"
+    rm -rf ${ODB_PACKAGE_PATH}
+}
