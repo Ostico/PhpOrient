@@ -40,6 +40,8 @@ class FetchClassTest extends TestCase {
             'database' => static::$DATABASE
         ] );
 
+        $this->skipTestByOrientDBVersion( [ "2.2.20", "2.2.19", "2.2.9" ] );
+
         $rid = $this->client->command( "select min(@rid) from V;" );
 
         $this->client->setFetchClass( 'PhpOrient\TestClassRecord' );
