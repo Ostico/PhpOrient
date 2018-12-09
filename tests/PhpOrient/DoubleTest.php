@@ -19,7 +19,7 @@ class DoubleTest extends TestCase {
 
     public function testDoubleDeserialization(){
 
-        $vertexClass = $this->client->command( "create class Test extends V" );
+        $this->client->command( "create class Test extends V" );
         $this->client->command( "create property Test.stringList embeddedlist string" );
         $this->client->command( "create property Test.stringMap embeddedmap string" );
         $this->client->command( "create property Test.stringValue string" );
@@ -29,6 +29,8 @@ class DoubleTest extends TestCase {
         $this->client->command( "create property Test.longList embeddedlist long" );
         $this->client->command( "create property Test.longMap embeddedmap long" );
         $this->client->command( "create property Test.longValue long" );
+
+        $this->client->dbReload();
 
 //create record
         $odata= [
@@ -69,7 +71,9 @@ class DoubleTest extends TestCase {
 
         ];
 
-        $rec = ( new Record() )->setOData( $odata )->setOClass("Test")->setRid( new ID( $vertexClass->getOData()[ 'result' ] ) );
+        $clusterPosition = ( $this->client->getTransport()->getClusterMap()->getClusterID( "test" ) );
+
+        $rec = ( new Record() )->setOData( $odata )->setOClass("Test")->setRid( new ID( $clusterPosition ) );
         $rec = $this->client->recordCreate( $rec );
 
 //re-load record
