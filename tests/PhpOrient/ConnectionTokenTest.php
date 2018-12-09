@@ -25,7 +25,7 @@ class ConnectionTokenTest extends EmptyTestCase {
         parent::setUp();
         $client = $this->createClient('connect');
         $client->connect();
-        $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
+        $client->dbOpen( static::$DATABASE, 'admin', 'admin' );
 
         if ( $client->getTransport()->getProtocolVersion() < 26 ) {
             $this->markTestSkipped( "Token not supported in OrientDB < 2.0" );
@@ -54,15 +54,15 @@ class ConnectionTokenTest extends EmptyTestCase {
 
     }
 
-    public function testPrepareConnection(){
+    public function testReConnection(){
         $this->client->setSessionToken( true );
-        $open   = $this->client->dbOpen( "GratefulDeadConcerts", 'admin', 'admin' );
+        $open   = $this->client->dbOpen( static::$DATABASE, 'admin', 'admin' );
         $record = $this->client->query( 'select from V limit 1' );
         $this->assertNotEmpty( $this->client->getSessionToken() );
         $GLOBALS[ 'old_db_token' ] = $this->client->getSessionToken();
-    }
 
-    public function testReconnection(){
+        $this->client = null;
+        $this->client = $this->createClient();
 
         $this->assertEmpty( $this->client->getSessionToken() );
         $old_token = $GLOBALS[ 'old_db_token' ];
@@ -70,6 +70,7 @@ class ConnectionTokenTest extends EmptyTestCase {
         $record = $this->client->query( 'select from V limit 1' );
         $this->assertNotEmpty( $record );
         $this->assertContainsOnly( '\PhpOrient\Protocols\Binary\Data\Record', $record );
+
 
     }
 
@@ -80,7 +81,7 @@ class ConnectionTokenTest extends EmptyTestCase {
         //this because the connection credentials
         // are not correct for Orient root access
         $this->setExpectedException( '\PhpOrient\Exceptions\PhpOrientException' );
-        $res = $this->client->setSessionToken( $old_token )->dbExists("GratefulDeadConcerts");
+        $res = $this->client->setSessionToken( $old_token )->dbExists(static::$DATABASE);
 
     }
 
@@ -120,7 +121,7 @@ class ConnectionTokenTest extends EmptyTestCase {
     public function testDatabaseOps(){
 
         // ROOT Table creation
-        $client = new PhpOrient( 'localhost', 2424 );
+        $client = $this->createClient();
         $client->setSessionToken( true );
         $clusterID = $client->connect( 'root', 'root' );
         if( $client->dbExists( 'new_test_db_2' ) ) {
@@ -165,14 +166,14 @@ class ConnectionTokenTest extends EmptyTestCase {
 
     public function testSessionRenew(){
 
-        $client = new PhpOrient( 'localhost', 2424 );
+        $client = $this->createClient();
         $client->setSessionToken( true );  // set true to enable the token based authentication
-        $clusterID    = $client->dbOpen( "GratefulDeadConcerts", 'admin', 'admin' );
+        $clusterID    = $client->dbOpen( static::$DATABASE, 'admin', 'admin' );
         $sessionToken = $client->getSessionToken(); // store this token somewhere
         unset($client);
 
         // start a new connection
-        $client = new PhpOrient( 'localhost', 2424 );
+        $client = $this->createClient();
 
         // set the previous received token to re-attach to the old session
         $client->setSessionToken( $sessionToken );
@@ -183,7 +184,7 @@ class ConnectionTokenTest extends EmptyTestCase {
 
         //set the flag again to true if you want to renew the token
         $client->setSessionToken( true );  // set true
-        $clusterID        = $client->dbOpen( "GratefulDeadConcerts", 'admin', 'admin' );
+        $clusterID        = $client->dbOpen( static::$DATABASE, 'admin', 'admin' );
         $new_sessionToken = $client->getSessionToken();
 
         $this->assertNotEquals( $sessionToken, $new_sessionToken );
@@ -192,9 +193,9 @@ class ConnectionTokenTest extends EmptyTestCase {
 
     public function testWrongTokenWithNoInitialization(){
 
-        $client = new PhpOrient( 'localhost', 2424 );
+        $client = $this->createClient();
         $client->setSessionToken( true );  // set true to enable the token based authentication
-        $clusterID    = $client->dbOpen( "GratefulDeadConcerts", 'admin', 'admin' );
+        $clusterID    = $client->dbOpen( static::$DATABASE, 'admin', 'admin' );
         $sessionToken = $client->getSessionToken(); // store this token somewhere
         file_put_contents( "token.bin", $sessionToken );
         unset($client);
@@ -203,7 +204,7 @@ class ConnectionTokenTest extends EmptyTestCase {
         unlink( "token.bin" );
 
         // start a new connection
-        $client = new PhpOrient( 'localhost', 2424 );
+        $client = $this->createClient();
 
         // set the previous received token to re-attach to the old session
         $client->setSessionToken( $sessionToken . "WRONG_TOKEN" );

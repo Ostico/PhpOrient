@@ -53,7 +53,7 @@ class DBMinorCommandsTest extends EmptyTestCase {
     }
 
     public function testDBSize(){
-        $result     = $this->client->execute( 'dbOpen', [ 'database' => 'GratefulDeadConcerts' ] );
+        $result     = $this->client->execute( 'dbOpen', [ 'database' => static::$DATABASE ] );
         $this->assertNotEmpty( count($result) );
         $result = $this->client->execute( 'dbSize' );
         $this->assertNotEmpty( $result );
@@ -68,7 +68,7 @@ class DBMinorCommandsTest extends EmptyTestCase {
     }
 
     public function testRecordCount(){
-        $result     = $this->client->execute( 'dbOpen', [ 'database' => 'GratefulDeadConcerts' ] );
+        $result     = $this->client->execute( 'dbOpen', [ 'database' => static::$DATABASE ] );
         $this->assertNotEmpty( count($result) );
         $result = $this->client->execute( 'dbCountRecords' );
         $this->assertNotEmpty( $result );

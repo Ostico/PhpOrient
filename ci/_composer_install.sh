@@ -9,5 +9,6 @@ if [ ! -d "$PARENT_DIR/vendor/bin" ]; then
     echo "Updating Composer....\n"
     php -r "readfile('https://getcomposer.org/installer');" | php
     echo "Launch...\n"
+    php "$PARENT_DIR/composer.phar" config -g github-oauth.github.com ${github-token}
     php "$PARENT_DIR/composer.phar" update --prefer-source
 fi

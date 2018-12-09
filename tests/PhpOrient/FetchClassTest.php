@@ -37,11 +37,13 @@ class FetchClassTest extends TestCase {
     public function testFetchClassQuery() {
 
         $this->cluster_struct = $this->client->execute( 'dbOpen', [
-            'database' => 'GratefulDeadConcerts'
+            'database' => static::$DATABASE
         ] );
 
+        $rid = $this->client->command( "select min(@rid) from V;" );
+
         $this->client->setFetchClass( 'PhpOrient\TestClassRecord' );
-        $res = $this->client->execute( 'recordLoad', [ 'rid' => new ID( "#9:5" ) ] );
+        $res = $this->client->execute( 'recordLoad', [ 'rid' => $rid->getOData()[ 'min' ] ] );
 
 
         $this->assertEquals( 'PhpOrient\TestClassRecord', get_class( $res[ 0 ] ) );

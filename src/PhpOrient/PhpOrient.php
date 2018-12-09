@@ -170,6 +170,7 @@ class PhpOrient implements ConfigurableInterface {
      *
      * @return Protocols\Binary\SocketTransport the transport interface
      * @throws Exceptions\TransportException
+     * @throws Exceptions\PhpOrientException
      */
     protected function createTransport( $transport = null ) {
 
@@ -260,7 +261,7 @@ class PhpOrient implements ConfigurableInterface {
     /**
      * Execute a not idempotent SQL command
      *
-     * @see PhpOrient\Protocols\Binary\Operations\Command
+     * @see \PhpOrient\Protocols\Binary\Operations\Command
      *
      * @param string $query
      *
@@ -279,7 +280,7 @@ class PhpOrient implements ConfigurableInterface {
     /**
      * Execute an idempotent SQL command ( Select usually )
      *
-     * @see PhpOrient\Protocols\Binary\Operations\Command
+     * @see \PhpOrient\Protocols\Binary\Operations\Command
      *
      * @param string $query
      * @param int    $limit
@@ -303,10 +304,10 @@ class PhpOrient implements ConfigurableInterface {
      * Execute an idempotent SQL command in Async mode( Select usually )<br />
      * A callback function is needed
      *
-     * @see PhpOrient\Protocols\Binary\Operations\Command
+     * @see \PhpOrient\Protocols\Binary\Operations\Command
      *
      * @param string $query
-     * @param Array    $params
+     * @param mixed    $params
      *
      * @return mixed
      */
@@ -322,7 +323,7 @@ class PhpOrient implements ConfigurableInterface {
     /**
      * Execute an SQL Batch Script command<br />
      *
-     * @see PhpOrient\Protocols\Binary\Operations\Command
+     * @see \PhpOrient\Protocols\Binary\Operations\Command
      *
      * @param string $param
      *

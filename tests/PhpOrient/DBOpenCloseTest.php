@@ -7,7 +7,7 @@ class DBOpenCloseTest extends EmptyTestCase {
 
     public function testDBOpenAutoConnect(){
 
-        $result = $this->client->execute( 'dbOpen', array( 'database' => 'GratefulDeadConcerts' ) );
+        $result = $this->client->execute( 'dbOpen', array( 'database' => static::$DATABASE ) );
 
         $this->assertNotEquals( -1, $result['sessionId'] );
         $this->assertNotEmpty( count( $result ) );
@@ -16,16 +16,18 @@ class DBOpenCloseTest extends EmptyTestCase {
         foreach ( $result as $cluster ){
             $key_exists = $key_exists || ( $cluster['name'] == "followed_by" );
             if( $key_exists ) { $id = $cluster['id']; break; }
+            $key_exists = $key_exists || ( $cluster['name'] == "locations" );
+            if( $key_exists ) { $id = $cluster['id']; break; }
         }
 
         $this->assertTrue( $key_exists );
         $this->assertTrue( isset( $id ) );
-        $this->assertEquals( 11, $id );
+        $this->assertNotEmpty( $id );
 
     }
 
     public function testDBOpen(){
-        $result = $this->client->execute( 'dbOpen', [ 'database' => 'GratefulDeadConcerts' ] );
+        $result = $this->client->execute( 'dbOpen', [ 'database' => static::$DATABASE ] );
 
         $this->assertNotEquals( -1, $result['sessionId'] );
         $this->assertNotEmpty( count( $result ) );
@@ -34,17 +36,19 @@ class DBOpenCloseTest extends EmptyTestCase {
         foreach ( $result as $cluster ){
             $key_exists = $key_exists || ( $cluster['name'] == "followed_by" );
             if( $key_exists ) { $id = $cluster['id']; break; }
+            $key_exists = $key_exists || ( $cluster['name'] == "locations" );
+            if( $key_exists ) { $id = $cluster['id']; break; }
         }
 
         $this->assertTrue( $key_exists );
         $this->assertTrue( isset( $id ) );
-        $this->assertEquals( 11, $id );
+        $this->assertNotEmpty( $id );
 
     }
 
     public function testDBClose() {
 
-        $result     = $this->client->execute( 'dbOpen', [ 'database' => 'GratefulDeadConcerts' ] );
+        $result     = $this->client->execute( 'dbOpen', [ 'database' => static::$DATABASE ] );
 
         $this->assertNotEquals( -1, $result[ 'sessionId' ] );
         $this->assertNotEmpty( count( $result ) );

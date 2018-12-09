@@ -9,7 +9,7 @@ class ClientConnectionTest extends EmptyTestCase {
     public function testLogging(){
         Constants::$LOGGING = true;
         Constants::$LOG_FILE_PATH = '/dev/null';
-        $result = $this->client->execute( 'dbOpen', [ 'database' => 'GratefulDeadConcerts' ] );
+        $result = $this->client->execute( 'dbOpen', [ 'database' => static::$DATABASE ] );
         $this->assertNotEquals( -1, $result['sessionId'] );
         $this->assertNotEmpty( count( $result ) );
     }
@@ -112,7 +112,7 @@ class ClientConnectionTest extends EmptyTestCase {
         $client = new PhpOrient();
         $client->configure(  $config  );
         $this->setExpectedException( '\PhpOrient\Exceptions\PhpOrientWrongProtocolVersionException' );
-        $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin',
+        $client->dbOpen( static::$DATABASE, 'admin', 'admin',
             [ 'serializationType' => PhpOrient::SERIALIZATION_SERIAL_BIN, ]
         );
 

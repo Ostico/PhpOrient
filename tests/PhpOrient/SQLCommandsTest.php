@@ -137,7 +137,7 @@ class SQLCommandsTest extends TestCase {
 
         $config = self::getConfig( 'open' );
         $client = PhpOrient::fromConfig( $config );
-        $client->dbOpen( 'GratefulDeadConcerts' );
+        $client->dbOpen( static::$DATABASE );
 
         $dateToTest = \DateTime::createFromFormat( 'U', time() )->format( 'Y-m-d H:i:s' );
 
@@ -226,7 +226,7 @@ class SQLCommandsTest extends TestCase {
 
         $config = self::getConfig( 'open' );
         $client = PhpOrient::fromConfig( $config );
-        $client->dbOpen( 'GratefulDeadConcerts' );
+        $client->dbOpen( static::$DATABASE );
 
         $records = $client->query( 'select song_type, name from V ' );
 

@@ -30,6 +30,8 @@ class DoubleTest extends TestCase {
         $this->client->command( "create property Test.longMap embeddedmap long" );
         $this->client->command( "create property Test.longValue long" );
 
+        $this->client->dbReload();
+
 //create record
         $odata= [
             "stringMap" => [
@@ -69,7 +71,9 @@ class DoubleTest extends TestCase {
 
         ];
 
-        $rec = ( new Record() )->setOData( $odata )->setOClass("Test")->setRid( new ID( 11 ) );
+        $clusterPosition = ( $this->client->getTransport()->getClusterMap()->getClusterID( "test" ) );
+
+        $rec = ( new Record() )->setOData( $odata )->setOClass("Test")->setRid( new ID( $clusterPosition ) );
         $rec = $this->client->recordCreate( $rec );
 
 //re-load record

@@ -36,7 +36,7 @@ after_script:
  - php ./vendor/bin/coveralls -v
 
 env:
-#  - ORIENTDB_VERSION=3.0.0m1
-  - ORIENTDB_VERSION=2.2.20
-  - ORIENTDB_VERSION=2.2.19
-  - ORIENTDB_VERSION=2.2.9
+  - ORIENTDB_VERSION=3.0.11 DBNAME=demodb HostName=localhost
+  - ORIENTDB_VERSION=2.2.20 DBNAME=GratefulDeadConcerts HostName=localhost
+  - ORIENTDB_VERSION=2.2.19 DBNAME=GratefulDeadConcerts HostName=localhost
+  - ORIENTDB_VERSION=2.2.9 DBNAME=GratefulDeadConcerts HostName=localhost

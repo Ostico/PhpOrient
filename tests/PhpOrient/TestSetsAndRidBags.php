@@ -58,7 +58,7 @@ class TestSetsAndRidBags extends TestCase {
     }
 
     public function testRidBags(){
-        $this->client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
+        $this->client->dbOpen( static::$DATABASE, 'admin', 'admin' );
         $myFunction = function( Record $rec ){
             $data = $rec->getOData();
             if( isset($data['in_followed_by']) ){
