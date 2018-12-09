@@ -15,7 +15,7 @@ class DBExistsTest extends EmptyTestCase {
         $config = self::getConfig('connect');
 
         $connection = $this->client->execute( 'connect', $config );
-        $result = $this->client->execute( 'dbExists', [ 'database' => 'GratefulDeadConcerts' ] );
+        $result = $this->client->execute( 'dbExists', [ 'database' => static::$DATABASE ] );
         $this->assertTrue( $result );
     }
 

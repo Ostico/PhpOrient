@@ -19,7 +19,7 @@ class DoubleTest extends TestCase {
 
     public function testDoubleDeserialization(){
 
-        $this->client->command( "create class Test extends V" );
+        $vertexClass = $this->client->command( "create class Test extends V" );
         $this->client->command( "create property Test.stringList embeddedlist string" );
         $this->client->command( "create property Test.stringMap embeddedmap string" );
         $this->client->command( "create property Test.stringValue string" );
@@ -69,7 +69,7 @@ class DoubleTest extends TestCase {
 
         ];
 
-        $rec = ( new Record() )->setOData( $odata )->setOClass("Test")->setRid( new ID( 11 ) );
+        $rec = ( new Record() )->setOData( $odata )->setOClass("Test")->setRid( new ID( $vertexClass->getOData()[ 'result' ] ) );
         $rec = $this->client->recordCreate( $rec );
 
 //re-load record

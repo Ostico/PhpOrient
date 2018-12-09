@@ -19,11 +19,13 @@ class RecordCommandsTest extends TestCase {
     public function testRecordLoad() {
 
         $this->cluster_struct = $this->client->execute( 'dbOpen', [
-            'database' => 'GratefulDeadConcerts'
+            'database' => static::$DATABASE
         ] );
 
+        $rid = $this->client->command( "select min(@rid) from V;" );
+
         $res = $this->client->execute( 'recordLoad', [
-            'rid' => new ID( "#9:5" ),
+            'rid' => $rid[ 'min' ],
             'fetch_plan' => '*:2'
 
             , '_callback' => function ( Record $arg ){
@@ -237,7 +239,7 @@ class RecordCommandsTest extends TestCase {
     public function testLimit() {
 
         $this->cluster_struct = $this->client->execute( 'dbOpen', [
-                'database' => 'GratefulDeadConcerts'
+                'database' => static::$DATABASE
         ] );
 
         $response = $this->client->query( 'select from V limit 4' );

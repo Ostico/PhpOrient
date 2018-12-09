@@ -80,24 +80,30 @@ class DataClusterTest extends TestCase {
     public function testDataRange() {
 
         $_cluster = $this->client->execute( 'dbOpen', [
-                'database' => 'GratefulDeadConcerts'
+                'database' => static::$DATABASE
         ] );
 
-        $data = [ ];
         foreach ( $_cluster as $cluster ) {
+
+            if ( 'hotels' == $cluster[ 'name' ] ) {
+                $data = $this->client->execute( 'dataClusterDataRange', [ 'id' => $cluster[ 'id' ] ] );
+                $this->assertNotEmpty( $data );
+                $this->assertNotEmpty( $data[ 1 ] );
+                $this->assertEquals( 144, $data[ 1 ] );
+            }
             if ( 'followed_by' == $cluster[ 'name' ] ) {
                 $data = $this->client->execute( 'dataClusterDataRange', [ 'id' => $cluster[ 'id' ] ] );
+                $this->assertNotEmpty( $data );
+                $this->assertNotEmpty( $data[ 1 ] );
+                $this->assertEquals( 7046, $data[ 1 ] );
             }
-        }
 
-        $this->assertNotEmpty( $data );
-        $this->assertNotEmpty( $data[ 1 ] );
-        $this->assertEquals( 7046, $data[ 1 ] );
+        }
 
     }
 
     public function testClusterCountByClusterMap(){
-        $this->client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
+        $this->client->dbOpen( static::$DATABASE, 'admin', 'admin' );
         $total = $this->client->dataClusterCount( $this->client->getTransport()->getClusterMap()->getIdList() );
 
         $this->assertNotEmpty( $total );

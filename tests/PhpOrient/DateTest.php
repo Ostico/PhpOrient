@@ -18,7 +18,7 @@ class DateTest extends TestCase {
 
     protected $db_name = 'test_date';
 
-    public function testDoubleDeserialization(){
+    public function testDateDeserialization(){
 
         $config = self::getConfig( 'connect' );
 

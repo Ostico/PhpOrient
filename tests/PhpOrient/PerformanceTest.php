@@ -25,7 +25,7 @@ class PerformanceTest extends TestCase {
         $this->markTestSkipped('Nothing to do');
 
         $client = new PhpOrient( 'localhost', 2424 );
-        $client->dbOpen( "GratefulDeadConcerts", 'admin', 'admin' );
+        $client->dbOpen( static::$DATABASE, 'admin', 'admin' );
         $result = $client->query('select expand( out("sung_by") ) from #9:1');
 
 //        print_r("\n" . 'Done, ' . count($result) . " records read. " . round( OrientSocket::$total / 1024, 3 ) . " KB" );
@@ -56,7 +56,7 @@ class PerformanceTest extends TestCase {
 
         $this->markTestSkipped('Nothing to do');
         $client = new PhpOrient( 'localhost', 2424 );
-        $client->dbOpen( "GratefulDeadConcerts", 'admin', 'admin' );
+        $client->dbOpen( static::$DATABASE, 'admin', 'admin' );
         $result = $client->query('SELECT @rid, @class, @version FROM #11:0');
 //        $result = $client->query('select from followed_by limit 1');
         usleep(1000);
