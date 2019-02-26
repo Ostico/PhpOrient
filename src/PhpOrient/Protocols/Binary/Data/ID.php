@@ -39,14 +39,14 @@ class ID implements \JsonSerializable{
                 $this->cluster = (string)$cluster[ 'cluster' ];
             }
             if ( isset( $cluster[ 'position' ] ) ) {
-                $this->position = (string)$cluster[ 'position' ];
+                $this->position = (string)intval( $cluster[ 'position' ] );
             }
         } else {
             if ( is_string( $cluster ) && $cluster[ 0 ] === '#' ) {
                 list( $this->cluster, $this->position ) = self::parseString( $cluster );
             } else {
                 $this->cluster  = (string)$cluster;
-                $this->position = (string)$position;
+                $this->position = (string)intval( $position );
             }
         }
     }
@@ -67,7 +67,7 @@ class ID implements \JsonSerializable{
      * @return string A string representation of the record id, e.g. "#12:10".
      */
     public function __toString() {
-        return '#' . $this->cluster . ':' . $this->position;
+        return '#' . $this->cluster. ':' . intval( $this->position );
     }
 
     /**
