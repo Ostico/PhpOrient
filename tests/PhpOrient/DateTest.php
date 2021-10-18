@@ -18,10 +18,13 @@ class DateTest extends TestCase {
 
     protected $db_name = 'test_date';
 
-    public function testDoubleDeserialization(){
+    public function testDateDeserialization(){
+
+        $config = self::getConfig( 'connect' );
 
         $db_name = 'test_date';
-        $client = new PhpOrient( 'localhost', 2424 );
+        $client = new PhpOrient();
+        $client->configure( $config );
         $client->connect( 'root', 'root' );
 
         try {

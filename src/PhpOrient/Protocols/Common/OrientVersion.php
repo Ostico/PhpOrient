@@ -54,6 +54,11 @@ class OrientVersion {
      */
     protected $buildNumber;
 
+    /**
+     * @var string
+     */
+    protected $subversion;
+
     protected function _parseRelease(){
         @list(
             $this->majorVersion,
@@ -64,7 +69,14 @@ class OrientVersion {
         if ( stripos( $this->minorVersion, "-" ) !== false ){
             @list( $this->minorVersion, $this->buildNumber ) = explode( "-", $this->minorVersion );
         }
-        @list( $this->buildNumber, ) = explode( " ", $this->buildNumber );
+
+        if ( stripos( $this->buildNumber, "-" ) !== false ){
+            @list( $this->buildNumber, $this->subversion ) = explode( "-", $this->buildNumber );
+            @list( $this->subversion, ) = explode( " ", $this->subversion );
+        } else {
+            @list( $this->buildNumber, ) = explode( " ", $this->buildNumber );
+        }
+
     }
 
     /**
@@ -93,6 +105,13 @@ class OrientVersion {
      */
     public function getBuildNumber() {
         return $this->buildNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubversion() {
+        return $this->subversion;
     }
 
     /**

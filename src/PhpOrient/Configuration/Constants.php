@@ -14,7 +14,7 @@ class Constants {
      * @const string the client version.
      *
      */
-    const VERSION = "v1.2.4";
+    const VERSION = "v1.2.6";
     const ID = "1";
     const NAME = "PhpOrient - Php driver based on the binary protocol of OrientDB.";
     const SUPPORTED_PROTOCOL = 36;

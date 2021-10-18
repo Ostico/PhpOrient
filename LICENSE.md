@@ -1,3 +1,7 @@
+Apache License
+
+Version 2.0, January 2004
+
 ##### Copyright 2014 Domenico Lupinetti
 
 Licensed under the Apache License, Version 2.0 (the "License");

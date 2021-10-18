@@ -9,7 +9,7 @@ class ClientConnectionTest extends EmptyTestCase {
     public function testLogging(){
         Constants::$LOGGING = true;
         Constants::$LOG_FILE_PATH = '/dev/null';
-        $result = $this->client->execute( 'dbOpen', [ 'database' => 'GratefulDeadConcerts' ] );
+        $result = $this->client->execute( 'dbOpen', [ 'database' => static::$DATABASE ] );
         $this->assertNotEquals( -1, $result['sessionId'] );
         $this->assertNotEmpty( count( $result ) );
     }
@@ -98,18 +98,21 @@ class ClientConnectionTest extends EmptyTestCase {
     }
 
     public function testWrongProtocol_1() {
-
-        $client = new PhpOrient( 'localhost', 2424 );
+        $config = $this->getConfig( 'connect' );
+        $client = new PhpOrient();
+        $client->configure(  $config  );
         $this->setExpectedException( '\PhpOrient\Exceptions\PhpOrientWrongProtocolVersionException' );
-        $client->connect( 'root', 'root', PhpOrient::SERIALIZATION_SERIAL_BIN );
+        $client->connect( null, null, PhpOrient::SERIALIZATION_SERIAL_BIN );
 
     }
 
     public function testWrongProtocol_2() {
 
-        $client = new PhpOrient( 'localhost', 2424 );
+        $config = $this->getConfig( 'open' );
+        $client = new PhpOrient();
+        $client->configure(  $config  );
         $this->setExpectedException( '\PhpOrient\Exceptions\PhpOrientWrongProtocolVersionException' );
-        $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin',
+        $client->dbOpen( static::$DATABASE, 'admin', 'admin',
             [ 'serializationType' => PhpOrient::SERIALIZATION_SERIAL_BIN, ]
         );
 

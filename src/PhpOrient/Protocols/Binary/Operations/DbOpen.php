@@ -111,7 +111,7 @@ class DbOpen extends Operation {
     /**
      * Read the response from the socket.
      *
-     * @return int The session id.
+     * @return ClustersMap
      */
     protected function _read() {
         $sessionId = $this->_readInt();

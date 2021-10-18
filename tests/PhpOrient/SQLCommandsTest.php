@@ -134,8 +134,10 @@ class SQLCommandsTest extends TestCase {
     }
 
     public function testDateDeserialization() {
-        $client = new PhpOrient( 'localhost', 2424 );
-        $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
+
+        $config = self::getConfig( 'open' );
+        $client = PhpOrient::fromConfig( $config );
+        $client->dbOpen( static::$DATABASE );
 
         $dateToTest = \DateTime::createFromFormat( 'U', time() )->format( 'Y-m-d H:i:s' );
 
@@ -146,7 +148,10 @@ class SQLCommandsTest extends TestCase {
             $date = '"Not a DateTime instance"';
         }
 
-        $this->assertEquals( $dateToTest, $date );
+        $this->assertEquals(
+                substr( $dateToTest, 0, strlen($dateToTest) -1 ),
+                substr( $date, 0, strlen($date) -1 )
+        );
 
     }
 
@@ -218,8 +223,10 @@ class SQLCommandsTest extends TestCase {
     }
 
     public function testWrongClusterID(){
-        $client = new PhpOrient('localhost', 2424);
-        $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
+
+        $config = self::getConfig( 'open' );
+        $client = PhpOrient::fromConfig( $config );
+        $client->dbOpen( static::$DATABASE );
 
         $records = $client->query( 'select song_type, name from V ' );
 

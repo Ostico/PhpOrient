@@ -181,7 +181,10 @@ class Command extends Operation {
     /**
      * Read the response from the socket.
      *
-     * @return Record|Record[]|string
+     * @return Record|Record[]
+     * @throws \PhpOrient\Exceptions\PhpOrientBadMethodCallException
+     * @throws \PhpOrient\Exceptions\PhpOrientException
+     * @throws \PhpOrient\Exceptions\SocketException
      */
     protected function _read() {
 

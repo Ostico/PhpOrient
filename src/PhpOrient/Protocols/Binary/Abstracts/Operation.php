@@ -512,9 +512,12 @@ abstract class Operation implements ConfigurableInterface {
             $record[ 'version' ] = $this->_readInt();
 
             $data               = CSV::unserialize( $this->_readBytes() );
-            $record[ 'oClass' ] = @$data[ 'oClass' ];
             $record[ 'rid' ]    = new ID( $cluster, $position );
-            unset( $data[ 'oClass' ] );
+            if( isset( $data['oClass'] ) ){
+                $record[ 'oClass' ] = $data[ 'oClass' ];
+                unset( $data[ 'oClass' ] );
+            }
+
             $record[ 'oData' ] = $data;
         }
 

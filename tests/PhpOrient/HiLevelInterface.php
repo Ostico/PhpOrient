@@ -21,7 +21,7 @@ class HiLevelInterface extends TestCase {
     protected $open;
 
     public function testRecordList(){
-        $this->open   = $this->client->dbOpen( "GratefulDeadConcerts" );
+        $this->open   = $this->client->dbOpen( static::$DATABASE );
         $result = $this->client->query( 'select from followed_by limit 10' );
         $this->assertContainsOnly( '\PhpOrient\Protocols\Binary\Data\Record', $result );
         $this->assertInstanceOf( '\PhpOrient\Protocols\Common\ClusterMap', $this->open );
@@ -60,7 +60,7 @@ class HiLevelInterface extends TestCase {
 
     public function testRealUsage(){
         $client = new PhpOrient( 'localhost', 2424 );
-        $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
+        $client->dbOpen( static::$DATABASE, 'admin', 'admin' );
         $myFunction = function( Record $record) {
 //            var_dump( $record );
             $this->assertInstanceOf( '\PhpOrient\Protocols\Binary\Data\Record', $record );
@@ -92,7 +92,7 @@ class HiLevelInterface extends TestCase {
 
     public function testLoadWithCache(){
         $client = new PhpOrient( 'localhost', 2424 );
-        $client->dbOpen( 'GratefulDeadConcerts', 'admin', 'admin' );
+        $client->dbOpen( static::$DATABASE, 'admin', 'admin' );
         $myFunction = function( Record $record) {
             $this->assertInstanceOf( '\PhpOrient\Protocols\Binary\Data\Record', $record );
         };

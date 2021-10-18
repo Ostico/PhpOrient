@@ -3,7 +3,7 @@ set -x
 set -e
 
 PARENT_DIR=$(dirname $(cd "$(dirname "$0")"; pwd))
-CI_DIR="$PARENT_DIR/ci/environment"
+CI_DIR="$PARENT_DIR/ci/distributed"
 DEFAULT_ORIENT_VERSION="2.1.5"
 
 # launch simple instance in debug mode with shell hang up
@@ -29,7 +29,7 @@ fi
 
 ODB_DIR="${CI_DIR}/orientdb-community-${ODB_VERSION}"
 ODB_LAUNCHER="${ODB_DIR}/bin/server.sh"
-ODB_LAUNCHER_SYML="${CI_DIR}/orientdb_current/bin/server.sh"
+ODB_LAUNCHER_2="${ODB_DIR}_node_2/bin/server.sh"
 
 echo "=== Initializing CI environment ==="
 
@@ -48,24 +48,22 @@ if [ ! -d "$ODB_DIR/bin" ]; then
   chmod +x ${ODB_LAUNCHER}
   chmod -R +rw "${ODB_DIR}/config/"
 
-  if [[ "${ODB_VERSION}" == "1.7.10" ]]; then
-    cp ${PARENT_DIR}/ci/orientdb-server-config_1.7.10.xml "${ODB_DIR}/config/orientdb-server-config.xml"
-  elif [[ "${ODB_VERSION}" == *"2.1"* ]]; then
-    cp ${PARENT_DIR}/ci/orientdb-server-config_2.0.xml "${ODB_DIR}/config/orientdb-server-config.xml"
-  elif [[ "${ODB_VERSION}" == *"3."* ]]; then
-    export ORIENTDB_ROOT_PASSWORD="root"
-    cp ${PARENT_DIR}/ci/orientdb-server-config_3.xml "${ODB_DIR}/config/orientdb-server-config.xml"
-  elif [[ "${ODB_VERSION}" != *"2.0"* ]]; then
-    cp ${PARENT_DIR}/ci/orientdb-server-config.xml "${ODB_DIR}/config/orientdb-server-config.xml"
-  else
-    cp ${PARENT_DIR}/ci/orientdb-server-config_2.0.xml "${ODB_DIR}/config/orientdb-server-config.xml"
-  fi
+  echo "cp ${PARENT_DIR}/ci/distributed/orientdb-distr-hazelcast.xml \"${ODB_DIR}/config/\""
+  cp ${PARENT_DIR}/ci/distributed/orientdb-distr-hazelcast.xml ${ODB_DIR}/config/
 
   cp ${PARENT_DIR}/ci/orientdb-server-log.properties "${ODB_DIR}/config/"
 
   if [ ! -d "${ODB_DIR}/databases" ]; then
     mkdir ${ODB_DIR}/databases
   fi
+
+  cp -a ${ODB_DIR} ${ODB_DIR}_node_2
+
+  echo "cp ${PARENT_DIR}/ci/distributed/orientdb-distr-node-1.xml \"${ODB_DIR}/config/orientdb-server-config.xml\""
+  cp ${PARENT_DIR}/ci/distributed/orientdb-distr-node-1.xml ${ODB_DIR}/config/orientdb-server-config.xml
+
+  echo "cp ${PARENT_DIR}/ci/distributed/orientdb-distr-node-2.xml \"${ODB_DIR}_node_2/config/orientdb-server-config.xml\""
+  cp ${PARENT_DIR}/ci/distributed/orientdb-distr-node-2.xml ${ODB_DIR}_node_2/config/orientdb-server-config.xml
 
 else
   echo "!!! Found OrientDB v${ODB_VERSION} in ${ODB_DIR} !!!"
@@ -78,18 +76,11 @@ cp -a ${PARENT_DIR}/tests/default_databases/GratefulDeadConcerts "${ODB_DIR}/dat
 echo "cp -a ${PARENT_DIR}/tests/default_databases/VehicleHistoryGraph \"${ODB_DIR}/databases/\""
 cp -a ${PARENT_DIR}/tests/default_databases/VehicleHistoryGraph "${ODB_DIR}/databases/"
 
-# Configure link to the orientdb_current version
-rm -rf ${CI_DIR}/orientdb_current
-ln -s ${ODB_DIR} ${CI_DIR}/orientdb_current
-chmod +x ${ODB_LAUNCHER_SYML}
 
 # Start OrientDB in background.
-echo "--- Starting an instance of OrientDB ---"
-if [ -z "${HANG_UP}" ]; then
-    sh -c ${ODB_LAUNCHER_SYML} </dev/null &>/dev/null &
-    # Wait a bit for OrientDB to finish the initialization phase.
-    sleep 10
-    printf "\n=== The CI environment has been initialized ===\n"
-else
-    sh -c ${ODB_LAUNCHER_SYML}
-fi
+echo "--- Starting 2 instance of OrientDB ---"
+${ODB_LAUNCHER} </dev/null &>/dev/null &
+${ODB_LAUNCHER_2} </dev/null &>/dev/null &
+# Wait a bit for OrientDB to finish the initialization phase.
+sleep 5
+printf "\n=== The CI environment has been initialized ===\n"
