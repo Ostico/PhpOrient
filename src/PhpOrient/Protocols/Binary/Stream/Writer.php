@@ -60,7 +60,7 @@ class Writer {
              * the value of 1 is then added to the resulting value
              */
             $bitString  = '';
-            $isNegative = $value{0} == '-';
+            $isNegative = $value[0] == '-';
             if ( function_exists( "bcmod" ) ) {
 
                 //add 1 for the two's complement
@@ -96,7 +96,7 @@ class Writer {
             if( $isNegative ){
                 $len = strlen( $bitString );
                 for( $x = 0; $x < $len; $x++ ){
-                    $bitString{$x} = ( $bitString{$x} == '1' ? '0' : '1' );
+                    $bitString[$x] = ( $bitString[$x] == '1' ? '0' : '1' );
                 }
             }
 
@@ -131,11 +131,11 @@ class Writer {
         if( strlen( $x ) == 1 ) return (string)( $x - 1 );
 
         for( $idx = 1; $idx <= strlen($x); $idx++ ){
-            $res = $x{ strlen($x) - $idx } - 1;
+            $res = $x[ strlen($x) - $idx ] - 1;
             if ( $res < 0 ){
-                $x{ strlen($x) - $idx } = '9';
+                $x[ strlen($x) - $idx ] = '9';
             } else {
-                $x{ strlen($x) - $idx } = $res;
+                $x[ strlen($x) - $idx ] = $res;
                 break;
             }
         }
@@ -157,7 +157,7 @@ class Writer {
      */
     protected static function str2bin( $value ) {
 
-        if( $value{0} == '-' ){
+        if( $value[0] == '-' ){
             //add 1 ( so subtract to the number modulus )
             //for the first phase of two's complement
             $value = self::sub_1( $value );
@@ -168,7 +168,7 @@ class Writer {
         $lastRemainder = 0;
         for ( $idx = 0; $idx < $valueLen; $idx++ ) {
             //48 is the ascii value of 0
-            $actualDividend = $lastRemainder * 10 + ord( $value{$idx} ) - 48;
+            $actualDividend = $lastRemainder * 10 + ord( $value[$idx] ) - 48;
             if ( $actualDividend < 2 ) {
                 $totalQuotient .= 0;
                 $idx++;
@@ -178,7 +178,7 @@ class Writer {
                     break;
                 }
 
-                $actualDividend = $actualDividend * 10 + ord( $value{$idx} ) - 48;
+                $actualDividend = $actualDividend * 10 + ord( $value[$idx] ) - 48;
             }
 
             $quotient      = (int)( $actualDividend / 2 );
